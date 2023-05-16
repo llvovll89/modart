@@ -17,7 +17,7 @@ import PhotoDetail from './pages/photos/PhotoDetail';
 function App() {
   return (
     <Wrap>
-      <Router>
+      <Router basename='modart'>
         <GlobalStyles />
         <Header />
         <Routes>

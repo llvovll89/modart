@@ -30,6 +30,8 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.2",
+    "gh-pages": "^5.0.0",
     "vite": "^2.9.15"
-  }
+  },
+  "homepage": "https://llvovll89.github.io/modart/"
 }
