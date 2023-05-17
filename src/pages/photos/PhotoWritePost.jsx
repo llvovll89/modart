@@ -50,10 +50,6 @@ const PhotoWritePost = () => {
     }
   };
 
-  // useEffect(() => {
-  //   inputRef.current.focus();
-  // }, [inputRef]);
-
   return (
     <Section>
       <CardForm>

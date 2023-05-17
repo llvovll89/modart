@@ -11,34 +11,30 @@ import { AiFillHeart } from 'react-icons/ai';
 const BoardList = () => {
   const boardList = useSelector((state) => state.board.boards);
   const [perPage, setPerPage] = useState(boardList.length);
-  const [gap, setGap] = useState('12px');
+  const [gap, setGap] = useState('16px');
   const [focus, setFocus] = useState('left');
 
   const dispatch = useDispatch();
+  console.log(boardList)
 
   const handleResize = useCallback(() => {
     if (window.innerWidth >= 1280) {
-      setPerPage(boardList.length);
-      setGap('12px');
+      setPerPage(5);
       setFocus('left');
     } else if (window.innerWidth >= 1024) {
-      setPerPage(boardList.length);
+      setPerPage(4);
       setGap('14px');
       setFocus('left');
     } else if (window.innerWidth >= 768) {
-      setPerPage(boardList.length);
-      setGap('16px');
-      setFocus('center');
-    } else if (window.innerWidth >= 564) {
-      setPerPage(boardList.length);
-      setGap('20px');
-      setFocus('center');
-    } else {
-      setPerPage(boardList.length);
+      setPerPage(3);
       setGap('12px');
       setFocus('center');
+    } else {
+      setPerPage(2);
+      setGap('10px');
+      setFocus('center');
     }
-  }, [boardList.length]);
+  }, []);
 
   useEffect(() => {
     dispatch(getBoards());
@@ -65,14 +61,14 @@ const BoardList = () => {
                 pagination: false,
                 drag: 'free',
                 arrows: false,
-                // autoScroll: {
-                //   pauseOnHover: false,
-                //   pauseOnFocus: false,
-                //   rewind: false,
-                //   speed: 2,
-                // },
+                autoScroll: {
+                  pauseOnHover: false,
+                  pauseOnFocus: false,
+                  rewind: false,
+                  speed: 2,
+                },
               }}
-              // extensions={{ AutoScroll }}
+              extensions={{ AutoScroll }}
             >
               {boardList.map((board) => (
                 <SplideSlide key={board.id}>

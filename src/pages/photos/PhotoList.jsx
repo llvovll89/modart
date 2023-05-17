@@ -10,33 +10,28 @@ import { getPhotos } from '../../store/reducers/photoSlice';
 const PhotoList = () => {
   const photoList = useSelector((state) => state.photo.photos);
   const [perPage, setPerPage] = useState(photoList.length);
-  const [gap, setGap] = useState('12px');
+  const [gap, setGap] = useState('16px');
   const [focus, setFocus] = useState('left');
   const dispatch = useDispatch();
 
   const handleResize = useCallback(() => {
     if (window.innerWidth >= 1280) {
-      setGap('12px');
-      setPerPage(photoList.length);
+      setPerPage(5);
       setFocus('left');
     } else if (window.innerWidth >= 1024) {
-      setPerPage(photoList.length);
+      setPerPage(4);
       setGap('14px');
       setFocus('left');
     } else if (window.innerWidth >= 768) {
-      setPerPage(photoList.length);
-      setGap('16px');
-      setFocus('center');
-    } else if (window.innerWidth >= 564) {
-      setPerPage(photoList.length);
-      setGap('20px');
-      setFocus('center');
-    } else {
-      setPerPage(photoList.length);
+      setPerPage(3);
       setGap('12px');
       setFocus('center');
+    } else {
+      setPerPage(2);
+      setGap('10px');
+      setFocus('center');
     }
-  }, [photoList.length]);
+  }, []);
 
   useEffect(() => {
     dispatch(getPhotos());
@@ -63,14 +58,14 @@ const PhotoList = () => {
               pagination: false,
               drag: 'free',
               arrows: false,
-              // autoScroll: {
-              //   pauseOnHover: false,
-              //   pauseOnFocus: false,
-              //   rewind: false,
-              //   speed: 1.5,
-              // },
+              autoScroll: {
+                pauseOnHover: false,
+                pauseOnFocus: false,
+                rewind: false,
+                speed: 1.5,
+              },
             }}
-            // extensions={{ AutoScroll }}
+            extensions={{ AutoScroll }}
           >
             {photoList.map((photo) => (
               <SplideSlide key={photo.id}>
@@ -81,7 +76,7 @@ const PhotoList = () => {
                     </Link>
                   </div>
                   <div className="bottom">
-                    <p className='photo_category'>{photo.category}</p>
+                    <p className='photo_category'>{`<${photo.category}>`}</p>
                     <p className='photo_nickname'>{photo.nickname}</p>
                     <p className='photo_title'>{photo.title}</p>
                     <p className='photo_desc'>

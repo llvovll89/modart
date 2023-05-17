@@ -53,6 +53,9 @@ const PhotoContainer = styled.div`
             }
         }
     }
+
+    @media screen and (max-width: 768px) {
+    }
 `
 
 export {

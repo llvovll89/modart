@@ -19,23 +19,12 @@ const HeaderContainer = styled.header`
     align-items: center;
 
     .logo {
-      display: flex;
-      gap: 2px;
-      align-items: center;
-
-      .icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: clamp(16px, 2.5vw, 20px);
-        color: #08f;
-      }
-
       h1 {
-        font-size: clamp(16px, 2.5vw, 20px);
+        font-size: clamp(20px, 2.5vw, 24px);
         letter-spacing: -0.035rem;
-        font-weight: 400;
+        font-weight: 700;
         cursor: pointer;
+        font-style: italic;
       }
     }
 
@@ -50,6 +39,7 @@ const HeaderContainer = styled.header`
           min-width: 76px;
           padding: 0 6px;
           text-align: center;
+          
           &:hover {
             background-color: rgba(32, 33, 36, 0.04);
           }
@@ -93,6 +83,7 @@ const HeaderContainer = styled.header`
 
       .item_account {
         margin: 0 6px;
+
         .account {
           padding: 8px 16px;
           width: 100%;
@@ -113,9 +104,9 @@ const HeaderContainer = styled.header`
           text-align: center;
 
           &.active {
-            border-bottom: 1.5px solid #09f;
-            background-color: rgba(32, 33, 36, 0.04);
+            background-color: rgba(40, 41, 44, 0.04);
             a {
+              font-weight: 600;
               color: #000;
             }
           }
@@ -146,6 +137,26 @@ const HeaderContainer = styled.header`
           }
         }
       }
+    }
+
+    .toggle {
+      display: none;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+
+       svg {
+        width: 100%;
+        height: 100%;
+       }
+    }
+
+    @media screen and (max-width: 768px) {
+        .toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
     }
   }
 `;

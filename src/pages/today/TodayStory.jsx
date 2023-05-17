@@ -5,13 +5,13 @@ import { Container, Section } from '../../styles/RecycleStyles';
 import { DailyContainer } from './index';
 import { TfiWrite } from 'react-icons/tfi';
 
-const DailyStory = () => {
+const TodayStory = () => {
   const user = useSelector((state) => state.login.user);
   const navigate = useNavigate();
 
   const handleWriteClick = () => {
     if (user) {
-      return navigate('/daily/write');
+      return navigate('/today/write');
     } else {
       window.alert('로그인한 유저만 작성이 가능합니다.');
       return null;
@@ -39,4 +39,4 @@ const DailyStory = () => {
   );
 };
 
-export default DailyStory;
+export default TodayStory;

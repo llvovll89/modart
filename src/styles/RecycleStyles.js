@@ -8,8 +8,8 @@ const Section = styled.section`
   background: #ffffff;
 
   @media screen and (max-width: 768px) {
-    padding-left: 16px;
-    padding-right: 16px;
+    /* padding-left: 16px;
+    padding-right: 16px; */
   }
 `;
 
@@ -19,11 +19,15 @@ const Container = styled.div`
   padding: 0 16px;
   padding-top: 40px;
 
-  .title {
-    padding-left: 12px;
+  .title {  
+    h1 {
+    font-size: clamp(16px, 1.5vw, 18px);
+    }
   }
 
   .contents {
+    margin-top: 20px;
+
     .no-photos,
     .no-boards {
       padding-left: 20px;
@@ -238,6 +242,7 @@ const Card = styled.div`
 
   .top {
     position: relative;
+    width: 100%;
     height: 300px;
     overflow: hidden;
     border-radius: 8px;
@@ -325,9 +330,10 @@ const CardForm = styled.div`
 
     input {
       height: 46px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.72);
+      border-bottom: 1px solid rgb(153, 153, 153);
       padding: 12px 16px;
-      transition: background 0.15s ease-in-out;
+      margin-bottom: 12px;
+      transition: all 0.15s ease-in-out;
       font-size: clamp(12.5px, 1.5vw, 15px);
 
       &::placeholder {
@@ -335,7 +341,7 @@ const CardForm = styled.div`
       }
 
       &:focus {
-        background: #f8f3f3;
+        border-bottom: 1.5px solid #08f;
       }
     }
 
@@ -352,6 +358,13 @@ const CardForm = styled.div`
       padding: 12px 20px;
       color: #fefefe;
       font-size: clamp(12.5px, 1.5vw, 15px);
+      transition: all 0.2s ease-in-out;
+
+      &:hover,
+      &:focus {
+        background: transparent;
+        color: #222;
+      }
     }
 
     .category-wrap {
@@ -379,17 +392,6 @@ const CardForm = styled.div`
 
     form {
       gap: 9px;
-
-      input {
-        padding: 6px 10px;
-        height: 36px;
-      }
-
-      button[type='submit'] {
-        line-height: 1.5;
-        height: 36px;
-        padding: 12px 20px;
-      }
     }
   }
 `;
@@ -428,6 +430,7 @@ const Button = styled.button`
 
 const DetailForm = styled.div`
   margin: 0 auto;
+  padding: 0 16px;
   padding-top: 60px;
   max-width: 964px;
   display: flex;

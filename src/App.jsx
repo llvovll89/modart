@@ -5,7 +5,6 @@ import Home from './pages/Home/Home';
 import Account from './pages/auth/users/Account';
 import SignUp from './pages/auth/sign/SignUp';
 import Login from './pages/auth/login/Login';
-import BoardList from './pages/board/BoardList';
 import BoardWritePost from './pages/board/BoardWritePost';
 import Edit from './pages/board/Edit';
 import BoardDetail from './pages/board/BoardDetail';
@@ -13,9 +12,9 @@ import Photo from './pages/photos/Photo';
 import PhotoWritePost from './pages/photos/PhotoWritePost';
 import Board from './pages/board/Board';
 import PhotoDetail from './pages/photos/PhotoDetail';
-import DailyDetail from './pages/daily/DailyDetail';
-import DailyWritePost from './pages/daily/DailyWritePost';
-import DailyStory from './pages/daily/DailyStory';
+import TodayDetail from './pages/today/TodayDetail';
+import TodayWritePost from './pages/today/TodayWritePost';
+import TodayStory from './pages/today/TodayStory';
 import Qna from './pages/qna/Qna';
 import QnaDetail from './pages/qna/QnaDetail';
 import QnaWritePost from './pages/qna/QnaWritePost';
@@ -31,13 +30,13 @@ const routes = [
   { path: '/photo', element: <Photo /> },
   { path: '/photo/write', element: <PhotoWritePost /> },
   { path: '/photo/:id', element: <Edit /> },
-  { path: '/daily', element: <DailyStory /> },
-  { path: '/daily/write', element: <DailyWritePost /> },
-  { path: '/daily/:id', element: <Edit /> },
+  { path: '/today', element: <TodayStory /> },
+  { path: '/today/write', element: <TodayWritePost /> },
+  { path: '/today/:id', element: <Edit /> },
   { path: '/qna', element: <Qna /> },
   { path: '/qna/write', element: <QnaWritePost /> },
   { path: '/qna/:id', element: <Edit /> },
-  { path: '/daily/details/:id', element: <DailyDetail /> },
+  { path: '/today/details/:id', element: <TodayDetail /> },
   { path: '/board/details/:id', element: <BoardDetail /> },
   { path: '/photo/details/:id', element: <PhotoDetail /> },
   { path: '/qna/details/:id', element: <QnaDetail /> },

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { HeaderContainer } from './index';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOuterUer } from '../../store/reducers/loginSlice';
-import { GiClothes } from 'react-icons/gi';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineLogout } from 'react-icons/ai';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const user = useSelector((state) => state.login.user);
   const navigate = useNavigate();
@@ -22,18 +23,6 @@ const Header = () => {
     }
     return;
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY >= 60) {
-        setScroll(true);
-      } else {
-        setScroll(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleItemClick = (index) => {
     setActiveItem(index);
@@ -71,6 +60,33 @@ const Header = () => {
     setActiveItem(null);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY >= 60) {
+        setScroll(true);
+      } else {
+        setScroll(false);
+      }
+    };
+  
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setToggle(true);
+      } else {
+        setToggle(false);
+      }
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  
+
   const filterLocation =
     location.pathname === '/account/signup' ||
     location.pathname === '/account/login';
@@ -84,9 +100,6 @@ const Header = () => {
     >
       <div className="contents">
         <div className="logo">
-          <span className="icon">
-            <GiClothes />
-          </span>
           <h1
             onClick={() => {
               navigate('/');
@@ -106,12 +119,12 @@ const Header = () => {
 
             <li className={`item ${activeItem === 1 ? 'active' : ''}`}>
               <Link to="/photo" onClick={() => handleItemClick(1)}>
-                Picture
+                Photo
               </Link>
             </li>
             <li className={`item ${activeItem === 2 ? 'active' : ''}`}>
-              <Link to="/daily" onClick={() => handleItemClick(2)}>
-                DailyStory
+              <Link to="/today" onClick={() => handleItemClick(2)}>
+                TodayStory
               </Link>
             </li>
             <li className={`item ${activeItem === 3 ? 'active' : ''}`}>
@@ -122,6 +135,11 @@ const Header = () => {
           </div>
           {renderLinks()}
         </ul>
+
+        <div className="toggle">
+            <GiHamburgerMenu />
+        </div>
+        
       </div>
     </HeaderContainer>
   );
