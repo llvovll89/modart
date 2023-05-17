@@ -110,7 +110,12 @@ const Header = () => {
               </Link>
             </li>
             <li className={`item ${activeItem === 2 ? 'active' : ''}`}>
-              <Link to="/qna/write" onClick={() => handleItemClick(2)}>
+              <Link to="/daily" onClick={() => handleItemClick(2)}>
+                DailyStory
+              </Link>
+            </li>
+            <li className={`item ${activeItem === 3 ? 'active' : ''}`}>
+              <Link to="/qna" onClick={() => handleItemClick(3)}>
                 QnA
               </Link>
             </li>

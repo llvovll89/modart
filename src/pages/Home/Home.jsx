@@ -3,12 +3,14 @@ import BoardList from '../board/BoardList';
 import QnaList from '../qna/QnaList';
 import PhotoList from '../photos/PhotoList';
 import Main from '../../components/main/Main';
+import DailyList from '../daily/DailyList';
+// <Main />
 
 const Home = () => {
   return (
     <>
-      <Main />
       <BoardList />
+      <DailyList />
       <PhotoList />
       <QnaList />
     </>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 const PhotoContainer = styled.div`
     margin: auto;
     width: 100%;
-    margin-top: 12px;
     height: 16rem;
     background: #88e3ac;
     overflow: hidden;

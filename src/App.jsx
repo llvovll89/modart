@@ -13,26 +13,46 @@ import Photo from './pages/photos/Photo';
 import PhotoWritePost from './pages/photos/PhotoWritePost';
 import Board from './pages/board/Board';
 import PhotoDetail from './pages/photos/PhotoDetail';
+import DailyDetail from './pages/daily/DailyDetail';
+import DailyWritePost from './pages/daily/DailyWritePost';
+import DailyStory from './pages/daily/DailyStory';
+import Qna from './pages/qna/Qna';
+import QnaDetail from './pages/qna/QnaDetail';
+import QnaWritePost from './pages/qna/QnaWritePost';
+
+const routes = [
+  { path: '/', element: <Home /> },
+  { path: '/account', element: <Account /> },
+  { path: '/account/signup', element: <SignUp /> },
+  { path: '/account/login', element: <Login /> },
+  { path: '/board', element: <Board /> },
+  { path: '/board/write', element: <BoardWritePost /> },
+  { path: '/board/:id', element: <Edit /> },
+  { path: '/photo', element: <Photo /> },
+  { path: '/photo/write', element: <PhotoWritePost /> },
+  { path: '/photo/:id', element: <Edit /> },
+  { path: '/daily', element: <DailyStory /> },
+  { path: '/daily/write', element: <DailyWritePost /> },
+  { path: '/daily/:id', element: <Edit /> },
+  { path: '/qna', element: <Qna /> },
+  { path: '/qna/write', element: <QnaWritePost /> },
+  { path: '/qna/:id', element: <Edit /> },
+  { path: '/daily/details/:id', element: <DailyDetail /> },
+  { path: '/board/details/:id', element: <BoardDetail /> },
+  { path: '/photo/details/:id', element: <PhotoDetail /> },
+  { path: '/qna/details/:id', element: <QnaDetail /> },
+];
 
 function App() {
   return (
     <Wrap>
-      <Router basename='modart'>
+      <Router basename="modart">
         <GlobalStyles />
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/account/signup" element={<SignUp />} />
-          <Route path="/account/login" element={<Login />} />
-          <Route path="/board" element={<Board />} />
-          <Route path="/board/write" element={<BoardWritePost />} />
-          <Route path="/board/:id" element={<Edit />} />
-          <Route path="/photo" element={<Photo />} />
-          <Route path="/photo/write" element={<PhotoWritePost />} />
-          <Route path="/photo/:id" element={<Edit />} />
-          <Route path="/board/details/:id" element={<BoardDetail />} />
-          <Route path="/photo/details/:id" element={<PhotoDetail />} />
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
         </Routes>
       </Router>
     </Wrap>

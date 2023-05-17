@@ -16,23 +16,23 @@ const PhotoList = () => {
 
   const handleResize = useCallback(() => {
     if (window.innerWidth >= 1280) {
-      setPerPage(photoList.length); 
       setGap('12px');
+      setPerPage(photoList.length);
       setFocus('left');
     } else if (window.innerWidth >= 1024) {
       setPerPage(photoList.length);
       setGap('14px');
       setFocus('left');
     } else if (window.innerWidth >= 768) {
-      setPerPage(3);
+      setPerPage(photoList.length);
       setGap('16px');
       setFocus('center');
     } else if (window.innerWidth >= 564) {
-      setPerPage(2);
+      setPerPage(photoList.length);
       setGap('20px');
       setFocus('center');
     } else {
-      setPerPage(1);
+      setPerPage(photoList.length);
       setGap('12px');
       setFocus('center');
     }
@@ -46,8 +46,6 @@ const PhotoList = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [dispatch, handleResize]);
 
-  const visiblePhotos = photoList.slice(0, perPage);
-
   return (
     <Section>
       <Container>
@@ -55,7 +53,7 @@ const PhotoList = () => {
           <h1>Photos</h1>
         </div>
         <div className="contents">
-        {visiblePhotos.length > 0 ? (
+        {photoList.length > 0 ? (
           <Splide
             options={{
               type: 'loop',
@@ -65,16 +63,16 @@ const PhotoList = () => {
               pagination: false,
               drag: 'free',
               arrows: false,
-              autoScroll: {
-                pauseOnHover: false,
-                pauseOnFocus: false,
-                rewind: false,
-                speed: 1.5,
-              },
+              // autoScroll: {
+              //   pauseOnHover: false,
+              //   pauseOnFocus: false,
+              //   rewind: false,
+              //   speed: 1.5,
+              // },
             }}
-            extensions={{ AutoScroll }}
+            // extensions={{ AutoScroll }}
           >
-            {visiblePhotos.map((photo) => (
+            {photoList.map((photo) => (
               <SplideSlide key={photo.id}>
                 <Card>
                   <div className="top">
@@ -83,10 +81,10 @@ const PhotoList = () => {
                     </Link>
                   </div>
                   <div className="bottom">
-                    <p>{photo.category}</p>
-                    <p>{photo.title}</p>
-                    <p>{photo.nickname}</p>
-                    <p>
+                    <p className='photo_category'>{photo.category}</p>
+                    <p className='photo_nickname'>{photo.nickname}</p>
+                    <p className='photo_title'>{photo.title}</p>
+                    <p className='photo_desc'>
                       {photo.desc.length > 60
                         ? photo.desc.slice(0, 50) + '...'
                         : photo.desc}

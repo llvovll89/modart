@@ -11,9 +11,8 @@ const HeaderContainer = styled.header`
   .contents {
     margin: 0 auto;
     display: flex;
-    max-width: 1500px;
-    padding-left: 20px;
-    padding-right: 20px;
+    max-width: 1280px;
+    padding: 0 16px;
     height: 60px;
     line-height: 60px;
     justify-content: space-between;

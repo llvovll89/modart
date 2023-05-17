@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { getBoards } from '../../store/reducers/boardSlice';
 import { Card, Container, Section } from '../../styles/RecycleStyles';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
+import { AiFillHeart } from 'react-icons/ai';
 
 const BoardList = () => {
   const boardList = useSelector((state) => state.board.boards);
@@ -25,15 +26,15 @@ const BoardList = () => {
       setGap('14px');
       setFocus('left');
     } else if (window.innerWidth >= 768) {
-      setPerPage(3);
+      setPerPage(boardList.length);
       setGap('16px');
       setFocus('center');
     } else if (window.innerWidth >= 564) {
-      setPerPage(2);
+      setPerPage(boardList.length);
       setGap('20px');
       setFocus('center');
     } else {
-      setPerPage(1);
+      setPerPage(boardList.length);
       setGap('12px');
       setFocus('center');
     }
@@ -47,8 +48,6 @@ const BoardList = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [dispatch, handleResize]);
 
-  const visibleBoards = boardList.slice(0, perPage);
-
   return (
     <Section>
       <Container>
@@ -56,7 +55,7 @@ const BoardList = () => {
           <h1>OOTD</h1>
         </div>
         <div className="contents">
-          {visibleBoards.length > 0 ? (
+          {boardList.length > 0 ? (
             <Splide
               options={{
                 type: 'loop',
@@ -66,16 +65,16 @@ const BoardList = () => {
                 pagination: false,
                 drag: 'free',
                 arrows: false,
-                autoScroll: {
-                  pauseOnHover: false,
-                  pauseOnFocus: false,
-                  rewind: false,
-                  speed: 2,
-                },
+                // autoScroll: {
+                //   pauseOnHover: false,
+                //   pauseOnFocus: false,
+                //   rewind: false,
+                //   speed: 2,
+                // },
               }}
-              extensions={{ AutoScroll }}
+              // extensions={{ AutoScroll }}
             >
-              {visibleBoards.map((board) => (
+              {boardList.map((board) => (
                 <SplideSlide key={board.id}>
                   <Card>
                     <div className="top">
@@ -84,13 +83,17 @@ const BoardList = () => {
                       </Link>
                     </div>
                     <div className="bottom">
-                      <p>{board.title}</p>
-                      <p>{board.nickname}</p>
-                      <p>
+                      <p className="board_nickname">{board.nickname}</p>
+                      <p className="board_title">{board.title}</p>
+                      <p className="board_desc">
                         {board.desc.length > 60
                           ? board.desc.slice(0, 50) + '...'
                           : board.desc}
                       </p>
+                      {/* <span className="like">
+                        <AiFillHeart />
+                      </span>
+                        */}
                     </div>
                   </Card>
                 </SplideSlide>

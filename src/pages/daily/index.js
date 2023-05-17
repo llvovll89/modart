@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const QnaContainer = styled.div`
-  margin: auto;
+export const DailyContainer = styled.div`
+    margin: auto;
     width: 100%;
     height: 16rem;
-    background: pink;
+    background: #09f;
     overflow: hidden;
 
     .contents {
@@ -44,6 +44,7 @@ export const QnaContainer = styled.div`
         }
 
         .image {
+            padding: 20px;
             width: 100%;
 
             svg {

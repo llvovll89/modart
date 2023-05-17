@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const BoardContainer = styled.div`
   background: rgb(49, 53, 51);
   margin: auto;
-  margin-top: 12px;
   width: 100%;
   height: 16rem;
   overflow: hidden;

@@ -5,7 +5,7 @@ const Section = styled.section`
   width: 100%;
   padding-top: 60px;
   min-height: 100vh;
-  background: #FFFFFF;
+  background: #ffffff;
 
   @media screen and (max-width: 768px) {
     padding-left: 16px;
@@ -24,7 +24,7 @@ const Container = styled.div`
   }
 
   .contents {
-    .no-photos, 
+    .no-photos,
     .no-boards {
       padding-left: 20px;
     }
@@ -178,7 +178,7 @@ const AuthForm = styled.div`
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #FEFEFE;
+          background: #fefefe;
           width: 40px;
           height: 40px;
 
@@ -186,7 +186,6 @@ const AuthForm = styled.div`
             width: 26px;
             height: 26px;
           }
-          
         }
 
         .googleText {
@@ -230,8 +229,8 @@ const AuthForm = styled.div`
 `;
 
 const Card = styled.div`
-  min-width: 260px;
-  max-width: 400px;
+  min-width: 220px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   padding: 12px;
@@ -241,6 +240,7 @@ const Card = styled.div`
     position: relative;
     height: 300px;
     overflow: hidden;
+    border-radius: 8px;
 
     img {
       width: 100%;
@@ -251,12 +251,45 @@ const Card = styled.div`
   }
 
   .bottom {
-    p {
-      font-size: clamp(12.5px, 1.5vw, 13px);
+    padding-top: 6px;
 
-      &:nth-of-type(1) {
-        font-size: clamp(16px, 2.5vw, 16px);
-      }
+    .photo_category {
+      vertical-align: middle;
+      overflow: hidden;
+      color: #222;
+      font-weight: 700;
+      font-size: clamp(11px, 1.5vw, 12.5px);
+    }
+
+    .board_nickname,
+    .photo_nickname {
+      vertical-align: top;
+      display: inline-block;
+      overflow: hidden;
+      height: 17px;
+      line-height: 17px;
+      padding-bottom: 2px;
+      font-size: clamp(12px, 1.5vw, 13px);
+      font-weight: 700;
+      color: #222;
+      text-overflow: ellipsis;
+      width: fit-content;
+      white-space: nowrap;
+    }
+
+    .board_title,
+    .board_desc,
+    .photo_title,
+    .photo_desc {
+      margin-top: 6px;
+      max-height: 44px;
+      line-height: 16px;
+      font-size: clamp(12px, 1.5vw, 13px);
+      white-space: normal;
+    }
+
+    .photo_title {
+      margin-bottom: 3px;
     }
   }
 
@@ -333,7 +366,7 @@ const CardForm = styled.div`
         align-items: center;
         gap: 6px;
 
-        input[type="checkbox"] {
+        input[type='checkbox'] {
           width: 20px;
           height: 20px;
         }
