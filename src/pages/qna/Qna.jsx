@@ -26,7 +26,7 @@ const Qna = () => {
           <p>Ask me any questions</p>
           <span>질문과 답변을 해주세요!</span>
           <button className="link-btn" onClick={handleWriteClick}>
-            게시글쓰기
+            질문하기
           </button>
         </div>
 

@@ -46,6 +46,7 @@ const PhotoList = () => {
       <Container>
         <div className="title">
           <h1>Photos</h1>
+          <span>최신 photo 리스트</span>
         </div>
         <div className="contents">
         {photoList.length > 0 ? (

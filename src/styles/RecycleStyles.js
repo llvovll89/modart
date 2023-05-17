@@ -19,9 +19,12 @@ const Container = styled.div`
   padding: 0 16px;
   padding-top: 40px;
 
-  .title {  
+  .title {
     h1 {
-    font-size: clamp(16px, 1.5vw, 18px);
+      font-size: clamp(16px, 1.5vw, 18px);
+    }
+    span {
+      font-size: clamp(12px, 1vw , 13px);
     }
   }
 
@@ -299,6 +302,7 @@ const Card = styled.div`
   }
 
   @media screen and (max-width: 768px) {
+    min-width: 180px;
     .top {
       height: 260px;
     }
@@ -311,16 +315,37 @@ const CardForm = styled.div`
   height: calc(100vh - 60px);
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
+
+  .post_title {
+    h1 {
+      letter-spacing: -0.035rem;
+      font-size: clamp(16px, 2.5vw, 22px);
+    }
+  }
 
   form {
     width: 100%;
     min-height: 400px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 12px;
+
+    .nickname {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 600;
+      min-height: 36px;
+      line-height: 36px;
+
+      span {
+        padding-right: 12px;
+        font-weight: 500;
+        font-size: clamp(12px, 1.5vw, 14px);
+      }
+    }
 
     input,
     textarea,
@@ -332,7 +357,7 @@ const CardForm = styled.div`
       height: 46px;
       border-bottom: 1px solid rgb(153, 153, 153);
       padding: 12px 16px;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       transition: all 0.15s ease-in-out;
       font-size: clamp(12.5px, 1.5vw, 15px);
 

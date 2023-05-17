@@ -53,8 +53,15 @@ const PhotoWritePost = () => {
   return (
     <Section>
       <CardForm>
+      <div className="post_title">
+      <h1>{"<Photos>"}</h1>
+    </div>
+
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
-          <p className="nickname">{nickName}</p>
+        <p className="nickname">
+        <span className='author'>작성자</span>
+        {nickName}
+      </p>
           <div className="category-wrap">
             <label>
               <input

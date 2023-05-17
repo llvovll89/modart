@@ -1,12 +1,13 @@
 import React from 'react';
 import { AiFillPicture } from 'react-icons/ai';
 import { Container, Section } from '../../styles/RecycleStyles';
-import { PhotoContainer } from './index';
+import { PhotoContainer, PhotoContents } from './index';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Photo = () => {
   const user = useSelector((state) => state.login.user);
+  const photoList = useSelector((state) => state.photo.photos);
   const navigate = useNavigate();
 
   const handleWriteClick = () => {
@@ -34,7 +35,23 @@ const Photo = () => {
           </div>
         </div>
       </PhotoContainer>
-      <Container></Container>
+      <PhotoContents>
+        <ul className="photo_list">
+          {photoList &&
+            photoList.map((photo) => (
+              <li className="photo_card" key={photo.id}>
+                <div className="items">
+                  <h3 className="photo_title">{photo.title}</h3>
+                  <div className="item_contents">
+                    <span className='item_category'>{photo.category}</span>
+                    <span className='item_date'>날짜</span>
+                    <span className='item_nickname'>{photo.nickname}</span>
+                  </div>
+                </div>
+              </li>
+            ))}
+        </ul>
+      </PhotoContents>
     </Section>
   );
 };

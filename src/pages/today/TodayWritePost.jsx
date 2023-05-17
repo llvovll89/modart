@@ -27,13 +27,27 @@ const TodayWritePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const dataWidthNickName = { ...addData, nickname: nickName, category };
+      await dispatch
+    } catch (error) {
+      
+    }
   }
 
   return (
     <Section>
       <CardForm>
+      <div className="post_title">
+      <h1>{"<Todays Story>"}</h1>
+    </div>
+
         <form encType="multipart/form-data">
-          <p className="nickname">{nickName}</p>
+        <p className="nickname">
+        <span className='author'>작성자</span>
+        {nickName}
+      </p>
 
           <input type="text" placeholder="제목" onChange={onChangeHandler} />
           <input type="text" placeholder="설명" onChange={onChangeHandler} />

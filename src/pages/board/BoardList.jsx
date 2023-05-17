@@ -49,6 +49,7 @@ const BoardList = () => {
       <Container>
         <div className="title">
           <h1>OOTD</h1>
+          <span>최신 OOTD 리스트</span>
         </div>
         <div className="contents">
           {boardList.length > 0 ? (

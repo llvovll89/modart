@@ -6,7 +6,8 @@ const QnaList = () => {
     <Section>
       <Container>
         <div className="title">
-          <h1>최신 QnA</h1>
+          <h1>QnA</h1>
+          <span>최신 QnA 리스트</span>
         </div>
       </Container>
     </Section>

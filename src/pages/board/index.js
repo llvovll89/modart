@@ -6,7 +6,7 @@ const BoardContainer = styled.div`
   width: 100%;
   height: 16rem;
   overflow: hidden;
-  
+
   .contents {
     margin: auto;
     color: #181818;
@@ -39,7 +39,7 @@ const BoardContainer = styled.div`
         border-radius: 4px;
         color: #181818;
         padding: 12px 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.16);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
       }
     }
 
@@ -55,4 +55,20 @@ const BoardContainer = styled.div`
   }
 `;
 
-export { BoardContainer };
+const BoardContents = styled.div`
+  width: 100%;
+  background: #fefefe;
+
+  .board_list {
+    padding: 1px 3px 0 1px;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial, sans-serif;
+
+    .board_card {
+      margin-bottom: 0;
+      background-color: #f6f6f6;
+      border-bottom: 1px solid #fff;
+    }
+  }
+`;
+
+export { BoardContainer, BoardContents };

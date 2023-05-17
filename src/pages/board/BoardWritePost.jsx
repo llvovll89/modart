@@ -36,7 +36,7 @@ const WritePost = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const dataWithNickName = { ...addData, nickname: nickName }
+      const dataWithNickName = { ...addData, nickname: nickName };
       await dispatch(createData(dataWithNickName)).unwrap();
       alert('게시글이 성공적으로 등록되었습니다.');
       navigate('/');
@@ -50,16 +50,23 @@ const WritePost = () => {
   return (
     <Section>
       <CardForm>
+        <div className="post_title">
+          <h1>{"<OOTD>"}</h1>
+        </div>
+
         <form onSubmit={onSubmitHandler} encType="multipart/form-data">
-          <p className="nickname">{nickName}</p>
+          <p className="nickname">
+            <span className="author">작성자</span>
+            {nickName}
+          </p>
           <input
-          ref={inputRef}
-          type="text"
-          onChange={onChangeHandler}
-          autoComplete="off"
-          name="title"
-          placeholder="글제목"
-        />
+            ref={inputRef}
+            type="text"
+            onChange={onChangeHandler}
+            autoComplete="off"
+            name="title"
+            placeholder="글제목"
+          />
           <input
             type="text"
             onChange={onChangeHandler}
