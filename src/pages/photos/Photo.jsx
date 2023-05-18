@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillPicture } from 'react-icons/ai';
-import { Container, Section } from '../../styles/RecycleStyles';
+import { Section } from '../../styles/RecycleStyles';
 import { PhotoContainer, PhotoContents } from './index';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPhotos } from '../../store/reducers/photoSlice';
 
 const Photo = () => {
   const user = useSelector((state) => state.login.user);
-  const photoList = useSelector((state) => state.photo.photos);
+  const photoList = useSelector((state) => state.photo.photos) || null;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [newPhotoList, setNewPhotoList] = useState([]);
 
   const handleWriteClick = () => {
     if (user) {
@@ -18,6 +21,19 @@ const Photo = () => {
       return null;
     }
   };
+
+  const detailClick = (photo) => {
+    navigate(`/photo/details/${photo.id}`);
+  };
+
+  useEffect(() => {
+    dispatch(getPhotos());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const sortList = [...photoList].sort((a,b) => b.createdAt - a.createdAt);
+    setNewPhotoList(sortList);
+  }, [photoList]);
 
   return (
     <Section>
@@ -36,20 +52,41 @@ const Photo = () => {
         </div>
       </PhotoContainer>
       <PhotoContents>
+      <div className="filter">
+        
+      </div>
+
         <ul className="photo_list">
-          {photoList &&
-            photoList.map((photo) => (
+          {newPhotoList.length > 0 ? (
+            newPhotoList.slice(0, 10).map((photo) => (
               <li className="photo_card" key={photo.id}>
+                <div className="photo_img" onClick={() => detailClick(photo)}>
+                  <img src={photo.photo} alt={photo.title} />
+                </div>
                 <div className="items">
-                  <h3 className="photo_title">{photo.title}</h3>
+                  <h3
+                    className="photo_title"
+                    onClick={() => detailClick(photo)}
+                  >
+                    {photo.title.length > 30
+                      ? photo.title.subString(0, 30) + '...'
+                      : photo.title}
+                  </h3>
                   <div className="item_contents">
-                    <span className='item_category'>{photo.category}</span>
-                    <span className='item_date'>날짜</span>
-                    <span className='item_nickname'>{photo.nickname}</span>
+                    <span className="item_category">{photo.category}</span>
+                    <div className="sub_items">
+                      <span className="item_nickname">{photo.nickname}</span>
+                      <span className="item_date">{photo.createdAt}</span>
+                    </div>
                   </div>
                 </div>
               </li>
-            ))}
+            ))
+          ) : (
+            <div className="no-data">
+              <h3>저장된 게시글이 없습니다...</h3>
+            </div>
+          )}
         </ul>
       </PhotoContents>
     </Section>

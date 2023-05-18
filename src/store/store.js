@@ -5,6 +5,7 @@ import loginSlice from './reducers/loginSlice';
 import boardSlice from './reducers/boardSlice';
 import photoSlice from './reducers/photoSlice';
 import todaySlice from './reducers/todaySlice';
+import qnaSlice from './reducers/qnaSlice';
  
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     board: boardSlice,
     photo: photoSlice,
     today: todaySlice,
+    qna: qnaSlice,
   },
 });
 

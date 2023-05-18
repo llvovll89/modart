@@ -1,16 +1,11 @@
 import moment from 'moment';
 import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  addDoc,
-  collection,
-  getDocs,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const storageRef = ref(storage, 'board_photos');
+const storageRef = ref(storage, 'questions_photos');
 
 const uploadFile = async (file) => {
   const fileRef = ref(storageRef, file.name);
@@ -20,19 +15,18 @@ const uploadFile = async (file) => {
 };
 
 export const createData = createAsyncThunk(
-  'boards/add',
-  async (boardData, { rejectWithValue }) => {
+  'question/add',
+  async (qnaData, { rejectWithValue }) => {
     try {
-      if (!boardData) {
-        throw new Error('boardData is undefined');
+      if (!qnaData) {
+        throw new Error('qnaData is Not Fount');
       }
+      const { category, title, desc, photo, nickname } = qnaData;
 
-      const { brand, height, weight, title, desc, photo, nickname } = boardData;
       const photoURL = await uploadFile(photo);
-      const boardRef = await addDoc(collection(db, 'boards'), {
-        brand,
-        height,
-        weight,
+
+      const photoRef = await addDoc(collection(db, 'questions'), {
+        category,
         title,
         desc,
         photo: photoURL,
@@ -41,10 +35,8 @@ export const createData = createAsyncThunk(
       });
 
       return {
-        id: boardRef.id,
-        brand,
-        height,
-        weight,
+        id: photoRef.id,
+        category,
         title,
         desc,
         photo: photoURL,
@@ -58,53 +50,55 @@ export const createData = createAsyncThunk(
   }
 );
 
-export const getBoards = createAsyncThunk('boards/get', async () => {
+export const getQna = createAsyncThunk('question/get', async () => {
   moment.locale('ko');
 
-  const querySnapshot = await getDocs(collection(db, 'boards'));
-  const boardData = querySnapshot.docs.map((doc) => {
+  const querySnapshot = await getDocs(collection(db, 'questions'));
+  const photoData = querySnapshot.docs.map((doc) => {
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
     let formattedTime;
     const now = moment();
-    const boardTime = moment(createdAt);
+    const photoTime = moment(createdAt);
 
-    if (now.diff(boardTime, 'days') <= 1) {
-      formattedTime = boardTime.fromNow();
+    if (now.diff(photoTime, 'days') <= 1) {
+      formattedTime = photoTime.fromNow();
     } else {
-      formattedTime = boardTime.format('YYYY.MM.DD');
+      formattedTime = photoTime.format('YYYY.MM.DD');
     }
+
     return {
       id: doc.id,
       createdAt: formattedTime,
       ...dataWithoutCreatedAt,
     };
   });
-  return boardData;
+
+  return photoData;
 });
 
-const boardSlice = createSlice({
-  name: 'board',
-  initialState: { boards: [], postCount: 0 },
+const qnaSlice = createSlice({
+  name: 'qna',
+  initialState: { questions: [], postCount: 0 },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(createData.fulfilled, (state, action) => {
-        const newBoard = action.payload;
+        const newQna = action.payload;
         return {
           ...state,
-          boards: [...state.boards, newBoard],
+          questions: [...state.questions, newQna],
           postCount: state.postCount + 1,
         };
       })
-      .addCase(getBoards.fulfilled, (state, action) => {
+      .addCase(getQna.fulfilled, (state, action) => {
         return {
           ...state,
-          boards: action.payload,
+          questions: action.payload,
           postCount: action.payload.length,
         };
       });
   },
 });
 
-export default boardSlice.reducer;
+export default qnaSlice.reducer;

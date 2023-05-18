@@ -1,10 +1,11 @@
+import moment from 'moment/moment';
+import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, getDoc, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { useSelector } from 'react-redux';
 
-const storageRef = ref(storage, 'picture_photos');
+const storageRef = ref(storage, 'photos_png');
 
 const uploadFile = async (file) => {
   const fileRef = ref(storageRef, file.name);
@@ -21,7 +22,9 @@ export const createData = createAsyncThunk(
         throw new Error('photoData is Not Fount');
       }
       const { category, title, desc, photo, nickname } = photoData;
+
       const photoURL = await uploadFile(photo);
+
       const photoRef = await addDoc(collection(db, 'photos'), {
         category,
         title,
@@ -48,12 +51,25 @@ export const createData = createAsyncThunk(
 );
 
 export const getPhotos = createAsyncThunk('photos/get', async () => {
+  moment.locale('ko');
+
   const querySnapshot = await getDocs(collection(db, 'photos'));
   const photoData = querySnapshot.docs.map((doc) => {
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
+    let formattedTime;
+    const now = moment();
+    const photoTime = moment(createdAt);
+
+    if (now.diff(photoTime, 'days') <= 1) {
+      formattedTime = photoTime.fromNow();
+    } else {
+      formattedTime = photoTime.format('YYYY.MM.DD');
+    }
+
     return {
       id: doc.id,
+      createdAt: formattedTime,
       ...dataWithoutCreatedAt,
     };
   });

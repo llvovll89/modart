@@ -39,6 +39,16 @@ const HeaderContainer = styled.header`
           min-width: 76px;
           padding: 0 6px;
           text-align: center;
+
+          &.active {
+            background-color: rgba(40, 41, 44, 0.04);
+            a {
+              font-weight: 600;
+              color: #000;
+              text-decoration: underline 0.5px;
+              text-underline-offset: 3px;
+            }
+          }
           
           &:hover {
             background-color: rgba(32, 33, 36, 0.04);
@@ -108,6 +118,8 @@ const HeaderContainer = styled.header`
             a {
               font-weight: 600;
               color: #000;
+              text-decoration: underline 0.5px;
+              text-underline-offset: 3px;
             }
           }
 
@@ -152,6 +164,9 @@ const HeaderContainer = styled.header`
     }
 
     @media screen and (max-width: 768px) {
+      overflow-x: scroll;
+      gap: 16px;
+
         .toggle {
           display: flex;
           align-items: center;

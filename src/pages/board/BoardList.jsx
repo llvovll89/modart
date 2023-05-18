@@ -15,7 +15,6 @@ const BoardList = () => {
   const [focus, setFocus] = useState('left');
 
   const dispatch = useDispatch();
-  console.log(boardList)
 
   const handleResize = useCallback(() => {
     if (window.innerWidth >= 1280) {
@@ -71,7 +70,7 @@ const BoardList = () => {
               }}
               extensions={{ AutoScroll }}
             >
-              {boardList.map((board) => (
+              {boardList.slice(0, 10).map((board) => (
                 <SplideSlide key={board.id}>
                   <Card>
                     <div className="top">

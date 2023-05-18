@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import Resizer from 'react-image-file-resizer';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardForm, Section } from '../../styles/RecycleStyles';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +11,9 @@ const PhotoWritePost = () => {
   const [category, setCategory] = useState([]);
   const user = useSelector((state) => state.login.user);
   const nickName = user?.nickname;
-  const inputRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const inputRef = useRef();
 
   const onChangeHandler = (e) => {
     if (e.target.name === 'photo') {
@@ -43,7 +44,6 @@ const PhotoWritePost = () => {
       await dispatch(createData(dataWidthNickName)).unwrap();
       alert('게시글이 성공적으로 등록되었습니다.');
       navigate(-1);
-      console.log(addData);
     } catch (error) {
       alert('게시글 등록에 실패하였습니다.');
       console.log(error);
@@ -53,15 +53,16 @@ const PhotoWritePost = () => {
   return (
     <Section>
       <CardForm>
-      <div className="post_title">
-      <h1>{"<Photos>"}</h1>
-    </div>
+        <div className="post_title">
+          <h1>{'<Photos>'}</h1>
+        </div>
 
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
-        <p className="nickname">
-        <span className='author'>작성자</span>
-        {nickName}
-      </p>
+          <p className="nickname">
+            <span className="author">작성자</span>
+            {nickName}
+          </p>
+
           <div className="category-wrap">
             <label>
               <input
@@ -85,10 +86,10 @@ const PhotoWritePost = () => {
               <input
                 type="checkbox"
                 name="category"
-                value="풍경"
+                value="음식"
                 onChange={onChangeHandler}
               />
-              풍경
+              음식
             </label>
             <label>
               <input

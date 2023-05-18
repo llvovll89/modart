@@ -1,14 +1,16 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Section } from '../../styles/RecycleStyles';
+import { Section } from '../../styles/RecycleStyles';
 import { BoardContainer, BoardContents } from './index';
 import { AiFillSkin } from 'react-icons/ai';
+import { getBoards } from '../../store/reducers/boardSlice';
 
 const Board = () => {
   const user = useSelector((state) => state.login.user);
-  const boardList = useSelector((state) => state.board.boards);
+  const boardList = useSelector((state) => state.board.boards) || null;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleWriteClick = () => {
     if (user) {
@@ -18,6 +20,14 @@ const Board = () => {
       return null;
     }
   };
+
+  const detailClick = (board) => {
+    navigate(`/board/details/${board.id}`);
+  };
+
+  useEffect(() => {
+    dispatch(getBoards());
+  }, [dispatch]);
 
   return (
     <Section>
@@ -37,19 +47,36 @@ const Board = () => {
       </BoardContainer>
       <BoardContents>
         <ul className="board_list">
-        {boardList &&
-          boardList.map((board) => (
-            <li className="board_card" key={board.id}>
-              <div className="items">
-                <h3 className="board_title">{board.title}</h3>
-                <div className="item_contents">
-                  <span className="item_brand">{board.brand}</span>
-                  <span className="item_date">날짜받아와야댐</span>
-                  <span className="item_nickname">{board.nickname}</span>
+          {boardList.length > 0 ? (
+            boardList.map((board) => (
+              <li className="board_card" key={board.id}>
+                <div className="board_img" onClick={() => detailClick(board)}>
+                  <img src={board.photo} alt={board.title} />
                 </div>
-              </div>
-            </li>
-          ))}
+                <div className="items">
+                  <h3
+                    className="board_title"
+                    onClick={() => detailClick(board)}
+                  >
+                    {board.title.length > 30
+                      ? board.title.subString(0, 30) + '...'
+                      : board.title}
+                  </h3>
+                  <div className="item_contents">
+                    <span className="item_brand">{board.brand}</span>
+                    <div className="sub_items">
+                      <span className="item_nickname">{board.nickname}</span>
+                      <span className="item_date">{board.createdAt}</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))
+          ) : (
+            <div className="no-data">
+              <h3>저장된 게시글이 없습니다.</h3>
+            </div>
+          )}
         </ul>
       </BoardContents>
     </Section>

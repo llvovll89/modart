@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Section } from '../../styles/RecycleStyles';
-import { DailyContainer } from './index';
+import { Section } from '../../styles/RecycleStyles';
+import { TodayContainer, TodayContents } from './index';
 import { TfiWrite } from 'react-icons/tfi';
 
 const TodayStory = () => {
   const user = useSelector((state) => state.login.user);
+  const todayList = false;
   const navigate = useNavigate();
 
   const handleWriteClick = () => {
@@ -20,7 +21,7 @@ const TodayStory = () => {
 
   return (
     <Section>
-      <DailyContainer>
+      <TodayContainer>
         <div className="contents">
           <div className="text">
             <p>Free Talking</p>
@@ -33,8 +34,33 @@ const TodayStory = () => {
             <TfiWrite />
           </div>
         </div>
-      </DailyContainer>
-      <Container></Container>
+      </TodayContainer>
+
+      <TodayContents>
+        <ul className="today_list">
+          {todayList ? (
+            todayList.slice(0, 10).map((today) => (
+              <li className="today_card" key={today.id}>
+                <div className="today_img">
+                  <img src={today.photo} loading="lazy" alt={today.title} />
+                </div>
+                <div className="items">
+                  <h3 className="today_title">{today.title}</h3>
+                  <div className="item_contents">
+                    <span className="item_category">{today.category}</span>
+                    <span className="item_date">날짜</span>
+                    <span className="item_nickname">{today.nickname}</span>
+                  </div>
+                </div>
+              </li>
+            ))
+          ) : (
+            <div className="no-data">
+              <h3>저장된 게시글이 없습니다...</h3>
+            </div>
+          )}
+        </ul>
+      </TodayContents>
     </Section>
   );
 };

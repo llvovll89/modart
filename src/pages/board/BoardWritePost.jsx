@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Resizer from 'react-image-file-resizer';
 import { CardForm, Section } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { createData } from '../../store/reducers/boardSlice';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 
-const WritePost = () => {
+const BoardWritePost = () => {
   const user = useSelector((state) => state.login.user);
   const nickName = user?.nickname;
   const inputRef = useRef();
@@ -39,7 +40,7 @@ const WritePost = () => {
       const dataWithNickName = { ...addData, nickname: nickName };
       await dispatch(createData(dataWithNickName)).unwrap();
       alert('게시글이 성공적으로 등록되었습니다.');
-      navigate('/');
+      navigate(-1);
       console.log(addData);
     } catch (error) {
       alert('게시글 등록에 실패하였습니다.');
@@ -51,7 +52,7 @@ const WritePost = () => {
     <Section>
       <CardForm>
         <div className="post_title">
-          <h1>{"<OOTD>"}</h1>
+          <h1>{'<OOTD>'}</h1>
         </div>
 
         <form onSubmit={onSubmitHandler} encType="multipart/form-data">
@@ -106,4 +107,4 @@ const WritePost = () => {
   );
 };
 
-export default WritePost;
+export default BoardWritePost;

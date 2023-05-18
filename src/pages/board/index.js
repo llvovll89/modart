@@ -53,6 +53,16 @@ const BoardContainer = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 768px) {
+    height: 14rem;
+
+    .contents {
+      .image {
+        width: 75%;
+      }
+    }
+  }
 `;
 
 const BoardContents = styled.div`
@@ -60,13 +70,70 @@ const BoardContents = styled.div`
   background: #fefefe;
 
   .board_list {
+    margin: 12px auto 0px auto;
+    max-width: 1280px;
     padding: 1px 3px 0 1px;
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial, sans-serif;
 
     .board_card {
-      margin-bottom: 0;
+      display: flex;
+      min-height: 57px;
+      max-height: 70px;
+      margin-bottom: 6px;
       background-color: #f6f6f6;
       border-bottom: 1px solid #fff;
+      gap: 12px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .board_img {
+        img {
+          width: 70px;
+          height: 100%;
+          object-fit: cover;
+          vertical-align: top;
+          cursor: pointer;
+        }
+      }
+
+      .items {
+        .board_title {
+          color: #3262c5;
+          font-size: clamp(14.5px, 2vw, 16px);
+          cursor: pointer;
+          transition: all 0.15s linear;
+
+          &:hover {
+            color: #04f;
+            text-decoration: underline 0.5px;
+          }
+        }
+
+        .item_contents {
+          .item_brand {
+            display: inline-block;
+            color: #686868;
+            font-size: clamp(11px, 1vw, 12px);
+            line-height: 1.5;
+            margin-bottom: 2px;
+          }
+
+          .sub_items {
+            display: flex;
+            gap: 6px;
+
+            font-size: clamp(11px, 1.2vw, 13px);
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    .board_card {
+      padding: 0 6px;
     }
   }
 `;

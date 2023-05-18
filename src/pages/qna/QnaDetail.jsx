@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Section } from '../../styles/RecycleStyles';
 import { QnaArticle } from './index';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { getQna } from '../../store/reducers/qnaSlice';
+
 
 const QnaDetail = () => {
+  const { id } = useParams();
   const [comment, setComment] = useState(false);
+  const qnaList = useSelector((state) => state.qna.questions);
   const user = useSelector((state) => state.login.user);
+  const dispatch = useDispatch();
+
+  const qna = qnaList.find((question) => question.id === id);
+  console.log(qna);
 
   const textAreaAlert = () => {
     if (user) {
@@ -16,6 +24,10 @@ const QnaDetail = () => {
       return null;
     }
   };
+
+  useEffect(() => {
+    dispatch(getQna());
+  } , [dispatch]);
 
   return (
     <Section>
@@ -31,7 +43,7 @@ const QnaDetail = () => {
                 <span>유저이미지?!</span>
                 <span>유저nickname</span>
               </div>
-              <span>날짜</span>
+              <span className='date'>2023-05-18</span>
             </div>
           </header>
           <div className="card_contents">
@@ -41,7 +53,8 @@ const QnaDetail = () => {
             <div className="inner">
               <button>좋아요</button>
               <button onClick={() => setComment(!comment)}>댓글</button>
-            </div>
+              <button>공유하기</button>
+              </div>
 
             {comment ? (
               <div className="comment">

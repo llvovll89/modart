@@ -47,18 +47,16 @@ const Header = () => {
       );
     } else {
       return (
-        <li className="item_account">
-          <Link to="account/login" className="account">
-            로그인/회원가입
-          </Link>
-        </li>
+        <div className="users">
+          <li className="item_account">
+            <Link to="account/login" className="account">
+              로그인/회원가입
+            </Link>
+          </li>
+        </div>
       );
     }
   };
-
-  useEffect(() => {
-    setActiveItem(null);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +66,7 @@ const Header = () => {
         setScroll(false);
       }
     };
-  
+
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setToggle(true);
@@ -76,16 +74,15 @@ const Header = () => {
         setToggle(false);
       }
     };
-  
+
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
-  
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  
 
   const filterLocation =
     location.pathname === '/account/signup' ||
@@ -136,10 +133,10 @@ const Header = () => {
           {renderLinks()}
         </ul>
 
-        <div className="toggle">
-            <GiHamburgerMenu />
-        </div>
-        
+        {/*
+    <div className="toggle">
+          <GiHamburgerMenu />
+        </div>*/}
       </div>
     </HeaderContainer>
   );
