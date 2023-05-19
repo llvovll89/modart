@@ -70,8 +70,8 @@ const PhotoContents = styled.div`
 
   .photo_list {
     max-width: 1280px;
-    margin: 12px auto 0px auto;
-    padding: 1px 3px 0 1px;
+    margin: 12px auto 6px auto;
+    padding: 6px 3px;
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
       sans-serif;
 
@@ -137,4 +137,128 @@ const PhotoContents = styled.div`
   }
 `;
 
-export { PhotoContainer, PhotoContents };
+const PhotoDetailPage = styled.div`
+  margin: 0 auto;
+  max-width: 1280px;
+  min-height: calc(100vh - 60px);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  /* justify-content: center; */
+
+  .contents {
+    max-width: 768px;
+    width: 100%;
+
+    .photo_users {
+      width: 100%;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+
+      .user_img {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          vertical-align: top;
+          object-fit: cover;
+        }
+      }
+
+      .user {
+        display: flex;
+        flex-direction: column;
+        p {
+          font-weight: 700;
+          font-size: clamp(14px, 1.5vw, 16px);
+        }
+
+        span {
+          line-height: 1;
+          color: #9d8e8e;
+          font-size: clamp(12px, 1.25vw, 13.5px);
+        }
+      }
+    }
+
+    .snapImg {
+      display: block;
+      width: 100%;
+      height: 450px;
+      min-height: 400px;
+      padding: 6px;
+      background: #ebe8e8;
+      border-radius: 6px;
+      overflow: hidden;
+
+      img {
+        vertical-align: top;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+    }
+
+    .photo_info {
+      padding: 12px 6px 0px 6px;
+
+      .icon {
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .link {
+          button {;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+
+            svg {
+              width:100%;
+              height: 100%;
+            }
+
+            &:first-child {
+              color: #df3a24;
+            }
+          }
+        }
+      
+        .date {
+          font-size: clamp(13.5px, 1.5vw, 16px);
+          font-weight: 700;
+        }
+      }
+      
+      .photo_title {
+        padding-top: 12px;
+        h1 {
+          font-size: clamp(15px, 1.8vw, 17px);
+        }
+
+        p {
+          font-size: clamp(14px, 1.4vw, 15px);
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .contents {
+      .snapImg {
+        min-height: 300px;
+        height: 350px;
+      }
+    }
+  }
+`;
+
+export { PhotoContainer, PhotoContents, PhotoDetailPage };

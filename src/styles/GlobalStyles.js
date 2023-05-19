@@ -32,4 +32,24 @@ export const GlobalStyles = createGlobalStyle`
 
 export const Wrap = styled.div`
     min-height: 100vh;
+    &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            /* background: rgba(0, 0, 0, 0.39); */
+            z-index: -1;
+            transition: 0.3s all linear;
+        }
+    
+    &.active {
+        position: relative;
+        
+        &::after {
+            background: rgba(0, 0, 0, 0.39);
+            z-index: 990;
+        }
+    }
 `

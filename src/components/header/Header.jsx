@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HeaderContainer } from './index';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOuterUer } from '../../store/reducers/loginSlice';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineLogout } from 'react-icons/ai';
+import { GrClose } from 'react-icons/gr';
 
-const Header = () => {
+const Header = ({ toggle, toggleMenu }) => {
   const [scroll, setScroll] = useState(false);
-  const [toggle, setToggle] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
+
   const user = useSelector((state) => state.login.user);
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,6 +21,7 @@ const Header = () => {
     const alertLogout = confirm('정말 로그아웃 하시겠습니까?');
     if (alertLogout) {
       dispatch(signOuterUer());
+      navigate('/');
     }
     return;
   };
@@ -28,18 +30,28 @@ const Header = () => {
     setActiveItem(index);
   };
 
+  const toggleClick = () => {
+    setActiveItem(null);
+    toggleMenu();
+  };
+
   const renderLinks = () => {
     if (user) {
       return (
         <div className="users">
           <li
             className="item user_nickname"
-            onClick={() => setActiveItem(null)}
+            onClick={() => {
+              if (widow.innerWith <= 768) {
+                toggleClick;
+              }
+              setActiveItem(null);
+            }}
           >
             <Link to="/account">{nickName}</Link>
           </li>
-          <li className="item logOut" onClick={logOutHandler}>
-            <span>
+          <li className="item logOut">
+            <span onClick={logOutHandler}>
               <AiOutlineLogout />
             </span>
           </li>
@@ -47,9 +59,17 @@ const Header = () => {
       );
     } else {
       return (
-        <div className="users">
+        <div className="users sign">
           <li className="item_account">
-            <Link to="account/login" className="account">
+            <Link
+              to="account/login"
+              className="account"
+              onClick={() => {
+                if (widow.innerWith <= 768) {
+                  toggleClick;
+                }
+              }}
+            >
               로그인/회원가입
             </Link>
           </li>
@@ -67,20 +87,10 @@ const Header = () => {
       }
     };
 
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setToggle(true);
-      } else {
-        setToggle(false);
-      }
-    };
-
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -106,26 +116,71 @@ const Header = () => {
             ModArt
           </h1>
         </div>
-        <ul className="navbar">
+        <ul className={`navbar${toggle ? ' mobile' : ''}`}>
           <div className="list">
             <li className={`item ${activeItem === 0 ? 'active' : ''}`}>
-              <Link to="/board" onClick={() => handleItemClick(0)}>
+              <Link
+                to="/"
+                onClick={() => {
+                  if (widow.innerWith <= 768) {
+                    toggleClick;
+                  }
+                  handleItemClick(0);
+                }}
+              >
+                HOME
+              </Link>
+            </li>
+            <li className={`item ${activeItem === 1 ? 'active' : ''}`}>
+              <Link
+                to="/board"
+                onClick={() => {
+                  if (widow.innerWith <= 768) {
+                    toggleClick;
+                  }
+                  handleItemClick(1);
+                }}
+              >
                 OOTD
               </Link>
             </li>
 
-            <li className={`item ${activeItem === 1 ? 'active' : ''}`}>
-              <Link to="/photo" onClick={() => handleItemClick(1)}>
+            <li className={`item ${activeItem === 2 ? 'active' : ''}`}>
+              <Link
+                to="/photo"
+                onClick={() => {
+                  if (widow.innerWith <= 768) {
+                    toggleClick;
+                  }
+                  handleItemClick(2);
+                }}
+              >
                 Photo
               </Link>
             </li>
-            <li className={`item ${activeItem === 2 ? 'active' : ''}`}>
-              <Link to="/today" onClick={() => handleItemClick(2)}>
+            <li className={`item ${activeItem === 3 ? 'active' : ''}`}>
+              <Link
+                to="/today"
+                onClick={() => {
+                  if (widow.innerWith <= 768) {
+                    toggleClick;
+                  }
+                  handleItemClick(3);
+                }}
+              >
                 TodayStory
               </Link>
             </li>
-            <li className={`item ${activeItem === 3 ? 'active' : ''}`}>
-              <Link to="/qna" onClick={() => handleItemClick(3)}>
+            <li className={`item ${activeItem === 4 ? 'active' : ''}`}>
+              <Link
+                to="/qna"
+                onClick={() => {
+                  if (widow.innerWith <= 768) {
+                    toggleClick;
+                  }
+                  handleItemClick(4);
+                }}
+              >
                 QnA
               </Link>
             </li>
@@ -133,10 +188,9 @@ const Header = () => {
           {renderLinks()}
         </ul>
 
-        {/*
-    <div className="toggle">
-          <GiHamburgerMenu />
-        </div>*/}
+        <div className="toggle" onClick={toggleClick}>
+          {toggle ? <GrClose /> : <GiHamburgerMenu />}
+        </div>
       </div>
     </HeaderContainer>
   );

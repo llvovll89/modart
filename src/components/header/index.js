@@ -20,7 +20,7 @@ const HeaderContainer = styled.header`
 
     .logo {
       h1 {
-        font-size: clamp(20px, 2.5vw, 24px);
+        font-size: clamp(21px, 2.5vw, 25px);
         letter-spacing: -0.035rem;
         font-weight: 700;
         cursor: pointer;
@@ -30,6 +30,7 @@ const HeaderContainer = styled.header`
 
     .navbar {
       display: flex;
+      gap: 12px;
       .users {
         display: flex;
         align-items: center;
@@ -49,7 +50,7 @@ const HeaderContainer = styled.header`
               text-underline-offset: 3px;
             }
           }
-          
+
           &:hover {
             background-color: rgba(32, 33, 36, 0.04);
           }
@@ -71,8 +72,8 @@ const HeaderContainer = styled.header`
             letter-spacing: 0.012rem;
             color: #5f6368;
             display: block;
-              width: 100%;
-              height: 100%;
+            width: 100%;
+            height: 100%;
 
             &:hover {
               color: #202124;
@@ -138,8 +139,8 @@ const HeaderContainer = styled.header`
             display: block;
             width: 100%;
             height: 100%;
-            font-size: clamp(12px, 1.5vw, 13.5px);
-            font-weight: 400;
+            font-size: clamp(12.5px, 1.5vw, 14px);
+            font-weight: 500;
             letter-spacing: 0.012rem;
             color: #5f6368;
 
@@ -152,26 +153,118 @@ const HeaderContainer = styled.header`
     }
 
     .toggle {
+      position: relative;
       display: none;
       width: 24px;
       height: 24px;
       cursor: pointer;
+      overflow: hidden;
+      color: rgba(32, 33, 36, 0.88);
 
-       svg {
+      svg {
+        font-weight: 500;
         width: 100%;
         height: 100%;
-       }
+      }
     }
 
     @media screen and (max-width: 768px) {
-      overflow-x: scroll;
-      gap: 16px;
+      position: relative;
 
-        .toggle {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+      /* toggle mode */
+      .navbar {
+        position: fixed;
+        display: block;
+        top: 0;
+        margin-top: 60px;
+        right: -75%;
+        height: 100vh;
+        z-index: 1500;
+        background: #fefefe;
+        width: 75%;
+        transition: all 0.3s linear;
+
+        &.mobile {
+          right: 0;
         }
+
+        .list {
+          display: block;
+          .item {
+            padding: 0;
+            border-bottom: 1px solid #ebebeb;
+            &.active {
+              background-color: rgba(40, 41, 44, 0.04);
+              a {
+                font-weight: 600;
+                color: #000;
+                text-decoration: underline 0.5px;
+                text-underline-offset: 3px;
+              }
+            }
+
+            a,
+            span {
+              font-size: clamp(12px, 1.5vw, 13.5px);
+              display: block;
+              padding: 6px 16px;
+              letter-spacing: -0.15px;
+              font-weight: 700;
+              text-align: left;
+              text-indent: 6px;
+
+              &:hover {
+                color: #202124;
+              }
+            }
+          }
+        }
+
+        .users {
+          width: 100%;
+          border-bottom: 1px solid #ebebeb;
+
+          &.sign {
+            .item_account {
+              display: block;
+              width: 100%;
+              text-align: center;
+
+              .account {
+                font-size: clamp(12px, 1.5vw, 13.5px);
+              display: block;
+              padding: 6px 16px;
+              letter-spacing: 0.78px;
+              font-weight: 700;
+              text-align: left;
+              text-indent: 6px;
+              color: #202124;
+              background: transparent;
+              }
+            }
+          }
+
+          .item {
+            width: 100%;
+            a,
+            span {
+              display: block;
+              padding: 6px 16px;
+              letter-spacing: -0.15px;
+              font-weight: 700;
+              text-indent: 6px;
+            }
+            &.logOut {
+            }
+          }
+        }
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 `;

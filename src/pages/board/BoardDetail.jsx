@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { DetailForm, Section } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBoards } from '../../store/reducers/boardSlice';
+import { DetailForm, Section } from '../../styles/RecycleStyles';
+import { BoardDetailPage } from '.';
 import { AiFillHeart } from 'react-icons/ai';
+import BoardImg from '../../assets/images/main.gif';
 
 const BoardDetail = () => {
   const { id } = useParams();
@@ -23,51 +25,64 @@ const BoardDetail = () => {
 
   return (
     <Section>
-      <DetailForm>
+      <BoardDetailPage>
         {board && (
-          <>
-            <div className="snapImg">
-              <img src={board.photo} alt={board.nickname} />
-            </div>
-            <div className="snapInfo">
-              <div className="title">
-                <p>
-                  Information <span>스타일 정보</span>
-                </p>
+          <div className="contents">
+            <div className="board">
+              <div className="boardImg">
+                <img src={board.photo} alt={board.nickname} />
               </div>
-              <li className="tr">
-                <span className="th">Nickname</span>
-                <span className="td">{board.nickname}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Brand</span>
-                <span className="td">{board.brand}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Title</span>
-                <span className="td">{board.title}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Body</span>
-                <span className="td" style={{ marginRight: '6px' }}>
-                  키 {board.height}
-                </span>
-                <span className="td">몸무게 {board.weight}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Contents</span>
-                <span className="td">{board.desc}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Like</span>
-                <span className="td">
-                  <AiFillHeart />
-                </span>
-              </li>
+              <div className="boardInfo">
+                <div className="title">
+                  <h1>
+                    Information <span>{'< 스타일 정보 >'}</span>
+                  </h1>
+                  <p className="date">{board.createdAt}...</p>
+                </div>
+                <div className="info">
+                  <div className="area">
+                    <div className="user_img">
+                      <img src={BoardImg} alt={board.nickname} />
+                    </div>
+                    <p>{board.nickname}</p>
+                  </div>
+                  <div className="area">
+                    <label>Title</label>
+                    <p>{board.title}</p>
+                  </div>
+                  <div className="area">
+                    <label>Brand</label>
+                    <p>{board.brand}</p>
+                  </div>
+                  <div className="area">
+                    <label>Spec</label>
+                    <div className="spec">
+                    <p>Height: {board.height}</p>
+                    <p>Weight: {board.weight}</p>
+                    </div>
+                  </div>
+                  <div className="area">
+                    <label>Contents</label>
+                    <p>{board.desc}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </>
+            <div className="comment">
+              <div className="comment_form">
+                <div className="users">
+
+                </div>
+                <div className="form"></div>
+              </div>
+
+              <ul className="comment_list">
+                <li></li>
+              </ul>
+            </div>
+          </div>
         )}
-      </DetailForm>
+      </BoardDetailPage>
     </Section>
   );
 };

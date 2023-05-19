@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getPhotos } from '../../store/reducers/PhotoSlice';
-import { DetailForm, Section } from '../../styles/RecycleStyles';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getPhotos } from '../../store/reducers/photoSlice';
+import { PhotoDetailPage } from '.';
+import PhotoImg from '../../assets/images/main.gif';
+import { Section } from '../../styles/RecycleStyles';
 import { AiFillHeart } from 'react-icons/ai';
+import { ImBubble } from 'react-icons/im';
 
 const PhotoDetail = () => {
   const { id } = useParams();
   const photoList = useSelector((state) => state.photo.photos);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const photo = photoList.find((photo) => photo.id === id);
-  console.log(photo);
 
   useEffect(() => {
     dispatch(getPhotos());
@@ -19,44 +22,41 @@ const PhotoDetail = () => {
 
   return (
     <Section>
-      <DetailForm>
+      <PhotoDetailPage>
         {photo && (
-          <>
+          <div className="contents">
+            <div className="photo_users">
+              <div className="user_img">
+                <img src={PhotoImg} alt={photo.nickname} />
+              </div>
+              <div className="user">
+                <p>{photo.nickname}</p>
+                <span>{photo.category}</span>
+              </div>
+            </div>
             <div className="snapImg">
               <img src={photo.photo} alt={photo.nickname} />
             </div>
-            <div className="snapInfo">
-              <div className="title">
-                <p>
-                  Information <span>사진 정보</span>
-                </p>
+            <div className="photo_info">
+              <div className="icon">
+                <div className="link">
+                  <button className="like">
+                    <AiFillHeart />
+                  </button>
+                  <button className="comment">
+                    <ImBubble />
+                  </button>
+                </div>
+                <span className='date'>{photo.createdAt} ...</span>
               </div>
-              <li className="tr">
-                <span className="th">Nickname</span>
-                <span className="td">{photo.nickname}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Category</span>
-                <span className="td">{photo.category}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Title</span>
-                <span className="td">{photo.title}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Contents</span>
-                <span className="td">{photo.desc}</span>
-              </li>
-              <li className="tr">
-                <span className="th">Like</span>
-                <span className="td">
-                  <AiFillHeart />
-                </span>
-              </li>
+              <div className="photo_title">
+                <h1>{photo.title}</h1>
+                <p>{photo.desc}</p>
+              </div>
             </div>
-          </>
+          </div>
         )}
-      </DetailForm>
+      </PhotoDetailPage>
     </Section>
   );
 };

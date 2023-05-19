@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Account = () => {
-  const { nickname, email } = useSelector((state) => state.login.user);
+  const user = useSelector((state) => state.login.user);
   // const postCount = useSelector((state) => state.board.postCount);
 
   
   return (
     <Section>
       <AccountContainer>
-        {nickname && email ? (
+        {user ? (
           <div className="contents">
             <div className="users">
               <div className="user_detail">
@@ -21,8 +21,8 @@ const Account = () => {
                 </div>
                 <div className="user_info">
                   <div className="info_box">
-                    <strong className="name">{nickname}</strong>
-                    <p className="email">{email}</p>
+                    <strong className="name">{user.nickname}</strong>
+                    <p className="email">{user.email}</p>
                     <Link to="/">프로필 수정</Link>
                   </div>
                 </div>

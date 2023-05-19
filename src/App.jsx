@@ -18,6 +18,7 @@ import TodayStory from './pages/today/TodayStory';
 import Qna from './pages/qna/Qna';
 import QnaDetail from './pages/qna/QnaDetail';
 import QnaWritePost from './pages/qna/QnaWritePost';
+import { useState } from 'react';
 
 const routes = [
   { path: '/', element: <Home /> },
@@ -43,11 +44,22 @@ const routes = [
 ];
 
 function App() {
+  const [toggle, setToggle] = useState(false);
+  const toggleMenu = () => {
+    setToggle((prev) => !prev);
+  };
+
   return (
-    <Wrap>
+    <Wrap
+      className={toggle ? ' active' : ""}
+      style={{
+        height: toggle ? '100vh' : 'auto',
+        overflow: toggle ? 'hidden' : 'auto',
+      }}
+    >
       <Router basename="modart">
         <GlobalStyles />
-        <Header />
+        <Header toggleMenu={toggleMenu} toggle={toggle} />
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
