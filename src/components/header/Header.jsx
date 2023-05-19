@@ -26,9 +26,16 @@ const Header = ({ toggle, toggleMenu }) => {
     return;
   };
 
-  const handleItemClick = (index) => {
+  const handleLinkClick = (index) => {
     setActiveItem(index);
+    if (window.innerWidth <= 768) {
+      toggleClick();
+    }
   };
+
+  // const handleItemClick = (index) => {
+  //   setActiveItem(index);
+  // };
 
   const toggleClick = () => {
     setActiveItem(null);
@@ -39,15 +46,7 @@ const Header = ({ toggle, toggleMenu }) => {
     if (user) {
       return (
         <div className="users">
-          <li
-            className="item user_nickname"
-            onClick={() => {
-              if (widow.innerWith <= 768) {
-                toggleClick;
-              }
-              setActiveItem(null);
-            }}
-          >
+          <li className="item user_nickname">
             <Link to="/account">{nickName}</Link>
           </li>
           <li className="item logOut">
@@ -119,68 +118,26 @@ const Header = ({ toggle, toggleMenu }) => {
         <ul className={`navbar${toggle ? ' mobile' : ''}`}>
           <div className="list">
             <li className={`item ${activeItem === 0 ? 'active' : ''}`}>
-              <Link
-                to="/"
-                onClick={() => {
-                  if (widow.innerWith <= 768) {
-                    toggleClick;
-                  }
-                  handleItemClick(0);
-                }}
-              >
-                HOME
-              </Link>
+              <Link onClick={handleLinkClick}>HOME</Link>
             </li>
             <li className={`item ${activeItem === 1 ? 'active' : ''}`}>
-              <Link
-                to="/board"
-                onClick={() => {
-                  if (widow.innerWith <= 768) {
-                    toggleClick;
-                  }
-                  handleItemClick(1);
-                }}
-              >
+              <Link to="/board" onClick={handleLinkClick}>
                 OOTD
               </Link>
             </li>
 
             <li className={`item ${activeItem === 2 ? 'active' : ''}`}>
-              <Link
-                to="/photo"
-                onClick={() => {
-                  if (widow.innerWith <= 768) {
-                    toggleClick;
-                  }
-                  handleItemClick(2);
-                }}
-              >
+              <Link to="/photo" onClick={handleLinkClick}>
                 Photo
               </Link>
             </li>
             <li className={`item ${activeItem === 3 ? 'active' : ''}`}>
-              <Link
-                to="/today"
-                onClick={() => {
-                  if (widow.innerWith <= 768) {
-                    toggleClick;
-                  }
-                  handleItemClick(3);
-                }}
-              >
+              <Link to="/today" onClick={handleLinkClick}>
                 TodayStory
               </Link>
             </li>
             <li className={`item ${activeItem === 4 ? 'active' : ''}`}>
-              <Link
-                to="/qna"
-                onClick={() => {
-                  if (widow.innerWith <= 768) {
-                    toggleClick;
-                  }
-                  handleItemClick(4);
-                }}
-              >
+              <Link to="/qna" onClick={handleLinkClick}>
                 QnA
               </Link>
             </li>
