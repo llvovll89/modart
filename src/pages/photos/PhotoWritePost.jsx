@@ -13,7 +13,6 @@ const PhotoWritePost = () => {
   const nickName = user?.nickname;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const inputRef = useRef();
 
   const onChangeHandler = (e) => {
     if (e.target.name === 'photo') {
@@ -71,7 +70,8 @@ const PhotoWritePost = () => {
                 value="자연"
                 onChange={onChangeHandler}
               />
-              자연
+              <i></i>
+              <span>자연</span>
             </label>
             <label>
               <input
@@ -80,7 +80,8 @@ const PhotoWritePost = () => {
                 value="인물"
                 onChange={onChangeHandler}
               />
-              인물
+              <i></i>
+              <span>인물</span>
             </label>
             <label>
               <input
@@ -89,7 +90,8 @@ const PhotoWritePost = () => {
                 value="음식"
                 onChange={onChangeHandler}
               />
-              음식
+              <i></i>
+              <span>음식</span>
             </label>
             <label>
               <input
@@ -98,7 +100,8 @@ const PhotoWritePost = () => {
                 value="일상"
                 onChange={onChangeHandler}
               />
-              일상
+              <i></i>
+              <span>일상</span>
             </label>
           </div>
 
@@ -106,18 +109,32 @@ const PhotoWritePost = () => {
             type="text"
             placeholder="제목"
             name="title"
+            autoComplete='off'
             onChange={onChangeHandler}
-          />
-          <input
+            />
+            <input
             type="text"
             placeholder="설명"
             name="desc"
+            autoComplete='off'
             onChange={onChangeHandler}
           />
 
-          <label htmlFor="photo">
-            <AiOutlineFileAdd />
-            <input type="file" name="photo" onChange={onChangeHandler} />
+          <input
+          type="file"
+          id="photo"
+          style={{ display: 'none' }}
+          name="photo"
+          onChange={onChangeHandler}
+        />
+
+          <label htmlFor="photo" className="file_label">
+            <p>
+              <span>
+                <AiOutlineFileAdd />
+              </span>
+              사진올리기
+            </p>
           </label>
 
           <button type="submit">게시하기</button>

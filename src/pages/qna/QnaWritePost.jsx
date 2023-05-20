@@ -67,7 +67,8 @@ const QnaWritePost = () => {
                 value="건강"
                 onChange={onChangeHandler}
               />
-              건강
+              <i></i>
+              <span>건강</span>
             </label>
             <label>
               <input
@@ -76,16 +77,8 @@ const QnaWritePost = () => {
                 value="패션"
                 onChange={onChangeHandler}
               />
-              패션
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="category"
-                value="취업"
-                onChange={onChangeHandler}
-              />
-              취업
+              <i></i>
+              <span>패션</span>
             </label>
             <label>
               <input
@@ -94,7 +87,8 @@ const QnaWritePost = () => {
                 value="공부"
                 onChange={onChangeHandler}
               />
-              공부
+              <i></i>
+              <span>공부</span>
             </label>
             <label>
               <input
@@ -103,16 +97,41 @@ const QnaWritePost = () => {
                 value="일상"
                 onChange={onChangeHandler}
               />
-              일상
+              <i></i>
+              <span>일상</span>
             </label>
           </div>
 
-          <input type="text" name='title' placeholder="제목" onChange={onChangeHandler} />
-          <input type="text" name='desc' placeholder="내용" onChange={onChangeHandler} />
+          <input
+            type="text"
+            name="title"
+            placeholder="제목"
+            autoComplete='off'
+            onChange={onChangeHandler}
+            />
+            <input
+            type="text"
+            name="desc"
+            placeholder="내용"
+            autoComplete='off'
+            onChange={onChangeHandler}
+          />
 
-          <label htmlFor="photo">
-            <AiOutlineFileAdd />
-            <input type="file" name="photo" />
+          <input
+          type="file"
+          id="photo"
+          style={{ display: 'none' }}
+          name="photo"
+          onChange={onChangeHandler}
+        />
+
+          <label htmlFor="photo" className="file_label">
+            <p>
+              <span>
+                <AiOutlineFileAdd />
+              </span>
+              사진올리기
+            </p>
           </label>
 
           <button type="submit">게시하기</button>

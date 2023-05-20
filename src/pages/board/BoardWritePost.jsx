@@ -95,9 +95,21 @@ const BoardWritePost = () => {
             onChange={onChangeHandler}
             placeholder="contents.."
           />
-          <label htmlFor="photo">
-            <AiOutlineFileAdd />
-            <input type="file" name="photo" onChange={onChangeHandler} />
+          <input
+            type="file"
+            id="photo"
+            style={{ display: 'none' }}
+            name="photo"
+            onChange={onChangeHandler}
+          />
+          
+          <label htmlFor="photo" className="file_label">
+            <p>
+              <span>
+                <AiOutlineFileAdd />
+              </span>
+              사진올리기
+            </p>
           </label>
 
           <button type="submit">게시하기</button>

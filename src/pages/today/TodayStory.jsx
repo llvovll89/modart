@@ -1,14 +1,19 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Section } from '../../styles/RecycleStyles';
 import { TodayContainer, TodayContents } from './index';
 import { TfiWrite } from 'react-icons/tfi';
+import { getTodays } from '../../store/reducers/todaySlice';
 
 const TodayStory = () => {
   const user = useSelector((state) => state.login.user);
-  const todayList = false;
+  const todayList = useSelector((state) => state.today.todays);
+  const [newTodayList, setNewTodayList] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
   const handleWriteClick = () => {
     if (user) {
@@ -18,6 +23,16 @@ const TodayStory = () => {
       return null;
     }
   };
+
+  useEffect(() => {
+    dispatch(getTodays());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const sortList = [...todayList].sort((a, b) => b.createdAt - a.createdAt);
+    setNewTodayList(sortList);
+    console.log(sortList);
+  }, [todayList]);
 
   return (
     <Section>
@@ -38,18 +53,34 @@ const TodayStory = () => {
 
       <TodayContents>
         <ul className="today_list">
-          {todayList ? (
-            todayList.slice(0, 10).map((today) => (
+          {newTodayList ? (
+            newTodayList.slice(0, 10).map((today) => (
               <li className="today_card" key={today.id}>
+                <div className="numbers">
+                  <span>#{today.number}</span>
+                </div>
                 <div className="today_img">
-                  <img src={today.photo} loading="lazy" alt={today.title} />
+                  {today.photo ? (
+                    <img src={today.photo} loading="lazy" alt={today.title} />
+                  ) : (
+                    <img src={NO_IMAGE_URL} loading="lazy" alt={today.title} />
+                  )}
                 </div>
                 <div className="items">
-                  <h3 className="today_title">{today.title}</h3>
+                  <h3
+                    className="today_title"
+                    onClick={() => detailClick(today)}
+                  >
+                    {today.title.length > 30
+                      ? today.title.subString(0, 30) + '...'
+                      : today.title}
+                  </h3>
                   <div className="item_contents">
-                    <span className="item_category">{today.category}</span>
-                    <span className="item_date">날짜</span>
-                    <span className="item_nickname">{today.nickname}</span>
+                    <span className="item_type">{today.type}</span>
+                    <div className="sub_items">
+                      <span className="item_nickname">{today.nickname}</span>
+                      <span className="item_date">{today.createdAt}</span>
+                    </div>
                   </div>
                 </div>
               </li>

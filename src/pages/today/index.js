@@ -63,13 +63,15 @@ export const TodayContents = styled.div`
   .today_list {
     margin: 12px auto 0px auto;
     max-width: 1280px;
-    padding: 1px 3px 0 1px;
+    padding: 3px 6px;
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
       sans-serif;
 
     .today_card {
       display: flex;
+      padding: 3px;
       min-height: 57px;
+      max-height: 70px;
       margin-bottom: 6px;
       background-color: #f6f6f6;
       border-bottom: 1px solid #fff;
@@ -79,11 +81,54 @@ export const TodayContents = styled.div`
         margin-bottom: 0;
       }
 
+      .numbers {
+        min-width: 30px;
+        span {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
       .today_img {
         img {
-          width: 60px;
-          height: 50px;
+          width: 70px;
+          height: 100%;
+          object-fit: cover;
           vertical-align: top;
+          cursor: pointer;
+        }
+      }
+
+      .items {
+        padding: 3px 2px;
+
+        .today_title {
+          color: rgb(50, 98, 197);
+          font-size: clamp(14.5px, 2vw, 16px);
+          cursor: pointer;
+          transition: all 0.15s linear 0s;
+
+          &:hover {
+            color: rgb(0, 68, 255);
+            text-decoration: underline 0.5px;
+          }
+        }
+
+        .item_type {
+          display: inline-block;
+          color: rgb(104, 104, 104);
+          font-size: clamp(11px, 1vw, 12px);
+          line-height: 1.5;
+          margin-bottom: 2px;
+        }
+
+        .sub_items {
+          display: flex;
+          gap: 6px;
+          font-size: clamp(11px, 1.2vw, 13px);
         }
       }
     }

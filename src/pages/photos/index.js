@@ -98,6 +98,7 @@ const PhotoContents = styled.div`
       }
 
       .items {
+        padding: 3px 0px;
         .photo_title {
           color: #3262c5;
           font-size: clamp(14.5px, 2vw, 16px);

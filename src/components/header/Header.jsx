@@ -33,10 +33,6 @@ const Header = ({ toggle, toggleMenu }) => {
     }
   };
 
-  // const handleItemClick = (index) => {
-  //   setActiveItem(index);
-  // };
-
   const toggleClick = () => {
     setActiveItem(null);
     toggleMenu();
@@ -47,7 +43,9 @@ const Header = ({ toggle, toggleMenu }) => {
       return (
         <div className="users">
           <li className="item user_nickname">
-            <Link to="/account">{nickName}</Link>
+            <Link to="/account" onClick={() => handleLinkClick(null)}>
+              {nickName}
+            </Link>
           </li>
           <li className="item logOut">
             <span onClick={logOutHandler}>
@@ -63,11 +61,7 @@ const Header = ({ toggle, toggleMenu }) => {
             <Link
               to="account/login"
               className="account"
-              onClick={() => {
-                if (widow.innerWith <= 768) {
-                  toggleClick;
-                }
-              }}
+              onClick={() => handleLinkClick(null)}
             >
               로그인/회원가입
             </Link>
@@ -118,26 +112,28 @@ const Header = ({ toggle, toggleMenu }) => {
         <ul className={`navbar${toggle ? ' mobile' : ''}`}>
           <div className="list">
             <li className={`item ${activeItem === 0 ? 'active' : ''}`}>
-              <Link onClick={handleLinkClick}>HOME</Link>
+              <Link to="/" onClick={handleLinkClick}>
+                HOME
+              </Link>
             </li>
             <li className={`item ${activeItem === 1 ? 'active' : ''}`}>
-              <Link to="/board" onClick={handleLinkClick}>
+              <Link to="/board" onClick={() => handleLinkClick(1)}>
                 OOTD
               </Link>
             </li>
 
             <li className={`item ${activeItem === 2 ? 'active' : ''}`}>
-              <Link to="/photo" onClick={handleLinkClick}>
+              <Link to="/photo" onClick={() => handleLinkClick(2)}>
                 Photo
               </Link>
             </li>
             <li className={`item ${activeItem === 3 ? 'active' : ''}`}>
-              <Link to="/today" onClick={handleLinkClick}>
+              <Link to="/today" onClick={() => handleLinkClick(3)}>
                 TodayStory
               </Link>
             </li>
             <li className={`item ${activeItem === 4 ? 'active' : ''}`}>
-              <Link to="/qna" onClick={handleLinkClick}>
+              <Link to="/qna" onClick={() => handleLinkClick(4)}>
                 QnA
               </Link>
             </li>

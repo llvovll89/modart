@@ -1,15 +1,21 @@
+import moment from 'moment';
+import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection } from 'firebase/firestore';
-import { storage } from '../../firebase/firebase';
-import { ref } from 'firebase/storage';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { db, storage } from '../../firebase/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const storageRef = ref(storage, 'todays_photos');
 
 const uploadFile = async (file) => {
-  const fileRef = ref(storageRef, file.name);
-  await uploadBytes(fileRef, file);
-  const fileURL = await getDownloadURL(fileRef);
-  return fileURL;
+  if (file) {
+    const fileRef = ref(storageRef, file.name);
+    await uploadBytes(fileRef, file);
+    const fileURL = await getDownloadURL(fileRef);
+    return fileURL;
+  }
+
+  return null;
 };
 
 export const createData = createAsyncThunk(
@@ -20,25 +26,26 @@ export const createData = createAsyncThunk(
         throw new Error('todaysData Not Found..');
       }
 
-      const { title, desc, type, photo } = todaysData;
+      const { title, desc, type, photo, nickname } = todaysData;
       const photoURL = await uploadFile(photo);
-      const todayRef = await addDoc(collection(db, 'todays'), {
+
+      const todayData = {
         title,
         desc,
         type,
-        photo: photoURL,
         nickname,
-        createdAt: Data.now(),
-      });
+        createdAt: Date.now(),
+      }
+
+      if (photoURL) {
+        todayData.photo = photoURL;
+      }
+
+      const todayRef = await addDoc(collection(db, 'todays'), todayData);
 
       return {
         id: todayRef.id,
-        title,
-        desc,
-        type,
-        photo: photoURL,
-        nickname,
-        createdAt: Date.now(),
+        ...todayData
       };
     } catch (error) {
       console.error(error);
@@ -51,7 +58,7 @@ export const getTodays = createAsyncThunk('todays/get', async () => {
   moment.locale('ko');
 
   const querySnapshot = await getDocs(collection(db, 'todays'));
-  const todaysData = querySnapshot.docs.map((doc) => {
+  const todaysData = querySnapshot.docs.map((doc, index) => { // index 파라미터 추가
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
     let formattedTime;
@@ -66,6 +73,7 @@ export const getTodays = createAsyncThunk('todays/get', async () => {
 
     return {
       id: doc.id,
+      number: index + 1, 
       createdAt: formattedTime,
       ...dataWithoutCreatedAt,
     };
@@ -84,7 +92,7 @@ const todaysSlice = createSlice({
         const newToday = action.payload;
         return {
           ...state,
-          todays: [...state.photos, newToday],
+          todays: [...state.todays, newToday],
           postCount: state.postCount + 1,
         };
       })

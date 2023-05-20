@@ -24,7 +24,7 @@ const Container = styled.div`
       font-size: clamp(16px, 1.5vw, 18px);
     }
     span {
-      font-size: clamp(12px, 1vw , 13px);
+      font-size: clamp(12px, 1vw, 13px);
     }
   }
 
@@ -311,7 +311,7 @@ const Card = styled.div`
 
 const CardForm = styled.div`
   margin: 0 auto;
-  max-width: 564px;
+  max-width: 460px;
   height: calc(100vh - 60px);
   width: 100%;
   display: flex;
@@ -323,7 +323,7 @@ const CardForm = styled.div`
   .post_title {
     h1 {
       letter-spacing: -0.035rem;
-      font-size: clamp(16px, 2.5vw, 22px);
+      font-size: clamp(18px, 2.5vw, 24px);
     }
   }
 
@@ -332,13 +332,13 @@ const CardForm = styled.div`
     min-height: 400px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
 
     .nickname {
-      font-size: clamp(16px, 2vw, 20px);
+      font-size: clamp(14px, 2vw, 16px);
       font-weight: 600;
       min-height: 36px;
       line-height: 36px;
+      margin-bottom: 12px;
 
       span {
         padding-right: 12px;
@@ -353,33 +353,51 @@ const CardForm = styled.div`
       outline: none;
     }
 
-    input {
-      height: 46px;
-      border-bottom: 1px solid rgb(153, 153, 153);
-      padding: 12px 16px;
-      margin-bottom: 6px;
+    input[type='text'] {
+      height: 56px;
+      border: 1px solid #e5e8eb;
+      padding: 18px 12px;
       transition: all 0.15s ease-in-out;
       font-size: clamp(12.5px, 1.5vw, 15px);
+      transition: border-color 0.15s ease-in-out;
+      margin-bottom: 12px;
 
       &::placeholder {
         color: #908787;
       }
 
       &:focus {
-        border-bottom: 1.5px solid #08f;
+        border: 2px solid #181818;
       }
     }
 
+    select {
+      height: 56px;
+      padding: 18px 12px;
+      margin-bottom: 12px;
+    }
+
     textarea {
-      min-height: 120px;
-      padding: 6px 16px;
+      height: 120px;
+      padding: 9px 16px;
       font-size: clamp(12.5px, 1.5vw, 15px);
+      margin-bottom: 12px;
+      transition: border-color 0.15s linear;
+      border: 1px solid #e5e8eb;
       resize: none;
+
+      &::placeholder {
+        color: #908787;
+      }
+
+      &:focus {
+        border: 2px solid #181818;
+      }
     }
 
     button[type='submit'] {
       background: #181818;
-      height: 46px;
+      height: 56px;
       padding: 12px 20px;
       color: #fefefe;
       font-size: clamp(12.5px, 1.5vw, 15px);
@@ -397,16 +415,107 @@ const CardForm = styled.div`
       width: 100%;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 16px;
+      margin-bottom: 12px;
 
       label {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+        position: relative;
+        display: block;
+        margin: 16px 0;
+        color: #181818;
+        font-size: clamp(13px, 1.5vw, 15px);
+        cursor: pointer;
 
         input[type='checkbox'] {
-          width: 20px;
-          height: 20px;
+          appearance: none;
+        }
+
+        i {
+          position: absolute;
+          top: 1px;
+          left: -8px;
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border: 1px solid #181818;
+          border-radius: 3px;
+        }
+
+        input[type='checkbox']:checked ~ i {
+          top: 1px;
+          border-top: none;
+          border-right: none;
+          height: 9px;
+          width: 18px;
+          transform: rotate(-45deg);
+          border-color: #09f;
+        }
+
+        span {
+          position: relative;
+          transition: all 0.25s linear;
+          margin: 0 16px;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #09f;
+            transform: translateY(-50%) scaleX(0);
+            transform-origin: right;
+            transition: transform 0.25s linear;
+          }
+        }
+
+        input[type='checkbox']:checked ~ span::before {
+          transform: translateY(-50%) scaleX(1);
+          transform-origin: left;
+          transition: transform 0.25s linear;
+        }
+      }
+    }
+
+    .file_label {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 56px;
+      justify-content: center;
+      cursor: pointer;
+      background: #181818;
+      color: #fff;
+      transition: 0.15s all linear;
+      opacity: 0.88;
+      margin-bottom: 12px;
+
+      p {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        font-size: clamp(12.5px, 1.5vw, 15px);
+
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: clamp(16px, 1.5vw, 18px);
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .label_text {
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }

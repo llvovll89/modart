@@ -19,3 +19,7 @@ handlesubmit 시 아이디 비번 중 하나라도 틀리면 history가 적용�
 
 05-18 > Resizer 적용 글 작성할때 이미지 파일 통일
 Resizer.imageFileResizer 는 비동기로 동작하기에 new Promise 로 반환 & await로 호출
+
+05-20 )
+writePost 할 때 photo가 있으면 보내고 , 없으면 null 처리 하는 걸로 변경
+( 그리고 img불러올때 없으면 / NO_IMAGE_URL 로 불러옴)
