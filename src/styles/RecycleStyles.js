@@ -274,7 +274,8 @@ const Card = styled.div`
   .bottom {
     padding-top: 6px;
 
-    .photo_category {
+    .photo_category,
+    .today_category {
       vertical-align: middle;
       overflow: hidden;
       color: #222;
@@ -283,7 +284,8 @@ const Card = styled.div`
     }
 
     .board_nickname,
-    .photo_nickname {
+    .photo_nickname,
+    .today_nickname {
       vertical-align: top;
       display: inline-block;
       overflow: hidden;
@@ -301,7 +303,9 @@ const Card = styled.div`
     .board_title,
     .board_desc,
     .photo_title,
-    .photo_desc {
+    .photo_desc,
+    .today_desc,
+    .today_title {
       margin-top: 6px;
       max-height: 44px;
       line-height: 16px;

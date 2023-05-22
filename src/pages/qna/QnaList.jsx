@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Section, Container } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQna } from '../../store/reducers/qnaSlice';
+import { QnaCard } from '.';
 import Loading from '../../components/common/Loading';
 
 const QnaList = () => {
   const qnaList = useSelector((state) => state.qna.questions);
+  const [ active, setActive ] = useState(false);
   const dispatch = useDispatch();
+
+  const qnaClickHandler = () => {
+    setActive(!active);
+  }
 
   useEffect(() => {
     dispatch(getQna());
@@ -21,7 +27,12 @@ const QnaList = () => {
         </div>
 
         {qnaList.length > 0 ? (
-          <div className="qna_card"></div>
+          <QnaCard>
+            <div className="qna_questions" onClick={qnaClickHandler}>
+                <div className="qna_inner"></div>
+            </div>
+            {active ? (<div className="qna_answer"></div>) : null}
+          </QnaCard>
         ) : (
           <Loading />
         )}

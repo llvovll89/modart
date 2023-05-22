@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Section } from '../../../styles/RecycleStyles';
 import { AccountEditForm } from '.';
+import { updateUserData } from '../../../store/reducers/loginSlice';
 import UserImg from '../../../assets/images/main.gif';
 
 const AccountEdit = () => {
   const [active, setActive] = useState({});
+  const [updateData, setUpdateData] = useState({});
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
@@ -19,9 +21,16 @@ const AccountEdit = () => {
     }));
   };
 
-  const updateProfileUser = () => {
-    
-  }
+  const updateUsersData = (e) => {
+    setUpdateData({
+      ...updateData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const updateProfileUser = (e) => {
+    dispatch(updateUserData(updateData));
+  };
 
   return (
     <Section>
@@ -70,7 +79,12 @@ const AccountEdit = () => {
               <label>프로필 이름</label>
               <div className={`input_area${active.name ? ' active' : ''}`}>
                 {active.name ? (
-                  <input type="text" placeholder={user.nickname} />
+                  <input
+                    type="text"
+                    name="nickname"
+                    placeholder={user.nickname}
+                    onChange={updateUserData}
+                  />
                 ) : (
                   <p>{user.nickname}</p>
                 )}
@@ -82,7 +96,7 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit">저장하기</button>
+                    <button className="submit" onClick={updateProfileUser}>저장하기</button>
                   </div>
                 ) : (
                   <button
@@ -98,7 +112,12 @@ const AccountEdit = () => {
               <label>Email</label>
               <div className={`input_area${active.email ? ' active' : ''}`}>
                 {active.email ? (
-                  <input type="text" placeholder={user.email} />
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder={user.email}
+                    onChange={updateUserData}
+                  />
                 ) : (
                   <p>{user.email}</p>
                 )}
@@ -110,7 +129,7 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit">저장하기</button>
+                    <button className="submit" onClick={updateProfileUser}>저장하기</button>
                   </div>
                 ) : (
                   <button
@@ -128,6 +147,7 @@ const AccountEdit = () => {
                 {active.intro ? (
                   <input
                     type="text"
+                    name="intro"
                     placeholder={
                       user.intro ? user.intro : '자신을 소개 해주세요...'
                     }
@@ -143,7 +163,7 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit">저장하기</button>
+                    <button className="submit" onClick={updateProfileUser}>저장하기</button>
                   </div>
                 ) : (
                   <button

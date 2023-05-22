@@ -12,7 +12,7 @@
     browserLocalPersistence,
   } from 'firebase/auth';
   import { auth, db } from '../../firebase/firebase';
-  import { doc, getDoc } from 'firebase/firestore';
+  import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
   export const googleLogin = createAsyncThunk('login/googleLogin', async () => {
     const provider = new GoogleAuthProvider();
@@ -56,6 +56,24 @@
       return isRejectedWithValue(error.message);
     }
   });
+
+  export const updateUserData = createAsyncThunk('login/updateUserData' , async (updatedData) => {
+    try {
+      const user = auth.currentUser;
+      if(user) {
+        const userDocRef = doc(db, 'users', user.uid);
+        const updateFields = {
+          accountEdit: updatedData,
+        }
+        await updateDoc(userDocRef, updateFields);
+        return updatedData;
+      } else {
+        throw new Error('사용자를 찾을 수 없습니다.')
+      }
+    } catch (error) {
+      return isRejectedWithValue(error.message);
+    }
+  })
 
   export const listenToAuthChanges = () => (dispatch) => {
     auth.onAuthStateChanged(async (user) => {

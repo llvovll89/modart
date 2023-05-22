@@ -82,13 +82,28 @@ export const TodayContents = styled.div`
       }
 
       .numbers {
-        min-width: 30px;
+        width: 42px;
+        padding-right: 12px;
+        border-right: 1px solid #ededed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         span {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
+          font-size: clamp(12.5px, 1.5vw, 13.5px);
+        }
+      }
+
+      .today_type {
+        min-width: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-right: 12px;
+        border-right: 1px solid #ededed;
+
+        span {
+          font-size: clamp(12.5px, 1.5vw, 13.5px);
         }
       }
 

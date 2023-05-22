@@ -158,3 +158,8 @@ export const QnaContents = styled.div`
     }
   }
 `;
+
+export const QnaCard = styled.div`
+  max-width: 1024px;
+  padding: 16px;
+`

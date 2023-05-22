@@ -58,7 +58,12 @@ const TodayStory = () => {
             newTodayList.slice(0, 10).map((today) => (
               <li className="today_card" key={today.id}>
                 <div className="numbers">
-                  <span>#{today.number}</span>
+                  <span>
+                    {today.number < 10 ? `0${today.number}` : today.number}
+                  </span>
+                </div>
+                <div className="today_type">
+                  <span>{today.type}</span>
                 </div>
                 <div className="today_img">
                   {today.photo ? (
