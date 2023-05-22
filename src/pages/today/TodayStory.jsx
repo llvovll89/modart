@@ -5,6 +5,7 @@ import { Section } from '../../styles/RecycleStyles';
 import { TodayContainer, TodayContents } from './index';
 import { TfiWrite } from 'react-icons/tfi';
 import { getTodays } from '../../store/reducers/todaySlice';
+import Loading from '../../components/common/Loading';
 
 const TodayStory = () => {
   const user = useSelector((state) => state.login.user);
@@ -86,9 +87,7 @@ const TodayStory = () => {
               </li>
             ))
           ) : (
-            <div className="no-data">
-              <h3>저장된 게시글이 없습니다...</h3>
-            </div>
+            <Loading />
           )}
         </ul>
       </TodayContents>

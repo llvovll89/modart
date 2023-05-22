@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Section, Container } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQna } from '../../store/reducers/qnaSlice';
+import Loading from '../../components/common/Loading';
 
 const QnaList = () => {
   const qnaList = useSelector((state) => state.qna.questions);
@@ -22,7 +23,7 @@ const QnaList = () => {
         {qnaList.length > 0 ? (
           <div className="qna_card"></div>
         ) : (
-          <div className="no-qna">No Questions available && Loading.. </div>
+          <Loading />
         )}
       </Container>
     </Section>

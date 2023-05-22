@@ -4,6 +4,7 @@ import { AiFillQuestionCircle } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { QnaContainer, QnaContents } from '.';
+import Loading from '../../components/common/Loading';
 
 const Qna = () => {
   const user = useSelector((state) => state.login.user);
@@ -56,9 +57,7 @@ const Qna = () => {
               </li>
             ))
           ) : (
-            <div className="no-data">
-              <h3>저장된 게시글이 없습니다...</h3>
-            </div>
+            <Loading />
           )}
         </ul>
       </QnaContents>

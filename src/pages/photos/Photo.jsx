@@ -5,6 +5,7 @@ import { PhotoContainer, PhotoContents } from './index';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPhotos } from '../../store/reducers/photoSlice';
+import Loading from '../../components/common/Loading';
 
 const Photo = () => {
   const user = useSelector((state) => state.login.user);
@@ -83,9 +84,7 @@ const Photo = () => {
               </li>
             ))
           ) : (
-            <div className="no-data">
-              <h3>저장된 게시글이 없습니다...</h3>
-            </div>
+            <Loading />
           )}
         </ul>
       </PhotoContents>

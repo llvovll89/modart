@@ -3,9 +3,10 @@ import { Section, Container, Card } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
 import { getPhotos } from '../../store/reducers/photoSlice';
+import '@splidejs/react-splide/css';
+import Loading from '../../components/common/Loading';
 
 const PhotoList = () => {
   const allPhotoList = useSelector((state) => state.photo.photos);
@@ -99,7 +100,7 @@ const PhotoList = () => {
               ))}
             </Splide>
           ) : (
-            <div className="no-photos">No photos available && Loading..</div>
+            <Loading />
           )}
         </div>
       </Container>

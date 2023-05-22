@@ -3,11 +3,10 @@ import { Section } from '../../../styles/RecycleStyles';
 import { AccountContainer } from './index';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Loading from '../../../components/common/Loading';
 
 const Account = () => {
   const user = useSelector((state) => state.login.user);
-  // const postCount = useSelector((state) => state.board.postCount);
-
   
   return (
     <Section>
@@ -23,7 +22,7 @@ const Account = () => {
                   <div className="info_box">
                     <strong className="name">{user.nickname}</strong>
                     <p className="email">{user.email}</p>
-                    <Link to="/">프로필 수정</Link>
+                    <Link to="/account/edit">프로필 수정</Link>
                   </div>
                 </div>
               </div>
@@ -38,11 +37,12 @@ const Account = () => {
                 </Link>
               </div>
             </div>
-            <div className="items"></div>
+            <div className="items">
+            </div>
             <div className="items"></div>
           </div>
         ) : (
-          <div>No Data</div>
+          <Loading />
         )}
       </AccountContainer>
     </Section>

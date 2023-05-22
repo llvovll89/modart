@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+// export const updateProfileUsers = createAsyncThunk();
 
 const userSlice = createSlice({
   name: 'users',

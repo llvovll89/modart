@@ -7,6 +7,7 @@ import { getBoards } from '../../store/reducers/boardSlice';
 import { Card, Container, Section } from '../../styles/RecycleStyles';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
 import { AiFillHeart } from 'react-icons/ai';
+import Loading from '../../components/common/Loading';
 
 const BoardList = () => {
   const boardList = useSelector((state) => state.board.boards);
@@ -96,7 +97,7 @@ const BoardList = () => {
               ))}
             </Splide>
           ) : (
-            <div className="no-boards">No Boards available && Loading..</div>
+            <Loading />
           )}
         </div>
       </Container>

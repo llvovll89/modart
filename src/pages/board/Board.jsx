@@ -5,6 +5,7 @@ import { Section } from '../../styles/RecycleStyles';
 import { BoardContainer, BoardContents } from './index';
 import { AiFillSkin } from 'react-icons/ai';
 import { getBoards } from '../../store/reducers/boardSlice';
+import Loading from '../../components/common/Loading';
 
 const Board = () => {
   const user = useSelector((state) => state.login.user);
@@ -73,9 +74,7 @@ const Board = () => {
               </li>
             ))
           ) : (
-            <div className="no-data">
-              <h3>Loading...</h3>
-            </div>
+            <Loading />
           )}
         </ul>
       </BoardContents>

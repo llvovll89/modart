@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTodays } from '../../store/reducers/todaySlice';
 import { Link } from 'react-router-dom';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
+import '@splidejs/react-splide/css';
+import Loading from '../../components/common/Loading';
 
 const TodayList = () => {
   const todayList = useSelector((state) => state.today.todays);
@@ -98,7 +99,7 @@ const TodayList = () => {
             ))}
           </Splide>
         ) : (
-          <div className="no-qna">No TodayList available && Loading.. </div>
+          <Loading />
         )}
       </Container>
     </Section>

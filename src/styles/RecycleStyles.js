@@ -1,5 +1,18 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { InputStyles, ButtonStyles, FormStyles } from './Styled-css';
+
+// animation
+const loading = keyframes`
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+`
+
+// styles
 
 const Section = styled.section`
   width: 100%;
@@ -652,6 +665,33 @@ const DetailForm = styled.div`
   }
 `;
 
+const LoaderContainer = styled.div`
+  width: 100%;
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  .loader {
+    width: 70px;
+    height: 70px;
+    border: 12px solid #eeeeee;
+    border-top-color: #08f;
+    border-radius: 50%;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.16);
+    animation: ${loading} 1.5s ease infinite;
+  }
+
+  h1 {
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.075rem;
+  }
+
+`
+
 export {
   Section,
   CardForm,
@@ -662,5 +702,6 @@ export {
   Form,
   Input,
   Button,
+  LoaderContainer,
   DetailForm,
 };
