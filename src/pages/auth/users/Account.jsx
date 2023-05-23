@@ -7,7 +7,7 @@ import Loading from '../../../components/common/Loading';
 
 const Account = () => {
   const user = useSelector((state) => state.login.user);
-  
+
   return (
     <Section>
       <AccountContainer>
@@ -21,6 +21,7 @@ const Account = () => {
                 <div className="user_info">
                   <div className="info_box">
                     <strong className="name">{user.nickname}</strong>
+                    {user.intro ? <p className="intro">{user.intro}</p> : null}
                     <p className="email">{user.email}</p>
                     <Link to="/account/edit">프로필 수정</Link>
                   </div>
@@ -37,8 +38,7 @@ const Account = () => {
                 </Link>
               </div>
             </div>
-            <div className="items">
-            </div>
+            <div className="items"></div>
             <div className="items"></div>
           </div>
         ) : (

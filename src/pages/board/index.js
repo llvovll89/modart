@@ -81,8 +81,7 @@ const BoardContents = styled.div`
       min-height: 57px;
       max-height: 70px;
       margin-bottom: 6px;
-      background-color: #f6f6f6;
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid #ededed;
       gap: 12px;
 
       &:last-child {

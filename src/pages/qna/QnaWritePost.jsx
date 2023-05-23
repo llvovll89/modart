@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import { createData } from '../../store/reducers/qnaSlice';
+import { QnaWriteForm } from '.';
 
 const QnaWritePost = () => {
   const [addData, setAddData] = useState({});
@@ -19,13 +20,6 @@ const QnaWritePost = () => {
         ...addData,
         [e.target.name]: e.target.files[0],
       });
-    } else if (e.target.name === 'category') {
-      const { value, checked } = e.target;
-      if (checked) {
-        setCategory([...category, value]);
-      } else {
-        setCategory(category.filter((item) => item !== value));
-      }
     } else {
       setAddData({
         ...addData,
@@ -50,73 +44,39 @@ const QnaWritePost = () => {
 
   return (
     <Section>
-      <CardForm>
+      <QnaWriteForm>
         <div className="post_title">
           <h1>{'<Question>'}</h1>
         </div>
-        <form encType="multipart/form-data" onSubmit={handleSubmit}>
-          <p className="nickname">
-            <span className="author">작성자</span>
-            {nickName}
-          </p>
-          <div className="category-wrap">
-            <label>
-              <input
-                type="checkbox"
-                name="category"
-                value="건강"
-                onChange={onChangeHandler}
-              />
-              <i></i>
-              <span>건강</span>
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="category"
-                value="패션"
-                onChange={onChangeHandler}
-              />
-              <i></i>
-              <span>패션</span>
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="category"
-                value="공부"
-                onChange={onChangeHandler}
-              />
-              <i></i>
-              <span>공부</span>
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="category"
-                value="일상"
-                onChange={onChangeHandler}
-              />
-              <i></i>
-              <span>일상</span>
-            </label>
-          </div>
+        <div className="qna_write">
+          <form encType="multipart/form-data" onSubmit={handleSubmit}>
+            <p className="nickname">{nickName}</p>
 
-          <input
-            type="text"
-            name="title"
-            placeholder="제목"
-            autoComplete='off'
-            onChange={onChangeHandler}
-            />
-            <input
-            type="text"
-            name="desc"
-            placeholder="내용"
-            autoComplete='off'
-            onChange={onChangeHandler}
-          />
+            <div className="qna_cardForm">
+              <div className="title">
+              <span className="q">
+                Q.
+              </span>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="제목"
+                  autoComplete="off"
+                  onChange={onChangeHandler}
+                />
+                <span className="number_check">(0/70자)</span>
+              </div>
+              <div className="desc">
+                <textarea
+                  type="text"
+                  name="desc"
+                  placeholder="내용"
+                  autoComplete="off"
+                  onChange={onChangeHandler}
+                />
+              </div>
 
+          <div className="file_input">
           <input
           type="file"
           id="photo"
@@ -125,18 +85,20 @@ const QnaWritePost = () => {
           onChange={onChangeHandler}
         />
 
-          <label htmlFor="photo" className="file_label">
-            <p>
-              <span>
-                <AiOutlineFileAdd />
-              </span>
-              사진올리기
-            </p>
-          </label>
+        <label htmlFor="photo" className="file_label">
+          <p>
+            <span>
+              <AiOutlineFileAdd />
+            </span>
+          </p>
+        </label>
+          </div>
+            </div>
 
-          <button type="submit">게시하기</button>
-        </form>
-      </CardForm>
+            <button type="submit">게시하기</button>
+          </form>
+        </div>
+      </QnaWriteForm>
     </Section>
   );
 };

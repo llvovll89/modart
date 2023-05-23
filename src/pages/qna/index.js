@@ -162,4 +162,90 @@ export const QnaContents = styled.div`
 export const QnaCard = styled.div`
   max-width: 1024px;
   padding: 16px;
-`
+`;
+
+export const QnaWriteForm = styled.div`
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: 992px;
+
+  .post_title {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+
+    h1 {
+      font-size: clamp(18px, 2vw, 20px);
+    }
+  }
+
+  .qna_write {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 0 16px;
+    width: 80%;
+    border: 1px solid #fafafa;
+    border-width: 1px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      .nickname {
+        font-size: clamp(16px, 1.5vw, 18px);
+      }
+
+      .qna_cardForm {
+        position: relative;
+        border-radius: 12px;
+        border-width: 1px;
+        padding: 0 16px;
+
+        .title {
+          display: flex;
+          justify-content: space-between;
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          align-items: baseline;
+          border-bottom: 1px solid #dedede;
+
+          input {
+            order: 0;
+            width: calc(100% - 42px);
+            padding: 1rem 0;
+          }
+
+          .number_check {
+            font-size: 0.75rem;
+            --text-opacity: 1;
+            color: #b6becc;
+            color: rgba(182, 190, 204, var(--text-opacity));
+            width: 57px;
+          }
+        }
+
+        .desc {
+          margin: 20px auto;
+          min-height: 260px; 
+          padding: 12px;
+          border-bottom: 1px solid #dedede;
+
+          textarea {
+            min-height: 260px;
+            width: 100%;
+            resize: none;
+            outline: none;
+            border: 0;
+            line-height: 1.5;
+          }
+        }
+
+        .file_input {
+          width: 100%;
+          background: #09d;
+        }
+      }
+    }
+  }
+`;

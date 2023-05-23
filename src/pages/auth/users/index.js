@@ -52,8 +52,6 @@ export const AccountContainer = styled.div`
 
           .info_box {
             .name {
-              display: flex;
-              line-height: 21px;
               font-size: clamp(16px, 1.5vw, 18px);
               letter-spacing: -0.27px;
               font-weight: 600;
@@ -61,15 +59,20 @@ export const AccountContainer = styled.div`
             }
 
             .email {
-              line-height: 18px;
+              line-height: 1.2;
               font-size: clamp(12px, 1.25vw, 14px);
               letter-spacing: -0.21px;
-              letter-spacing: -0.05px;
               color: rgba(34, 34, 34, 0.5);
+            }
+            
+            .intro {
+              line-height: 1.2;
+              font-size: clamp(12px, 1.25vw, 14px);
+              margin-bottom: 6px;
             }
 
             a {
-              margin-top: 12px;
+              margin-top: 9px;
               display: inline-flex;
               cursor: pointer;
               align-items: center;
@@ -79,8 +82,7 @@ export const AccountContainer = styled.div`
               color: rgba(34, 34, 34, 0.8);
               background-color: #fff;
               height: 36px;
-              line-height: 34px;
-              margin-top: 12px;
+              line-height: 36px;
               border: 1px solid #ebebeb;
               padding: 6px 12px;
               border-radius: 6px;
@@ -209,6 +211,17 @@ export const AccountEditForm = styled.div`
             line-height: 1.2;
             color: #000;
             font-size: clamp(18px, 1.5vw, 20px);
+          }
+        }
+
+        .user_intro {
+          margin-bottom: 12px;
+          p {
+            font-weight: 400;
+            letter-spacing: -0.27px;
+            line-height: 1.2;
+            color: #716a6a;
+            font-size: clamp(12.5px, 1vw, 14px);
           }
         }
 

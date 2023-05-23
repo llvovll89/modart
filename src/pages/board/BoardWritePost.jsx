@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Resizer from 'react-image-file-resizer';
 import { CardForm, Section } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { createData } from '../../store/reducers/boardSlice';
@@ -10,7 +9,6 @@ const BoardWritePost = () => {
   const user = useSelector((state) => state.login.user);
   const nickName = user?.nickname;
   const inputRef = useRef();
-
   const [addData, setAddData] = useState({});
 
   const dispatch = useDispatch();

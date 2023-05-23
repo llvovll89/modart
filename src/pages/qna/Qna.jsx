@@ -43,17 +43,6 @@ const Qna = () => {
           {qnaList.length > 0 ? (
             qnaList.slice(0, 10).map((qna) => (
               <li className="qna_card" key={qna.id}>
-                <div className="qna_img">
-                  <img src={qna.photo} loading="lazy" alt={qna.title} />
-                </div>
-                <div className="items">
-                  <h3 className="qna_title">{qna.title}</h3>
-                  <div className="item_contents">
-                    <span className="item_category">{qna.category}</span>
-                    <span className="item_date">날짜</span>
-                    <span className="item_nickname">{qna.nickname}</span>
-                  </div>
-                </div>
               </li>
             ))
           ) : (

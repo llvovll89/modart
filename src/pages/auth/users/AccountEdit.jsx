@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Section } from '../../../styles/RecycleStyles';
 import { AccountEditForm } from '.';
@@ -22,15 +22,59 @@ const AccountEdit = () => {
   };
 
   const updateUsersData = (e) => {
-    setUpdateData({
-      ...updateData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    if (e.target.name === 'photo') {
+      setUpdateData((prevData) => ({
+        ...prevData,
+        [name]: e.target.files[0],
+      }));
+    } else {
+      setUpdateData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
-  const updateProfileUser = (e) => {
-    dispatch(updateUserData(updateData));
+  const updateProfileUser = async (key) => {
+    console.log('함수호출');
+
+    try {
+      let newData = {};
+      if (active.name && updateData.nickname) {
+        newData.nickname = updateData.nickname;
+        changeBtnClick(key);
+      }
+      if (active.email && updateData.email) {
+        newData.email = updateData.email;
+        changeBtnClick(key);
+      }
+      if (active.intro && updateData.intro) {
+        newData.intro = updateData.intro;
+        changeBtnClick(key);
+      }
+      if (active.password && updateData.password) {
+        newData.password = updateData.password;
+        changeBtnClick(key);
+      }
+      if (active.photo && updateData.photo) {
+        newData.photo = updateData.photo;
+        changeBtnClick(key);
+      }
+
+      if (Object.keys(newData).length > 0) {
+        await dispatch(updateUserData(newData)).unwrap();
+        const updatedUser = { ...user, ...newData };
+        dispatch({ type: 'login/updateUserData', payload: updatedUser });
+      }
+    } catch (error) {
+      console.log('데이터 업데이트에 실패하였습니다.', error);
+    }
   };
+
+  useEffect(() => {
+    setActive({});
+  }, [user]);
 
   return (
     <Section>
@@ -42,13 +86,21 @@ const AccountEdit = () => {
 
           <div className="user_profile">
             <div className="user_img">
-              <img src={UserImg} alt={user.nickname} />
+              <img
+                src={user.photo ? user.photo : UserImg}
+                alt={user.nickname}
+              />
             </div>
 
             <div className="user_detail">
               <div className="user_nickname">
-                <p>{user.nickname}</p>
+                <p className="nickname">{user.nickname}</p>
               </div>
+              {user.intro ? (
+                <div className="user_intro">
+                  <p>{user.intro}</p>
+                </div>
+              ) : null}
               <div className="profile_btn">
                 <div className="img_change">
                   <input
@@ -56,7 +108,7 @@ const AccountEdit = () => {
                     id="photo"
                     style={{ display: 'none' }}
                     name="photo"
-                    // onChange={onChangeHandler}
+                    onChange={updateUsersData}
                   />
 
                   <label htmlFor="photo" className="file_label">
@@ -83,7 +135,7 @@ const AccountEdit = () => {
                     type="text"
                     name="nickname"
                     placeholder={user.nickname}
-                    onChange={updateUserData}
+                    onChange={updateUsersData}
                   />
                 ) : (
                   <p>{user.nickname}</p>
@@ -96,7 +148,12 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit" onClick={updateProfileUser}>저장하기</button>
+                    <button
+                      className="submit"
+                      onClick={() => updateProfileUser('name')}
+                    >
+                      저장하기
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -116,7 +173,7 @@ const AccountEdit = () => {
                     type="text"
                     name="email"
                     placeholder={user.email}
-                    onChange={updateUserData}
+                    onChange={updateUsersData}
                   />
                 ) : (
                   <p>{user.email}</p>
@@ -129,7 +186,12 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit" onClick={updateProfileUser}>저장하기</button>
+                    <button
+                      className="submit"
+                      onClick={() => updateProfileUser('email')}
+                    >
+                      저장하기
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -151,6 +213,7 @@ const AccountEdit = () => {
                     placeholder={
                       user.intro ? user.intro : '자신을 소개 해주세요...'
                     }
+                    onChange={updateUsersData}
                   />
                 ) : (
                   <p>{user.intro ? user.intro : '자신을 소개 해주세요...'}</p>
@@ -163,7 +226,12 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit" onClick={updateProfileUser}>저장하기</button>
+                    <button
+                      className="submit"
+                      onClick={() => updateProfileUser('intro')}
+                    >
+                      저장하기
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -191,7 +259,12 @@ const AccountEdit = () => {
                     >
                       돌아가기
                     </button>
-                    <button className="submit">저장하기</button>
+                    <button
+                      className="submit"
+                      onClick={() => updateProfileUser('password')}
+                    >
+                      저장하기
+                    </button>
                   </div>
                 ) : (
                   <button
