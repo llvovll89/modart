@@ -4,10 +4,13 @@ import { Section } from '../../../styles/RecycleStyles';
 import { AccountEditForm } from '.';
 import { updateUserData } from '../../../store/reducers/loginSlice';
 import UserImg from '../../../assets/images/main.gif';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../../firebase/firebase';
 
 const AccountEdit = () => {
   const [active, setActive] = useState({});
   const [updateData, setUpdateData] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
@@ -24,10 +27,7 @@ const AccountEdit = () => {
   const updateUsersData = (e) => {
     const { name, value } = e.target;
     if (e.target.name === 'photo') {
-      setUpdateData((prevData) => ({
-        ...prevData,
-        [name]: e.target.files[0],
-      }));
+      setSelectedImage(e.target.files[0]);
     } else {
       setUpdateData((prevData) => ({
         ...prevData,
@@ -36,30 +36,45 @@ const AccountEdit = () => {
     }
   };
 
-  const updateProfileUser = async (key) => {
-    console.log('함수호출');
+  const uploadFile = async (file) => {
+    try {
+      const storageRef = ref(storage, 'users_photos');
+      const fileRef = ref(storageRef, file.name);
+      await uploadBytes(fileRef, file);
+      const fileURL = await getDownloadURL(fileRef);
+      return fileURL;
+    } catch (error) {
+      console.log('이미지 업로드에 실패했습니다.', error);
+      return null;
+    }
+  };
 
+  // AccountEdit.js 파일의 updateProfileUser 함수 수정
+
+  const updateProfileUser = async (key) => {
     try {
       let newData = {};
       if (active.name && updateData.nickname) {
         newData.nickname = updateData.nickname;
-        changeBtnClick(key);
+        changeBtnClick('name');
       }
       if (active.email && updateData.email) {
         newData.email = updateData.email;
-        changeBtnClick(key);
+        changeBtnClick('email');
       }
       if (active.intro && updateData.intro) {
         newData.intro = updateData.intro;
-        changeBtnClick(key);
+        changeBtnClick('intro');
       }
       if (active.password && updateData.password) {
         newData.password = updateData.password;
-        changeBtnClick(key);
+        changeBtnClick('password');
       }
-      if (active.photo && updateData.photo) {
-        newData.photo = updateData.photo;
-        changeBtnClick(key);
+      if (selectedImage) {
+        const photoURL = await uploadFile(selectedImage);
+        newData.photo = photoURL;
+        changeBtnClick('photo');
+        setSelectedImage(null);
       }
 
       if (Object.keys(newData).length > 0) {
@@ -87,7 +102,13 @@ const AccountEdit = () => {
           <div className="user_profile">
             <div className="user_img">
               <img
-                src={user.photo ? user.photo : UserImg}
+                src={
+                  selectedImage
+                    ? URL.createObjectURL(selectedImage)
+                    : user.photo
+                    ? user.photo
+                    : UserImg
+                }
                 alt={user.nickname}
               />
             </div>
@@ -112,11 +133,11 @@ const AccountEdit = () => {
                   />
 
                   <label htmlFor="photo" className="file_label">
-                    <p>이미지변경</p>
+                    <p>{selectedImage ? '저장하기' : '이미지변경'}</p>
                   </label>
                 </div>
                 <div className="img_delete">
-                  <p>삭제하기</p>
+                  <p onClick={() => setSelectedImage(null)}>삭제하기</p>
                 </div>
               </div>
             </div>

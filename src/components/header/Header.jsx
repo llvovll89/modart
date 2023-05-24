@@ -43,6 +43,7 @@ const Header = ({ toggle, toggleMenu }) => {
       return (
         <div className="users">
           <li className="item user_nickname">
+            {/* user photo 조건 */}
             <Link to="/account" onClick={() => handleLinkClick(null)}>
               {nickName}
             </Link>
@@ -96,7 +97,7 @@ const Header = ({ toggle, toggleMenu }) => {
 
   return (
     <HeaderContainer
-      style={{ borderBottom: scroll ? '1px solid #e3e3e3' : '' }}
+      style={{ borderBottom: scroll ? '1px solid #f7f2f2' : '' }}
     >
       <div className="contents">
         <div className="logo">

@@ -24,13 +24,13 @@ const PhotoContainer = styled.div`
 
       p {
         color: #fefefe;
-        font-size: clamp(20px, 2.5vw, 26px);
+        font-size: clamp(16px, 2.5vw, 26px);
       }
 
       span {
         color: #fefefe;
         font-weight: 600;
-        font-size: clamp(18px, 2vw, 20px);
+        font-size: clamp(15px, 2vw, 20px);
       }
 
       .link-btn {
@@ -56,11 +56,7 @@ const PhotoContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    /* .contents {
-      .image {
-        width: 75%;
-      }
-    } */
+    height: 13rem;
   }
 `;
 

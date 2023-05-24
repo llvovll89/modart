@@ -24,13 +24,13 @@ export const TodayContainer = styled.div`
 
       p {
         color: #fefefe;
-        font-size: clamp(20px, 2.5vw, 26px);
+        font-size: clamp(16px, 2vw, 26px);
       }
 
       span {
         color: #fefefe;
         font-weight: 600;
-        font-size: clamp(18px, 2vw, 20px);
+        font-size: clamp(16px, 1.6vw, 20px);
       }
 
       .link-btn {
@@ -54,6 +54,11 @@ export const TodayContainer = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 768px) {
+    height: 13rem;
+  }
+
 `;
 
 export const TodayContents = styled.div`
@@ -138,6 +143,26 @@ export const TodayContents = styled.div`
         }
       }
     }
+  }
+
+  @media screen and (max-width: 768px) {
+    .today_list {
+      gap: 3px;
+      .today_card {
+        gap: 0px;
+        margin: 0px 0px 2px;
+
+        .today_type {
+          padding-right: 0px;
+          max-width: 70px;
+        }
+
+        .today_img {
+          padding-left: 0px;
+          padding-right: 6px;
+        }
+      }
+    }  
   }
 `;
 

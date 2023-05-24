@@ -24,13 +24,13 @@ const BoardContainer = styled.div`
 
       p {
         color: #fefefe;
-        font-size: clamp(20px, 2.5vw, 26px);
+        font-size: clamp(16px, 2vw, 26px);
       }
 
       span {
         color: #fefefe;
         font-weight: 600;
-        font-size: clamp(18px, 2vw, 20px);
+        font-size: clamp(16px, 1vw, 20px);
       }
 
       .link-btn {
@@ -55,7 +55,7 @@ const BoardContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    height: 14rem;
+    height: 13rem;
 
     .contents {
       .image {

@@ -24,7 +24,8 @@ const Section = styled.section`
   &.ootd_section,
   &.photo_section,
   &.today_section,
-  &.today_detail_section {
+  &.today_detail_section,
+  &.qna_write_section {
     background: #FAFAFA;
   }
 

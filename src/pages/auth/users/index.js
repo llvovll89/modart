@@ -346,7 +346,7 @@ export const AccountEditForm = styled.div`
             flex: 1;
             padding-top: 8px;
             padding-bottom: 8px;
-            font-size: 16px;
+            font-size: clamp(14px, 1.5vw, 15px);
             letter-spacing: -0.16px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -363,6 +363,16 @@ export const AccountEditForm = styled.div`
             border-radius: 6px;
           }
         }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 30px 20px 100px;
+
+    .contents {
+      .user_profile {
+        padding: 26px 0px;
       }
     }
   }

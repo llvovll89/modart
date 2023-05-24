@@ -46,7 +46,7 @@ const QnaWritePost = () => {
   };
 
   return (
-    <Section>
+    <Section className='qna_write_section'>
       <QnaWriteForm>
         <div className="post_title">
           <h1>{'<Question>'}</h1>

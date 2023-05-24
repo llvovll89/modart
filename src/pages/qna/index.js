@@ -24,13 +24,16 @@ export const QnaContainer = styled.div`
 
       p {
         color: #fefefe;
-        font-size: clamp(20px, 2.5vw, 26px);
+        word-break: break-all;
+        line-height: 1.25;
+        font-size: clamp(16px, 2vw, 26px);
       }
 
       span {
+        line-height: 1.25;
         color: #fefefe;
         font-weight: 600;
-        font-size: clamp(18px, 2vw, 20px);
+        font-size: clamp(16px, 2vw, 20px);
       }
 
       .link-btn {
@@ -45,6 +48,7 @@ export const QnaContainer = styled.div`
 
     .image {
       width: 100%;
+      padding: 20px;
 
       svg {
         width: 100%;
@@ -52,6 +56,10 @@ export const QnaContainer = styled.div`
         color: #fefefe;
       }
     }
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 13rem;
   }
 `;
 
@@ -227,7 +235,9 @@ export const QnaCard = styled.div`
 export const QnaWriteForm = styled.div`
   margin: 0 auto;
   margin-top: 30px;
-  max-width: 992px;
+  max-width: 964px;
+  background: #fff;
+  padding: 12px 0px 0px 0px;
 
   .post_title {
     margin: 0 auto;
@@ -240,28 +250,27 @@ export const QnaWriteForm = styled.div`
   }
 
   .qna_write {
-    width: 100%;
     margin: 0 auto;
     margin-top: 30px;
     padding: 0 16px;
-    width: 80%;
-    border: 1px solid #fafafa;
+    width: 100%;
     border-width: 1px;
 
     form {
+      width: 100%;
       display: flex;
       flex-direction: column;
 
       .nickname {
         padding: 0 16px;
-        font-size: clamp(16px, 1.5vw, 18px);
+        font-size: clamp(14px, 1.5vw, 16px);
       }
 
       .qna_cardForm {
         position: relative;
         border-radius: 12px;
         border-width: 1px;
-        padding: 0 16px;
+        padding: 16px 16px 20px 16px;
 
         .title {
           display: flex;
@@ -287,11 +296,11 @@ export const QnaWriteForm = styled.div`
           input {
             order: 0;
             width: calc(100% - 42px);
-            padding: 1rem 0;
+            padding: 12px 6px;
           }
 
           .number_check {
-            font-size: 0.75rem;
+            font-size: clamp(12px, 1vw, 13px);
             --text-opacity: 1;
             color: #b6becc;
             color: rgba(182, 190, 204, var(--text-opacity));
@@ -358,6 +367,33 @@ export const QnaWriteForm = styled.div`
           height: 46px;
           background: #181818;
           color: #fefefe;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    margin-top: 0px;
+    min-height: 100vh;
+
+    .qna_write {
+      width: 100%;
+      form {
+        .qna_cardForm {
+          padding: 0px;
+
+          .title {
+            width: 100%;
+
+            .number_check {
+              min-width: 57px;
+            }
+
+            .q {
+              svg {
+                width: 23px;
+              }
+            }
+          }
         }
       }
     }
