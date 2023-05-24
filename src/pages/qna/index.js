@@ -160,8 +160,68 @@ export const QnaContents = styled.div`
 `;
 
 export const QnaCard = styled.div`
-  max-width: 1024px;
+  width: 100%;
+  max-width: 964px;
   padding: 16px;
+  margin: 0 auto;
+  margin-top: 30px;
+
+  .qna_contents {
+    width: 100%;
+    .list_item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .qna_items {
+        width: 100%;
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: #fff;
+        border: 1px solid #ededed;
+        border-radius: 6px;
+        transition: all 0.2s linear;
+
+        &.active {
+        }
+
+        .inner {
+          .qna_title {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: clamp(15px, 1.5vw, 16px);
+            font-weight: 500;
+            line-height: 1.6;
+            color: #333;
+            cursor: pointer;
+
+            .qna_q_icon {
+              color: #09f;
+              font-size: clamp(20px, 2vw, 22px);
+            }
+          }
+        }
+
+        .qna_answer {
+          position: relative;
+          border-top: 1px solid rgba(226, 220, 220, 0.45);
+          padding: 20px 0px 20px 6px;
+          overflow: hidden;
+
+          .qna_desc {
+            position: relative;
+            left: 16px;
+            color: #4d5256;
+            font-size: clamp(14px, 1.5vw, 16px);
+          }
+        }
+      }
+    }
+  }
 `;
 
 export const QnaWriteForm = styled.div`
@@ -193,6 +253,7 @@ export const QnaWriteForm = styled.div`
       flex-direction: column;
 
       .nickname {
+        padding: 0 16px;
         font-size: clamp(16px, 1.5vw, 18px);
       }
 
@@ -207,8 +268,21 @@ export const QnaWriteForm = styled.div`
           justify-content: space-between;
           padding-top: 1rem;
           padding-bottom: 1rem;
-          align-items: baseline;
+          align-items: center;
           border-bottom: 1px solid #dedede;
+
+          .q {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 12px;
+            font-size: clamp(20px, 2vw, 22px);
+
+            svg {
+              width: 26px;
+              height: 100%;
+              color: #08f;
+            }
+          }
 
           input {
             order: 0;
@@ -227,7 +301,7 @@ export const QnaWriteForm = styled.div`
 
         .desc {
           margin: 20px auto;
-          min-height: 260px; 
+          min-height: 260px;
           padding: 12px;
           border-bottom: 1px solid #dedede;
 
@@ -243,7 +317,47 @@ export const QnaWriteForm = styled.div`
 
         .file_input {
           width: 100%;
-          background: #09d;
+          height: 46px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          background: #218832;
+          .file_label {
+            width: 100%;
+            height: 100%;
+            p {
+              display: inline-flex;
+              width: 100%;
+              height: 100%;
+              align-items: center;
+              justify-content: center;
+              color: #fefefe;
+              cursor: pointer;
+              gap: 4px;
+              font-size: clamp(14px, 1.5vw, 16px);
+
+              span {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                svg {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
+
+        .submit {
+          margin-top: 12px;
+          width: 100%;
+          height: 46px;
+          background: #181818;
+          color: #fefefe;
         }
       }
     }

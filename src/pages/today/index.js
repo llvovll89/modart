@@ -57,50 +57,40 @@ export const TodayContainer = styled.div`
 `;
 
 export const TodayContents = styled.div`
-  width: 100%;
-  background: #fefefe;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: #ffffff;
 
   .today_list {
     margin: 12px auto 0px auto;
     max-width: 1280px;
-    padding: 3px 6px;
+    padding: 3px 0px;
+    display: flex;
+    flex-direction: column;
+    background: #FAFAFA;
+    gap: 6px;
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
       sans-serif;
 
     .today_card {
       display: flex;
+      margin: 0px 0px 6px 0px;
       padding: 3px;
       min-height: 57px;
       max-height: 70px;
-      margin-bottom: 6px;
-      background-color: #f6f6f6;
-      border-bottom: 1px solid #fff;
       gap: 12px;
 
       &:last-child {
         margin-bottom: 0;
       }
 
-      .numbers {
-        width: 42px;
-        padding-right: 12px;
-        border-right: 1px solid #ededed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        span {
-          font-size: clamp(12.5px, 1.5vw, 13.5px);
-        }
-      }
-
       .today_type {
         min-width: 42px;
+        width: 76px;
         display: flex;
         align-items: center;
         justify-content: center;
         padding-right: 12px;
-        border-right: 1px solid #ededed;
 
         span {
           font-size: clamp(12.5px, 1.5vw, 13.5px);
@@ -108,6 +98,7 @@ export const TodayContents = styled.div`
       }
 
       .today_img {
+        padding-left: 12px;
         img {
           width: 70px;
           height: 100%;
@@ -149,3 +140,171 @@ export const TodayContents = styled.div`
     }
   }
 `;
+
+export const TodayDetailPage = styled.div`
+  margin: 0px auto;
+  margin-top: 30px;
+  max-width: 964px;
+  width: 100%;
+  min-height: 460px;
+  padding: 0px 6px;
+  border-radius: 6px;
+  background: #FFFFFF;
+
+  .contents {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .today_header {
+        display: flex;
+        padding: 16px 12px;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        
+        .today_title {
+          font-size: clamp(16px, 1.5vw, 18px);
+          .today_type {
+            margin-right: 12px;
+            font-size: clamp(12px, 1vw, 13px);
+          }
+        }
+        
+        .today_date {
+          font-size: clamp(12px, 1vw, 13px);
+          color: #333;
+          font-weight: 400;
+        }
+    }
+
+    .user_info {
+      padding: 16px 12px;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+
+      .user_nickname {
+        font-size: clamp(14px, 1.5vw, 15px);
+      }
+
+      .items {
+        span {
+          margin-right: 12px;
+          font-size: clamp(12px, 1vw, 13px);
+
+          &:last-child {
+            margin-right: 0px;
+          }
+        }
+      }
+    }
+
+    .today_desc {
+      padding: 16px 12px;
+      
+      .desc {
+        display: inline-block;
+      min-height: 200px;
+      width: 100%;
+      padding: 12px 6px 4px 6px;
+      }
+    }
+
+    .comment {
+      .comment_header {
+        width: 100%;
+        padding: 12px;
+        background: #f3f3f3;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+
+        p {
+          font-size: clamp(13px, 1.5vw, 14px);
+        }
+      }
+
+      .comment_list {
+        margin-top: 16px;
+
+        .comment_item {
+          padding: 6px 20px;
+          .top {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 6px;
+              object-fit: cover;
+            }
+  
+            span {
+              font-size: clamp(13px, 1.35vw, 14px);
+  
+              &.comment_name {
+                font-weight: 600;
+                margin-left: 12px;
+              }
+  
+              &.comment_date {
+                margin-left: 12px;
+                font-size: clamp(12px, 1.2vw, 13px);
+                font-weight: 400;
+                color: #888;
+              }
+            }
+          }
+  
+          .bt {
+            padding: 12px 6px;
+            border-bottom: 1px solid #eee;
+          }
+        }
+      }
+      
+      .comment_form {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #e8e1e1;
+        border-radius: 6px;
+
+        p {
+          font-size: clamp(12.5px, 1.5vw, 14px);
+          font-weight: 600;
+          margin-bottom: 9px;
+        }
+
+        form {
+          margin-top: 6px;
+          width: 100%;
+          display: flex;
+          gap: 6px;
+
+          input {
+            border: 1px solid #ccc;
+            padding: 6px 20px;
+            width: 100%;
+            height: 56px;
+            background: #ede6e6;
+
+            &:focus {
+              background: #FFF;
+              border: 1.5px solid #09f;
+            }
+          }
+
+          button[type="submit"] {
+            width: 96px;
+            height: 56px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+          }
+        }
+      }
+    }
+  }
+`

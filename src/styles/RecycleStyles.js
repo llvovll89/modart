@@ -20,6 +20,14 @@ const Section = styled.section`
   min-height: 100vh;
   background: #ffffff;
 
+  &.qna_section , 
+  &.ootd_section,
+  &.photo_section,
+  &.today_section,
+  &.today_detail_section {
+    background: #FAFAFA;
+  }
+
   @media screen and (max-width: 768px) {
     /* padding-left: 16px;
     padding-right: 16px; */
@@ -30,7 +38,12 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 16px;
-  padding-top: 40px;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 
   .title {
     h1 {
@@ -117,9 +130,10 @@ const AuthForm = styled.div`
         width: 100%;
 
         input {
-          margin-bottom: 14px;
+          margin-bottom: 20px;
           border-bottom: 1px solid #999;
           height: 46px;
+          font-size: clamp(13.5px, 1.5vw, 15px);
         }
 
         input:active,
@@ -130,7 +144,7 @@ const AuthForm = styled.div`
         label {
           position: absolute;
           left: 10px;
-          top: 0px;
+          top: -2px;
           font-size: clamp(12px, 1.5vw, 13px);
           transition: top 0.25s ease-in-out;
           color: #625f5f;
@@ -138,7 +152,7 @@ const AuthForm = styled.div`
         }
 
         input:focus + label {
-          top: -6px;
+          top: -8px;
         }
       }
 
@@ -678,8 +692,8 @@ const LoaderContainer = styled.div`
   gap: 20px;
 
   .loader {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border: 12px solid #eeeeee;
     border-top-color: #08f;
     border-radius: 50%;
@@ -689,7 +703,7 @@ const LoaderContainer = styled.div`
   }
 
   h1 {
-    font-size: clamp(20px, 2.5vw, 26px);
+    font-size: clamp(18px, 2vw, 22px);
     font-weight: 700;
     letter-spacing: -0.075rem;
   }

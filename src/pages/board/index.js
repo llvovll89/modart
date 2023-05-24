@@ -66,8 +66,9 @@ const BoardContainer = styled.div`
 `;
 
 const BoardContents = styled.div`
-  width: 100%;
-  background: #fefefe;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: #FFFFFF;
 
   .board_list {
     margin: 12px auto 6px auto;

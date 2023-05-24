@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBoards } from '../../store/reducers/boardSlice';
-import { DetailForm, Section } from '../../styles/RecycleStyles';
+import { Section } from '../../styles/RecycleStyles';
 import { BoardDetailPage } from '.';
-import { AiFillHeart } from 'react-icons/ai';
 import BoardImg from '../../assets/images/main.gif';
 
 const BoardDetail = () => {
@@ -17,11 +16,6 @@ const BoardDetail = () => {
   useEffect(() => {
     dispatch(getBoards());
   }, [dispatch]);
-
-  useEffect(() => {
-    const board = boardList.find((board) => board.id === id);
-    console.log(board);
-  }, [boardList, id]);
 
   return (
     <Section>

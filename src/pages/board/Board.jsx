@@ -31,7 +31,7 @@ const Board = () => {
   }, [dispatch]);
 
   return (
-    <Section>
+    <Section className='ootd_section'>
       <BoardContainer>
         <div className="contents">
           <div className="text">

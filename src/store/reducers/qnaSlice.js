@@ -8,40 +8,43 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 const storageRef = ref(storage, 'questions_photos');
 
 const uploadFile = async (file) => {
-  const fileRef = ref(storageRef, file.name);
-  await uploadBytes(fileRef, file);
-  const fileURL = await getDownloadURL(fileRef);
-  return fileURL;
+  if (file) {
+    const fileRef = ref(storageRef, file.name);
+    await uploadBytes(fileRef, file);
+    const fileURL = await getDownloadURL(fileRef);
+    return fileURL;
+  }
+
+  return null;
 };
 
 export const createData = createAsyncThunk(
   'question/add',
-  async (qnaData, { rejectWithValue }) => {
+  async (questionsData, { rejectWithValue }) => {
     try {
-      if (!qnaData) {
+      if (!questionsData) {
         throw new Error('qnaData is Not Fount');
       }
-      const { category, title, desc, photo, nickname } = qnaData;
+      const { title, desc, photo, nickname } = questionsData;
 
       const photoURL = await uploadFile(photo);
 
-      const photoRef = await addDoc(collection(db, 'questions'), {
-        category,
+      const questionData = {
         title,
         desc,
-        photo: photoURL,
         nickname,
         createdAt: Date.now(),
-      });
+      };
+
+      if (photoURL) {
+        questionData.photo = photoURL;
+      }
+
+      const photoRef = await addDoc(collection(db, 'questions'), questionData);
 
       return {
         id: photoRef.id,
-        category,
-        title,
-        desc,
-        photo: photoURL,
-        nickname,
-        createdAt: Date.now(),
+        ...questionData,
       };
     } catch (error) {
       console.error(error);
@@ -54,7 +57,7 @@ export const getQna = createAsyncThunk('question/get', async () => {
   moment.locale('ko');
 
   const querySnapshot = await getDocs(collection(db, 'questions'));
-  const photoData = querySnapshot.docs.map((doc) => {
+  const photoData = querySnapshot.docs.map((doc, index) => {
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
     let formattedTime;
@@ -69,6 +72,7 @@ export const getQna = createAsyncThunk('question/get', async () => {
 
     return {
       id: doc.id,
+      number: index + 1,
       createdAt: formattedTime,
       ...dataWithoutCreatedAt,
     };

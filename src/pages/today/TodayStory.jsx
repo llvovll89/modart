@@ -25,6 +25,10 @@ const TodayStory = () => {
     }
   };
 
+  const detailClick = (today) => {
+    navigate(`/today/details/${today.id}`);
+  };
+
   useEffect(() => {
     dispatch(getTodays());
   }, [dispatch]);
@@ -36,7 +40,7 @@ const TodayStory = () => {
   }, [todayList]);
 
   return (
-    <Section>
+    <Section className="today_section">
       <TodayContainer>
         <div className="contents">
           <div className="text">
@@ -57,11 +61,6 @@ const TodayStory = () => {
           {newTodayList ? (
             newTodayList.slice(0, 10).map((today) => (
               <li className="today_card" key={today.id}>
-                <div className="numbers">
-                  <span>
-                    {today.number < 10 ? `0${today.number}` : today.number}
-                  </span>
-                </div>
                 <div className="today_type">
                   <span>{today.type}</span>
                 </div>

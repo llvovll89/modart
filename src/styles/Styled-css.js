@@ -4,7 +4,7 @@ const InputStyles = css`
   width: 100%;
   font-size: clamp(14px, 2vw, 16px);
   font-weight: 500;
-  padding: 16px;
+  padding: 8px 16px;
   cursor: pointer;
 `;
 

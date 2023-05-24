@@ -55,10 +55,6 @@ const HeaderContainer = styled.header`
             background-color: rgba(32, 33, 36, 0.04);
           }
 
-          &:last-of-type {
-            min-width: 0;
-          }
-
           &.user_nickname {
             a {
               position: relative;
@@ -85,9 +81,20 @@ const HeaderContainer = styled.header`
           cursor: pointer;
 
           span {
-            display: flex;
-            align-items: center;
+            position: relative;
+            display: block;
             font-size: clamp(15px, 2vw, 16px);
+            width: 100%;
+            height: 100%;
+
+            svg {
+              width: 20px;
+              height: 20px;
+              position: absolute;
+              top:50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
           }
         }
       }

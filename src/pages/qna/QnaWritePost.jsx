@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { CardForm, Section } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineFileAdd } from 'react-icons/ai';
+import { AiOutlineFileAdd, AiOutlineQuestionCircle } from 'react-icons/ai';
 import { createData } from '../../store/reducers/qnaSlice';
 import { QnaWriteForm } from '.';
 
 const QnaWritePost = () => {
   const [addData, setAddData] = useState({});
-  const [category, setCategory] = useState([]);
   const user = useSelector((state) => state.login.user);
   const nickName = user?.nickname;
   const dispatch = useDispatch();
@@ -16,10 +15,14 @@ const QnaWritePost = () => {
 
   const onChangeHandler = (e) => {
     if (e.target.name === 'photo') {
-      setAddData({
-        ...addData,
-        [e.target.name]: e.target.files[0],
-      });
+      const file = e.target.file[0];
+      if (file) {
+        setAddData({
+          ...addData,
+          photo: file,
+          fileName: file.name,
+        });
+      }
     } else {
       setAddData({
         ...addData,
@@ -32,7 +35,7 @@ const QnaWritePost = () => {
     e.preventDefault();
 
     try {
-      const dataWidthNickName = { ...addData, nickname: nickName, category };
+      const dataWidthNickName = { ...addData, nickname: nickName };
       await dispatch(createData(dataWidthNickName)).unwrap();
       alert('게시글이 성공적으로 등록되었습니다.');
       navigate(-1);
@@ -54,9 +57,9 @@ const QnaWritePost = () => {
 
             <div className="qna_cardForm">
               <div className="title">
-              <span className="q">
-                Q.
-              </span>
+                <span className="q">
+                  <AiOutlineQuestionCircle />
+                </span>
                 <input
                   type="text"
                   name="title"
@@ -76,26 +79,28 @@ const QnaWritePost = () => {
                 />
               </div>
 
-          <div className="file_input">
-          <input
-          type="file"
-          id="photo"
-          style={{ display: 'none' }}
-          name="photo"
-          onChange={onChangeHandler}
-        />
+              <div className="file_input">
+                <input
+                  type="file"
+                  id="photo"
+                  style={{ display: 'none' }}
+                  name="photo"
+                  onChange={onChangeHandler}
+                />
 
-        <label htmlFor="photo" className="file_label">
-          <p>
-            <span>
-              <AiOutlineFileAdd />
-            </span>
-          </p>
-        </label>
-          </div>
+                <label htmlFor="photo" className="file_label">
+                  <p>
+                    <span>
+                      <AiOutlineFileAdd />
+                    </span>
+                    파일넣기
+                  </p>
+                </label>
+              </div>
+              <button className="submit" type="submit">
+                게시하기
+              </button>
             </div>
-
-            <button type="submit">게시하기</button>
           </form>
         </div>
       </QnaWriteForm>

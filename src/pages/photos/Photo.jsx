@@ -37,7 +37,7 @@ const Photo = () => {
   }, [photoList]);
 
   return (
-    <Section>
+    <Section className='photo_section'>
       <PhotoContainer>
         <div className="contents">
           <div className="text">

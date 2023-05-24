@@ -65,8 +65,9 @@ const PhotoContainer = styled.div`
 `;
 
 const PhotoContents = styled.div`
-  width: 100%;
-  background: #fefefe;
+  max-width: 1280px;
+  background: #FFFFFF;
+  margin: 0 auto;
 
   .photo_list {
     max-width: 1280px;
@@ -80,7 +81,6 @@ const PhotoContents = styled.div`
       min-height: 57px;
       max-height: 70px;
       margin-bottom: 6px;
-      background-color: #f6f6f6;
       border-bottom: 1px solid #fff;
       gap: 12px;
 
