@@ -134,23 +134,55 @@ export const QnaArticle = styled.article`
 `;
 
 export const QnaContents = styled.div`
-  width: 100%;
+  max-width: 964px;
+  margin: 12px auto 0px auto;
   background: #fefefe;
 
   .qna_list {
-    max-width: 1280px;
-    margin: 12px auto 0px auto;
     padding: 1px 3px 0 1px;
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
       sans-serif;
 
     .qna_card {
       display: flex;
-      min-height: 57px;
-      margin-bottom: 6px;
-      background-color: #f6f6f6;
+      min-height: 30px;
+      align-items: center;
+      background: #ffffff;
       border-bottom: 1px solid #fff;
       gap: 12px;
+      margin-bottom: 3.5px;
+
+      p {
+        display: block;
+        font-size: clamp(12.5px, 1.5vw, 13px);
+      }
+
+      .number {
+        min-width: 5%;
+        text-align: center;
+      }
+      .title {
+        text-overflow: ellipsis;
+        color: #0c2d43;
+        cursor: pointer;
+        min-width: 70%;
+        color: #333;
+
+        &:hover {
+          color: #770088;
+          text-decoration: underline 0.5px;
+        }
+      }
+      .nickname {
+        text-align: center;
+        min-width: 10%;
+      }
+
+      .date,
+      .views {
+        text-align: center;
+        min-width: 5%;
+      }
 
       &:last-child {
         margin-bottom: 0;
@@ -176,6 +208,7 @@ export const QnaCard = styled.div`
 
   .qna_contents {
     width: 100%;
+
     .list_item {
       display: flex;
       flex-direction: column;
@@ -201,7 +234,7 @@ export const QnaCard = styled.div`
             display: flex;
             align-items: center;
             gap: 9px;
-            font-size: clamp(15px, 1.5vw, 16px);
+            font-size: clamp(14px, 1.5vw, 16px);
             font-weight: 500;
             line-height: 1.6;
             color: #333;
@@ -224,7 +257,27 @@ export const QnaCard = styled.div`
             position: relative;
             left: 16px;
             color: #4d5256;
-            font-size: clamp(14px, 1.5vw, 16px);
+            font-size: clamp(13.5px, 1.5vw, 16px);
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 16px 9px;
+
+    .qna_contents {
+      .list_item {
+        .qna_items {
+          padding: 12px;
+
+          .qna_answer {
+            padding: 12px 0px 6px 0px;
+            .qna_desc {
+              left: 6px;
+              word-break: break-all;
+            }
           }
         }
       }

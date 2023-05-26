@@ -5,7 +5,7 @@ import { signUp } from '../../store/reducers/authSlice';
 import { googleLogin, signIn } from '../../store/reducers/loginSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
-import { FcGoogle } from 'react-icons/fc';
+import { FcGoogle, FcAddImage } from 'react-icons/fc';
 import Alert from './Alert';
 
 const AccountForm = ({ text, link }) => {
@@ -27,16 +27,22 @@ const AccountForm = ({ text, link }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const isFormValid = Object.values(authValue).every((value) => value !== '');
+    const { email, password, nickname, photo } = authValue;
+    const photoVal = photo ? photo : '';
+
     if (isFormValid) {
       if (text === '회원가입') {
         try {
-          await dispatch(signUp(authValue)).unwrap();
+          await dispatch(
+            signUp({ email, password, nickname, photo: photoVal })
+          ).unwrap();
           setAlertText('회원가입에 성공하였습니다.');
           setIsAlertVisible(true);
           navigate('/account/login');
         } catch (error) {
           setAlertText('회원가입에 실패하였습니다. 다시 시도해주세요.');
           setIsAlertVisible(true);
+          console.log(error);
 
           setTimeout(() => {
             setIsAlertVisible(false);
@@ -74,6 +80,14 @@ const AccountForm = ({ text, link }) => {
     } catch (error) {
       setAlertText(error.message);
     }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setAuthValue({
+      ...authValue,
+      photo: file,
+    });
   };
 
   return (
@@ -118,6 +132,22 @@ const AccountForm = ({ text, link }) => {
                   autoComplete="off"
                 />
                 <label htmlFor="nickname">닉네임</label>
+              </div>
+              <div className="area file">
+                <input
+                  type="file"
+                  id="photo"
+                  style={{ display: 'none' }}
+                  name="photo"
+                  onChange={handleFileChange}
+                />
+
+                <label htmlFor="photo" className="file_label">
+                  <span>
+                    <FcAddImage />
+                  </span>
+                  <p>Profile Image</p>
+                </label>
               </div>
               <Button type="submit">{text}</Button>
             </>

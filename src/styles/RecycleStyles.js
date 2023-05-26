@@ -25,7 +25,8 @@ const Section = styled.section`
   &.photo_section,
   &.today_section,
   &.today_detail_section,
-  &.qna_write_section {
+  &.qna_write_section,
+  &.qna_section {
     background: #FAFAFA;
   }
 
@@ -130,6 +131,44 @@ const AuthForm = styled.div`
         position: relative;
         width: 100%;
 
+        &.file {
+          margin-bottom: 16px;
+
+          label {
+            width: 100%;
+            height: 52px;
+            display: inline-flex;
+            position: relative;
+            left: 0;
+            top: 0;
+            align-items: center;
+            padding: 6px 12px;
+            background: #fe5493;
+            color: #fff;
+            justify-content: center;
+            gap: 20%;
+
+            p {
+              line-height: 1.5rem;
+            }
+
+            span {
+              position: absolute;
+              left: 12px;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              height: 40px;
+
+              svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+        }
+
         input {
           margin-bottom: 20px;
           border-bottom: 1px solid #999;
@@ -160,9 +199,9 @@ const AuthForm = styled.div`
       button {
         background: #181818;
         color: #fff;
-        height: 56px;
+        height: 52px;
         line-height: 1.5rem;
-        font-size: 16px;
+        font-size: clamp(14px, 1.5vw, 15px);
         transition: background 0.25s ease-in-out;
 
         &:hover,
@@ -191,15 +230,16 @@ const AuthForm = styled.div`
       margin-top: 12px;
 
       button {
-        height: 56px;
-        font-size: 16px;
+        height: 52px;
+        font-size: clamp(14px, 1.5vw, 15px);
         line-height: 1.5rem;
       }
 
       .googleLogin {
+        position: relative;
         display: flex;
         align-items: center;
-        gap: 20%;
+        justify-content: center;
         background: #09f;
         color: #fefefe;
         transition: background 0.25s ease-in-out;
@@ -210,7 +250,9 @@ const AuthForm = styled.div`
         }
 
         .googleIcon {
+          position: absolute;
           display: flex;
+          left: 12px;
           align-items: center;
           justify-content: center;
           background: #fefefe;

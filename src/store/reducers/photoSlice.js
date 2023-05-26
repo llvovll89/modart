@@ -8,10 +8,14 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 const storageRef = ref(storage, 'photos_png');
 
 const uploadFile = async (file) => {
-  const fileRef = ref(storageRef, file.name);
-  await uploadBytes(fileRef, file);
-  const fileURL = await getDownloadURL(fileRef);
-  return fileURL;
+  if (file) {
+    const fileRef = ref(storageRef, file.name);
+    await uploadBytes(fileRef, file);
+    const fileURL = await getDownloadURL(fileRef);
+    return fileURL;
+  }
+
+  return null;
 };
 
 export const createData = createAsyncThunk(

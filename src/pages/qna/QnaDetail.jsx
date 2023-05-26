@@ -9,12 +9,12 @@ import { getQna } from '../../store/reducers/qnaSlice';
 const QnaDetail = () => {
   const { id } = useParams();
   const [comment, setComment] = useState(false);
+  const [commentText, setCommentText] = useState("");
   const qnaList = useSelector((state) => state.qna.questions);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
   const qna = qnaList.find((question) => question.id === id);
-  console.log(qna);
 
   const textAreaAlert = () => {
     if (user) {
@@ -70,7 +70,7 @@ const QnaDetail = () => {
                     <button>등록</button>
                   </div>
                   <div className="bottom">
-                    <textarea cols="30" rows="10" onClick={textAreaAlert}>
+                    <textarea cols="30" rows="10" onClick={textAreaAlert} onChange={(e) => setCommentText(e.target.value)}>
                       댓글을 입력해주세요.
                     </textarea>
                   </div>

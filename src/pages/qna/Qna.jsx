@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Section } from '../../styles/RecycleStyles';
 import { AiFillQuestionCircle } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { QnaContainer, QnaContents } from '.';
 import Loading from '../../components/common/Loading';
+import { getQna, incrementViews } from '../../store/reducers/qnaSlice';
 
 const Qna = () => {
   const user = useSelector((state) => state.login.user);
   const qnaList = useSelector((state) => state.qna.questions);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleWriteClick = () => {
     if (user) {
@@ -20,8 +22,26 @@ const Qna = () => {
     }
   };
 
+  const detailClick =(qna) => {
+    navigate(`/qna/details/${qna.id}`)
+  }
+
+  const handleQuestionClick = (questionId) => {
+    dispatch(incrementViews({ questionId }))
+      .then(() => {
+        dispatch(getQna());
+      })
+      .catch((error) => {
+        console.error('Error incrementing views:', error);
+      });
+  };
+
+  useEffect(() => {
+    dispatch(getQna());
+  }, [dispatch]);
+
   return (
-    <Section>
+    <Section className='qna_section'>
       <QnaContainer>
         <div className="contents">
           <div className="text">
@@ -37,12 +57,20 @@ const Qna = () => {
           </div>
         </div>
       </QnaContainer>
-
       <QnaContents>
         <ul className="qna_list">
-          {qnaList.length > 0 ? (
-            qnaList.slice(0, 10).map((qna) => (
-              <li className="qna_card" key={qna.id}>
+          {qnaList && qnaList.length > 0 ? (
+            qnaList.map((qna) => (
+              <li
+                className="qna_card"
+                key={qna.id}
+                onClick={() => handleQuestionClick(qna.id)}
+              >
+                <p className='number'>{qna.number}</p>
+                <p className='title' onClick={() => detailClick(qna.id)}>{qna.title}</p>
+                <p className='nickname'>{qna.nickname}</p>
+                <p className='date'>{qna.createdAt}</p>
+                <p className='viwes'>{qna.views}</p>
               </li>
             ))
           ) : (

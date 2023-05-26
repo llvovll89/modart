@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HeaderContainer } from './index';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,8 @@ const Header = ({ toggle, toggleMenu }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const nickName = user?.nickname;
+  const profileImg = user?.profileImg;
+  const toggleRef = useRef(null);
 
   const logOutHandler = () => {
     const alertLogout = confirm('정말 로그아웃 하시겠습니까?');
@@ -33,7 +35,8 @@ const Header = ({ toggle, toggleMenu }) => {
     }
   };
 
-  const toggleClick = () => {
+  const toggleClick = (event) => {
+    event?.stopPropagation();
     setActiveItem(null);
     toggleMenu();
   };
@@ -43,7 +46,7 @@ const Header = ({ toggle, toggleMenu }) => {
       return (
         <div className="users">
           <li className="item user_nickname">
-            {/* user photo 조건 */}
+            {profileImg ? <img src={profileImg} alt={nickName} /> : null}
             <Link to="/account" onClick={() => handleLinkClick(null)}>
               {nickName}
             </Link>
@@ -87,6 +90,20 @@ const Header = ({ toggle, toggleMenu }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (toggle && !toggleRef.current.contains(event.target)) {
+        toggleClick();
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [toggle, toggleClick]);
 
   const filterLocation =
     location.pathname === '/account/signup' ||
@@ -142,7 +159,11 @@ const Header = ({ toggle, toggleMenu }) => {
           {renderLinks()}
         </ul>
 
-        <div className="toggle" onClick={toggleClick}>
+        <div
+          className="toggle"
+          onClick={(event) => toggleClick(event)}
+          ref={toggleRef}
+        >
           {toggle ? <GrClose /> : <GiHamburgerMenu />}
         </div>
       </div>

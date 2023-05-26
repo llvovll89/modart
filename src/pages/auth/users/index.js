@@ -22,7 +22,7 @@ export const AccountContainer = styled.div`
 
         .user_thumb {
           position: relative;
-          margin-right: 12px;
+          margin-right: 20px;
           width: 100px;
           height: 100px;
           border-radius: 100%;
@@ -64,7 +64,7 @@ export const AccountContainer = styled.div`
               letter-spacing: -0.21px;
               color: rgba(34, 34, 34, 0.5);
             }
-            
+
             .intro {
               line-height: 1.2;
               font-size: clamp(12px, 1.25vw, 14px);
@@ -140,14 +140,16 @@ export const AccountContainer = styled.div`
         .user_detail,
         .board_detail {
           background: #fefefe;
+          padding: 12px 0px;
         }
 
         .user_detail {
-          padding: 12px 6px;
+          padding: 12px;
         }
 
         .board_detail {
           margin-top: 12px;
+          border-bottom: 1px solid #eee;
 
           .board_item {
             padding: 6px 0px;
@@ -158,7 +160,7 @@ export const AccountContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    padding: 40px 0px 160px;
+    padding: 40px 0px 100px;
   }
 `;
 
@@ -327,7 +329,7 @@ export const AccountEditForm = styled.div`
                 border-radius: 12px;
                 font-size: 14px;
                 letter-spacing: -0.14px;
-                
+
                 &:nth-child(1) {
                   border: 1px solid #d3d3d3;
                   margin-right: 20px;
@@ -335,7 +337,7 @@ export const AccountEditForm = styled.div`
 
                 &:last-child {
                   background: #181818;
-                  color: #FFFFFF;
+                  color: #ffffff;
                 }
               }
             }
@@ -359,7 +361,7 @@ export const AccountEditForm = styled.div`
             height: 42px;
             background: #181818;
             padding: 0 20px;
-            color: #FEFEFE;
+            color: #fefefe;
             border-radius: 6px;
           }
         }

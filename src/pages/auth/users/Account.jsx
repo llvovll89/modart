@@ -3,10 +3,12 @@ import { Section } from '../../../styles/RecycleStyles';
 import { AccountContainer } from './index';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import NoUserImg from '../../../assets/images/user.png'
 import Loading from '../../../components/common/Loading';
 
 const Account = () => {
   const user = useSelector((state) => state.login.user);
+  console.log(user);
 
   return (
     <Section>
@@ -16,7 +18,7 @@ const Account = () => {
             <div className="users">
               <div className="user_detail">
                 <div className="user_thumb">
-                  <img src="" alt="" />
+                <img src={user.profileImg ? user.profileImg : NoUserImg} alt="" style={{maxWidth: "100px", maxHeight: "100px"}} />
                 </div>
                 <div className="user_info">
                   <div className="info_box">

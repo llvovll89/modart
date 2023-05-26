@@ -5,7 +5,6 @@ import {
   addDoc,
   collection,
   getDocs,
-  serverTimestamp,
 } from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';

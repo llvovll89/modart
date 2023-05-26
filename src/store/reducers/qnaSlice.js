@@ -1,7 +1,14 @@
 import moment from 'moment';
 import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  increment,
+  updateDoc,
+} from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -17,6 +24,23 @@ const uploadFile = async (file) => {
 
   return null;
 };
+
+export const incrementViews = createAsyncThunk(
+  'questions/incrementViews',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { questionId } = payload;
+      const questionRef = doc(db, 'questions', questionId);
+
+      await updateDoc(questionRef, {
+        views: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('조회수를 업데이트할 수 없습니다.');
+    }
+  }
+);
 
 export const createData = createAsyncThunk(
   'question/add',
@@ -83,7 +107,7 @@ export const getQna = createAsyncThunk('question/get', async () => {
 
 const qnaSlice = createSlice({
   name: 'qna',
-  initialState: { questions: [], postCount: 0 },
+  initialState: { questions: [], postCount: 0, loading: false },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -100,6 +124,36 @@ const qnaSlice = createSlice({
           ...state,
           questions: action.payload,
           postCount: action.payload.length,
+        };
+      })
+      .addCase(incrementViews.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(incrementViews.fulfilled, (state, action) => {
+        if (action.payload && action.payload.questionId) {
+          const updatedQuestions = state.questions.map((qna) => {
+            if (qna.id === action.payload.questionId) {
+              // 조회수 증가된 데이터로 업데이트
+              return {
+                ...qna,
+                views: qna.views + 1,
+              };
+            }
+            return qna;
+          });
+
+          return {
+            ...state,
+            questions: updatedQuestions,
+            loading: false,
+          };
+        }
+        return {
+          ...state,
+          loading: false,
         };
       });
   },

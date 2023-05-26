@@ -56,6 +56,17 @@ const HeaderContainer = styled.header`
           }
 
           &.user_nickname {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            img {
+              width: 36px;
+              height: 36px;
+              object-fit: cover;
+              border-radius: 50%;
+            }
             a {
               position: relative;
             }
@@ -229,6 +240,7 @@ const HeaderContainer = styled.header`
 
         .users {
           width: 100%;
+          padding: 12px 6px;
           border-bottom: 1px solid #ebebeb;
 
           &.sign {
@@ -253,6 +265,14 @@ const HeaderContainer = styled.header`
 
           .item {
             width: 100%;
+            &.user_nickname {
+              a {
+                display: block;
+                width: max-content;
+                height: max-content;
+                padding: 0;
+              }
+            }
             a,
             span {
               display: block;
@@ -260,6 +280,8 @@ const HeaderContainer = styled.header`
               letter-spacing: -0.15px;
               font-weight: 700;
               text-indent: 6px;
+              width: 100%;
+              height: 100%;
             }
             &.logOut {
             }

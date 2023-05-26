@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Section } from '../../../styles/RecycleStyles';
 import { AccountEditForm } from '.';
 import { updateUserData } from '../../../store/reducers/loginSlice';
-import UserImg from '../../../assets/images/main.gif';
+import NoUserImg from '../../../assets/images/user.png';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../firebase/firebase';
 
@@ -11,6 +11,7 @@ const AccountEdit = () => {
   const [active, setActive] = useState({});
   const [updateData, setUpdateData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
+  const [thumbnailImage, setThumbnailImage] = useState(null);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
@@ -48,8 +49,6 @@ const AccountEdit = () => {
       return null;
     }
   };
-
-  // AccountEdit.js 파일의 updateProfileUser 함수 수정
 
   const updateProfileUser = async (key) => {
     try {
@@ -91,6 +90,18 @@ const AccountEdit = () => {
     setActive({});
   }, [user]);
 
+  useEffect(() => {
+    if (selectedImage) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setThumbnailImage(e.target.result);
+      };
+      reader.readAsDataURL(selectedImage);
+    } else {
+      setThumbnailImage(null);
+    }
+  }, [selectedImage]);
+
   return (
     <Section>
       <AccountEditForm>
@@ -101,16 +112,19 @@ const AccountEdit = () => {
 
           <div className="user_profile">
             <div className="user_img">
-              <img
-                src={
-                  selectedImage
-                    ? URL.createObjectURL(selectedImage)
-                    : user.photo
-                    ? user.photo
-                    : UserImg
-                }
-                alt={user.nickname}
-              />
+              {thumbnailImage ? (
+                <img
+                  src={thumbnailImage}
+                  alt={user.nickname}
+                  style={{ maxWidth: '90px', maxHeight: '90px' }}
+                />
+              ) : (
+                <img
+                  src={user.profileImg ? user.profileImg : NoUserImg}
+                  alt={user.nickname}
+                  style={{ maxWidth: '90px', maxHeight: '90px' }}
+                />
+              )}
             </div>
 
             <div className="user_detail">
