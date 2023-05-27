@@ -67,10 +67,10 @@ const Qna = () => {
                 onClick={() => handleQuestionClick(qna.id)}
               >
                 <p className='number'>{qna.number}</p>
-                <p className='title' onClick={() => detailClick(qna.id)}>{qna.title}</p>
+                <p className='title' onClick={() => detailClick(qna)}>{qna.title}</p>
                 <p className='nickname'>{qna.nickname}</p>
                 <p className='date'>{qna.createdAt}</p>
-                <p className='viwes'>{qna.views}</p>
+                <p className='views'>{qna.views ? qna.views : 0} 회</p>
               </li>
             ))
           ) : (

@@ -286,7 +286,6 @@ export const TodayDetailPage = styled.div`
   
           .bt {
             padding: 12px 6px;
-            border-bottom: 1px solid #eee;
           }
         }
       }

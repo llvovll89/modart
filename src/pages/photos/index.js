@@ -142,7 +142,6 @@ const PhotoDetailPage = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  /* justify-content: center; */
 
   .contents {
     max-width: 768px;
@@ -190,7 +189,7 @@ const PhotoDetailPage = styled.div`
       height: 450px;
       min-height: 400px;
       padding: 6px;
-      background: #ebe8e8;
+      background: #fafafafa;
       border-radius: 6px;
       overflow: hidden;
 

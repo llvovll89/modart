@@ -67,10 +67,11 @@ export const QnaArticle = styled.article`
   margin: 30px auto 0px auto;
   max-width: 964px;
   position: relative;
-  padding: 20px;
+  padding: 36px;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #cecece;
+  border-radius: 6px;
+  border: 1px solid #eee;
 
   .qna_card {
     width: 100%;
@@ -82,14 +83,15 @@ export const QnaArticle = styled.article`
 
     .card_header {
       width: 100%;
-      padding: 0 0 10px;
-      border-bottom: 1px solid #e3e3e3;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #eee;
 
       h1 {
         word-wrap: break-word;
         font-weight: 700;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         font-size: clamp(20px, 2.5vw, 24px);
+
         span {
           margin-right: 6px;
           font-size: clamp(21px, 2.6vw, 25px);
@@ -101,17 +103,32 @@ export const QnaArticle = styled.article`
       .card_info {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 12px;
+        padding: 6px;
 
         .inner {
           display: flex;
-          gap: 3px;
+          gap: 6px;
           font-size: clamp(12px, 1.3vw, 14px);
+          align-items: center;
+
+          .profile_img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+          }
         }
 
         .date {
           color: #aaa;
-          font-size: clamp(12px, 1.3vw, 14px);
+          font-size: clamp(12px, 1.3vw, 13px);
         }
       }
     }
@@ -127,7 +144,98 @@ export const QnaArticle = styled.article`
       position: relative;
 
       .inner {
+        margin-top: 16px;
         display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+
+        .qna_btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 12px;
+          border-radius: 6px;
+          font-size: clamp(15px, 1.5vw, 16px);
+          color: #ffffff;
+
+          &:nth-child(1) {
+            background: #d472a3;
+            &:focus {
+              color: #333;
+            }
+          }
+          &:nth-child(2) {
+            background: #5fcb5f;
+            &:focus {
+              color: #333;
+            }
+          }
+          &:nth-child(3) {
+            &:focus {
+              color: #333;
+            }
+            background: #09f;
+          }
+
+          svg {
+            font-size: clamp(18px, 1.5vw, 20px);
+          }
+        }
+      }
+
+      .comment {
+        margin-top: 16px;
+        padding: 0px 6px;
+
+        .comment_in {
+          display: flex;
+          flex-direction: column;
+          gap: 9px;
+          background: #fafafa;
+
+          .top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px;
+
+            .profile {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+
+              img {
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+              }
+
+              span {
+                font-size: clamp(13px, 1.5vw, 14px);
+              }
+            }
+
+            .submit {
+              color: #333;
+              font-weight: 700;
+              letter-spacing: 0.025rem;
+            }
+          }
+
+          .bottom {
+            padding: 12px;
+            width: 100%;
+
+            textarea {
+              width: 100%;
+              height: 100px;
+              resize: none;
+              padding: 12px;
+              outline: none;
+            }
+          }
+        }
       }
     }
   }
@@ -151,21 +259,23 @@ export const QnaContents = styled.div`
       border-bottom: 1px solid #fff;
       gap: 12px;
       margin-bottom: 3.5px;
+      padding: 0 4px;
+      word-break: break-all;
 
       p {
         display: block;
-        font-size: clamp(12.5px, 1.5vw, 13px);
+        font-size: clamp(12px, 1vw, 13px);
       }
 
       .number {
-        min-width: 5%;
+        width: 5%;
         text-align: center;
       }
       .title {
         text-overflow: ellipsis;
         color: #0c2d43;
         cursor: pointer;
-        min-width: 70%;
+        width: 70%;
         color: #333;
 
         &:hover {
@@ -175,13 +285,17 @@ export const QnaContents = styled.div`
       }
       .nickname {
         text-align: center;
-        min-width: 10%;
+        width: 10%;
       }
 
       .date,
       .views {
         text-align: center;
-        min-width: 5%;
+        width: 10%;
+      }
+
+      .views {
+        width: 15%;
       }
 
       &:last-child {
@@ -193,6 +307,38 @@ export const QnaContents = styled.div`
           width: 60px;
           height: 50px;
           vertical-align: top;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .qna_list {
+      .qna_card {
+        min-height: 26px;
+
+        .number {
+          width: 5%;
+          text-align: center;
+        }
+        .title {
+          width: 50%;
+          color: #333;
+
+          &:hover {
+            color: #770088;
+            text-decoration: underline 0.5px;
+          }
+        }
+        .nickname {
+          text-align: center;
+          width: 15%;
+        }
+
+        .date,
+        .views {
+          text-align: center;
+          width: 10%;
         }
       }
     }

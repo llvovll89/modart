@@ -4,17 +4,19 @@ import { QnaArticle } from './index';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getQna } from '../../store/reducers/qnaSlice';
-
+import NoImage from '../../assets/images/user.png';
+import { AiOutlineLike, AiOutlineComment, AiOutlineStar } from 'react-icons/ai';
 
 const QnaDetail = () => {
   const { id } = useParams();
   const [comment, setComment] = useState(false);
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState('');
   const qnaList = useSelector((state) => state.qna.questions);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
   const qna = qnaList.find((question) => question.id === id);
+  console.log(qna);
 
   const textAreaAlert = () => {
     if (user) {
@@ -27,62 +29,78 @@ const QnaDetail = () => {
 
   useEffect(() => {
     dispatch(getQna());
-  } , [dispatch]);
+  }, [dispatch]);
 
   return (
     <Section>
       <QnaArticle>
-        <div className="qna_card">
-          <header className="card_header">
-            <h1>
-              <span>Q.</span>
-              질문 title
-            </h1>
-            <div className="card_info">
-              <div className="inner">
-                <span>유저이미지?!</span>
-                <span>유저nickname</span>
+        {qna && (
+          <div className="qna_card">
+            <header className="card_header">
+              <h1>
+                <span>Q.</span>
+                {qna.title}
+              </h1>
+              <div className="card_info">
+                <div className="inner">
+                  <div className="profile_img">
+                    <img src={NoImage} alt={qna.nickname} />
+                  </div>
+                  <span>{qna.nickname}</span>
+                </div>
+                <span className="date">{qna.createdAt}</span>
               </div>
-              <span className='date'>2023-05-18</span>
+            </header>
+            <div className="card_contents">
+              <p className="card_desc">{qna.desc}</p>
             </div>
-          </header>
-          <div className="card_contents">
-            <p className="card_desc">qna내용</p>
-          </div>
-          <footer className="card_footer">
-            <div className="inner">
-              <button>좋아요</button>
-              <button onClick={() => setComment(!comment)}>댓글</button>
-              <button>공유하기</button>
+            <footer className="card_footer">
+              <div className="inner">
+                <button className="qna_btn">
+                  <AiOutlineLike /> 좋아요
+                </button>
+                <button className="qna_btn">
+                  <AiOutlineStar /> 스크랩하기
+                </button>
+                <button
+                  className="qna_btn"
+                  onClick={() => setComment(!comment)}
+                >
+                  <AiOutlineComment /> 답변하기
+                </button>
               </div>
 
-            {comment ? (
-              <div className="comment">
-                <div className="comment_in">
-                  <div className="top">
-                    <span>
+              {comment ? (
+                <div className="comment">
+                  <div className="comment_in">
+                    <div className="top">
                       {user ? (
-                        user.nickname
+                        <div className="profile">
+                          <img src={user.profileImg} alt={user.nickname} />
+                          <span>{user.nickname}</span>
+                        </div>
                       ) : (
                         <Link to="/account/login">로그인을 해주세요.</Link>
                       )}
-                    </span>
-                    <button>등록</button>
+                      <button className='submit'>댓글등록</button>
+                    </div>
+                    <div className="bottom">
+                      <textarea
+                        onClick={textAreaAlert}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        placeholder="답변을 입력해주세요.."
+                      />
+                    </div>
                   </div>
-                  <div className="bottom">
-                    <textarea cols="30" rows="10" onClick={textAreaAlert} onChange={(e) => setCommentText(e.target.value)}>
-                      댓글을 입력해주세요.
-                    </textarea>
-                  </div>
-                </div>
 
-                {/*
-                        {매핑 댓글}
-              */}
-              </div>
-            ) : null}
-          </footer>
-        </div>
+                  {/*
+                      {매핑 댓글}
+            */}
+                </div>
+              ) : null}
+            </footer>
+          </div>
+        )}
       </QnaArticle>
     </Section>
   );

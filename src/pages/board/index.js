@@ -55,11 +55,13 @@ const BoardContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    height: 13rem;
+    height: 12rem;
 
     .contents {
       .image {
         width: 75%;
+      }
+      .text {
       }
     }
   }
@@ -68,7 +70,7 @@ const BoardContainer = styled.div`
 const BoardContents = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  background: #FFFFFF;
+  background: #ffffff;
 
   .board_list {
     margin: 12px auto 6px auto;
@@ -149,6 +151,7 @@ const BoardDetailPage = styled.div`
   -webkit-box-align: center;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 
   .contents {
     display: flex;
