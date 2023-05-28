@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Section } from '../../styles/RecycleStyles';
 import { TodayContainer, TodayContents } from './index';
 import { TfiWrite } from 'react-icons/tfi';
-import { getTodays } from '../../store/reducers/todaySlice';
+import { getTodays, incrementViews } from '../../store/reducers/todaySlice';
 import Loading from '../../components/common/Loading';
 
 const TodayStory = () => {
@@ -23,6 +23,16 @@ const TodayStory = () => {
       window.alert('로그인한 유저만 작성이 가능합니다.');
       return null;
     }
+  };
+
+  const handleTodayClick = (todayId) => {
+    dispatch(incrementViews({ todayId }))
+      .then(() => {
+        dispatch(getTodays());
+      })
+      .catch((err) => {
+        console.error('Error incrementing Views:', err);
+      });
   };
 
   const detailClick = (today) => {
@@ -74,7 +84,9 @@ const TodayStory = () => {
                 <div className="items">
                   <h3
                     className="today_title"
-                    onClick={() => detailClick(today)}
+                    onClick={() => {
+                      detailClick(today), handleTodayClick(today.id);
+                    }}
                   >
                     {today.title.length > 30
                       ? today.title.subString(0, 30) + '...'

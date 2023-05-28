@@ -144,19 +144,17 @@ const BoardContents = styled.div`
 
 const BoardDetailPage = styled.div`
   margin: 0px auto;
+  margin-top: 30px;
   max-width: 1024px;
   min-height: calc(100vh - 60px);
   padding: 20px 20px 12px 20px;
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 
   .contents {
     display: flex;
+    align-items: center;
     flex-direction: column;
     width: 100%;
+    gap: 12px;
 
     .board {
       width: 100%;
@@ -166,8 +164,8 @@ const BoardDetailPage = styled.div`
 
       .boardImg {
         width: 40%;
-        min-height: 500px;
-        height: 550px;
+        min-height: 400px;
+        height: 450px;
 
         img {
           width: 100%;
@@ -175,6 +173,7 @@ const BoardDetailPage = styled.div`
           vertical-align: top;
         }
       }
+
       .boardInfo {
         width: 50%;
         padding: 20px 16px 16px 16px;
@@ -201,32 +200,37 @@ const BoardDetailPage = styled.div`
           }
         }
         .info {
-          .area {
-            margin-bottom: 12px;
+          .user {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
 
-            &:first-child {
+            .user_info {
               display: flex;
-              gap: 12px;
+              gap: 6px;
               align-items: center;
-              margin-bottom: 20px;
 
-              .user_img {
+              img {
                 width: 40px;
                 height: 40px;
-                overflow: hidden;
                 border-radius: 50%;
-
-                img {
-                  width: 100%;
-                  height: 100%;
-                  object-fit: cover;
-                }
+                object-fit: cover;
               }
-
               p {
-                font-size: clamp(14.5px, 1.5vw, 16px);
+                font-size: clamp(13px, 1.5vw, 14px);
               }
             }
+            .like {
+              p {
+                font-size: clamp(12px, 1vw, 13px);
+              }
+            }
+          }
+
+          .area {
+            margin-bottom: 12px;
 
             label {
               font-size: clamp(12px, 1.2vw, 13.5px);
@@ -248,11 +252,82 @@ const BoardDetailPage = styled.div`
             }
           }
         }
+
+        .btnbox {
+          width: 100%;
+          margin-top: 30px;
+          text-align: center;
+
+          button {
+            padding: 12px 20px;
+            font-size: clamp(11px, 1vw, 14px);
+            cursor: pointer;
+            margin-right: 12px;
+
+            &:nth-child(1) {
+              color: red;
+            }
+
+            &:nth-child(2) {
+              color: #09f;
+            }
+          }
+        }
       }
     }
 
     .comment {
-      padding: 16px 12px 12px 12px;
+      padding: 16px 20px 12px 20px;
+      width: 100%;
+      min-height: 120px;
+
+      .comment_form {
+        .users {
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+
+          .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            .profileImg {
+              width: 36px;
+              height: 36px;
+              border-radius: 50%;
+            }
+
+            .nickname {
+              font-size: clamp(12px, 1vw, 14px);
+            }
+          }
+
+          .submit_btn {
+            cursor: pointer;
+            border: 1px solid #cecece;
+            padding: 9px 20px;
+            border-radius: 4px;
+          }
+        }
+        .form {
+          width: 100%;
+          padding: 12px;
+          textarea {
+            resize: none;
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            outline: none;
+            border: 1px solid #cecece;
+          }
+        }
+      }
+
+      .comment_list {
+      }
     }
   }
 
@@ -263,8 +338,8 @@ const BoardDetailPage = styled.div`
 
         .boardImg {
           width: 100%;
-          min-height: 450px;
-          height: 500px;
+          min-height: 350px;
+          height: 400px;
         }
 
         .boardInfo {

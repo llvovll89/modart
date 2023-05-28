@@ -1,7 +1,14 @@
 import moment from 'moment';
 import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  increment,
+  updateDoc,
+} from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -14,9 +21,42 @@ const uploadFile = async (file) => {
     const fileURL = await getDownloadURL(fileRef);
     return fileURL;
   }
-
   return null;
 };
+
+export const recommendViews = createAsyncThunk(
+  'todays/recommendViews',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { todayId } = payload;
+      const todayRef = doc(db, 'todays', todayId);
+
+      await updateDoc(todayRef, {
+        recommend: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('추천을 할 수 없습니다.');
+    }
+  }
+);
+
+export const incrementViews = createAsyncThunk(
+  'todays/incrementViews',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { todayId } = payload;
+      const todayRef = doc(db, 'todays', todayId);
+
+      await updateDoc(todayRef, {
+        views: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('조회수를 업데이트 할 수 없습니다.');
+    }
+  }
+);
 
 export const createData = createAsyncThunk(
   'todays/add',
@@ -35,7 +75,7 @@ export const createData = createAsyncThunk(
         type,
         nickname,
         createdAt: Date.now(),
-      }
+      };
 
       if (photoURL) {
         todayData.photo = photoURL;
@@ -45,7 +85,7 @@ export const createData = createAsyncThunk(
 
       return {
         id: todayRef.id,
-        ...todayData
+        ...todayData,
       };
     } catch (error) {
       console.error(error);
@@ -58,7 +98,8 @@ export const getTodays = createAsyncThunk('todays/get', async () => {
   moment.locale('ko');
 
   const querySnapshot = await getDocs(collection(db, 'todays'));
-  const todaysData = querySnapshot.docs.map((doc, index) => { // index 파라미터 추가
+  const todaysData = querySnapshot.docs.map((doc, index) => {
+    // index 파라미터 추가
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
     let formattedTime;
@@ -73,7 +114,7 @@ export const getTodays = createAsyncThunk('todays/get', async () => {
 
     return {
       id: doc.id,
-      number: index + 1, 
+      number: index + 1,
       createdAt: formattedTime,
       ...dataWithoutCreatedAt,
     };
@@ -101,6 +142,64 @@ const todaysSlice = createSlice({
           ...state,
           todays: action.payload,
           postCount: action.payload.length,
+        };
+      })
+      .addCase(incrementViews.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(incrementViews.fulfilled, (state, action) => {
+        if (action.payload && action.payload.todayId) {
+          const updatedTodays = state.todays.map((today) => {
+            if (today.id === action.payload.todayId) {
+              return {
+                ...today,
+                views: today.views + 1,
+              };
+            }
+            return today;
+          });
+
+          return {
+            ...state,
+            todays: updatedTodays,
+            loading: false,
+          };
+        }
+        return {
+          ...state,
+          loading: false,
+        };
+      })
+      .addCase(recommendViews.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(recommendViews.fulfilled, (state, action) => {
+        if (action.payload && action.payload.todayId) {
+          const updatedTodays = state.todays.map((today) => {
+            if (today.id === action.payload.todayId) {
+              return {
+                ...today,
+                recommend: today.recommend + 1,
+              };
+            }
+            return today;
+          });
+
+          return {
+            ...state,
+            todays: updatedTodays,
+            loading: false,
+          };
+        }
+        return {
+          ...state,
+          loading: false,
         };
       });
   },

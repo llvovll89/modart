@@ -83,18 +83,18 @@ export const QnaArticle = styled.article`
 
     .card_header {
       width: 100%;
-      margin-bottom: 16px;
+      padding-bottom: 12px;
       border-bottom: 1px solid #eee;
 
       h1 {
         word-wrap: break-word;
         font-weight: 700;
         margin-bottom: 16px;
-        font-size: clamp(20px, 2.5vw, 24px);
+        font-size: clamp(16px, 2vw, 24px);
 
         span {
           margin-right: 6px;
-          font-size: clamp(21px, 2.6vw, 25px);
+          font-size: clamp(22px, 2.5vw, 26px);
           color: #3772f0;
           font-weight: 500;
         }
@@ -103,6 +103,7 @@ export const QnaArticle = styled.article`
       .card_info {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 12px;
         padding: 6px;
 
@@ -137,6 +138,9 @@ export const QnaArticle = styled.article`
       padding: 10px 0;
       .card_desc {
         margin-bottom: 6px;
+        font-size: clamp(14px, 1vw, 16px);
+        line-height: 1.5;
+        letter-spacing: -0.025rem;
       }
     }
 
@@ -156,7 +160,7 @@ export const QnaArticle = styled.article`
           gap: 6px;
           padding: 12px;
           border-radius: 6px;
-          font-size: clamp(15px, 1.5vw, 16px);
+          font-size: clamp(12px, 1.5vw, 14px);
           color: #ffffff;
 
           &:nth-child(1) {
@@ -185,7 +189,7 @@ export const QnaArticle = styled.article`
       }
 
       .comment {
-        margin-top: 16px;
+        margin-top: 30px;
         padding: 0px 6px;
 
         .comment_in {
@@ -193,6 +197,7 @@ export const QnaArticle = styled.article`
           flex-direction: column;
           gap: 9px;
           background: #fafafa;
+          margin-bottom: 12px;
 
           .top {
             display: flex;
@@ -217,9 +222,13 @@ export const QnaArticle = styled.article`
             }
 
             .submit {
-              color: #333;
               font-weight: 700;
               letter-spacing: 0.025rem;
+              padding: 8px 12px;
+              background: #09f;
+              border-radius: 6px;
+              color: #fff;
+              font-size: clamp(12px, 1.5vw, 14px);
             }
           }
 
@@ -233,6 +242,137 @@ export const QnaArticle = styled.article`
               resize: none;
               padding: 12px;
               outline: none;
+              border: 1px solid #eee;
+            }
+          }
+        }
+
+        .comment_item {
+          width: 100%;
+          margin: 6px 0;
+          padding-bottom: 6px;
+          border-bottom: 1px solid #ddd;
+
+          .profile {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .user {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+
+              img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+              }
+              span {
+                font-size: clamp(12px, 1.5vw, 13px);
+              }
+            }
+            .date {
+              font-size: clamp(11px, 1vw, 12px);
+              color: #aaa;
+            }
+          }
+
+          .comment_desc {
+
+            p {
+              text-indent: 6px;
+              margin: 6px 0;
+              line-height: 30px;
+              min-height: 30px;
+              font-size: clamp(12px, 1.5vw, 14px);
+            }
+
+            .delete_comment {
+              padding: 6px;
+              font-size: clamp(12px, 1vw, 13px);
+              color: red;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+
+    .qna_card {
+      .card_header {
+        .card_info {
+          display: flex;
+          gap: 16px;
+          padding: 6px;
+          align-items: center;
+          justify-content: space-between;
+
+          .inner {
+            gap: 9px;
+
+            .profile_img {
+              width: 28px;
+              height: 28px;
+            }
+          }
+        }
+      }
+
+      .card_contents {
+        padding: 16px 0px 10px 0px;
+
+        .card_desc {
+          margin-bottom: 9px;
+        }
+      }
+
+      .card_footer {
+        .inner {
+          justify-content: center;
+
+          .qna_btn {
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 12px;
+          }
+        }
+
+        .comment {
+          margin-top: 16px;
+          padding: 6px;
+
+          .comment_in {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            background: #fafafa;
+
+            .top {
+              .profile {
+                gap: 6px;
+
+                img {
+                  border-radius: 50%;
+                  width: 28px;
+                  height: 28px;
+                }
+              }
+
+              .submit {
+                font-weight: 700;
+              }
+            }
+
+            .bottom {
+              padding: 6px 2px 0px 2px;
+              border-radius: 6px;
+              width: 100%;
+              textarea {
+              }
             }
           }
         }

@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Section } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTodays } from '../../store/reducers/todaySlice';
+import {
+  getTodays,
+  incrementViews,
+  recommendViews,
+} from '../../store/reducers/todaySlice';
 import { TodayDetailPage } from '.';
 import CommentImg from '../../assets/images/main.gif';
 
@@ -14,18 +18,28 @@ const TodayDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleRecommendClick = (todayId) => {
+    dispatch(recommendViews({ todayId }))
+      .then(() => {
+        dispatch(getTodays());
+      })
+      .catch((err) => {
+        console.error('추천을 할 수 없습니다.', err);
+      });
+  };
+
   const commentLoginCheck = () => {
-    if(user) {
+    if (user) {
       return null;
     } else {
       const alertLogin = confirm('로그인 하시겠습니까~?');
-      if(alertLogin) {
+      if (alertLogin) {
         navigate('account/login');
       } else {
         document.querySelector('.comment_input').disabled = true;
       }
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(getTodays());
@@ -49,12 +63,19 @@ const TodayDetail = () => {
               <p className="user_nickname">{today.nickname}</p>
               <div className="items">
                 <span>댓글</span>
-                <span>조회수</span>
-                <span>추천</span>
+                <span>조회수 {today.views}</span>
+                <span>추천 {today.recommend > 0 ? today.recommend : 0}</span>
               </div>
             </div>
             <div className="today_desc">
               <p className="desc">{today.desc}</p>
+
+              <button
+                className="recommend"
+                onClick={() => handleRecommendClick(today.id)}
+              >
+                👍추천하기
+              </button>
             </div>
 
             <div className="comment">
@@ -77,9 +98,18 @@ const TodayDetail = () => {
                 </li>
 
                 <div className="comment_form">
-                  <p>댓글 쓰기</p>
+                  <div className="profile">
+                    <img src={user.profileImg} alt={user.nickname} />
+                    <span>{user.nickname}</span>
+                  </div>
+                  <p className="comment_text">댓글 쓰기</p>
                   <form>
-                    <input className='comment_input' type="text" placeholder='댓글...' onClick={commentLoginCheck} />
+                    <input
+                      className="comment_input"
+                      type="text"
+                      placeholder="댓글..."
+                      onClick={commentLoginCheck}
+                    />
                     <button type="submit">등록</button>
                   </form>
                 </div>

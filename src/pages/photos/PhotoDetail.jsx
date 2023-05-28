@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPhotos } from '../../store/reducers/photoSlice';
@@ -11,6 +11,7 @@ import { ImBubble } from 'react-icons/im';
 const PhotoDetail = () => {
   const { id } = useParams();
   const photoList = useSelector((state) => state.photo.photos);
+  const [overDesc, setOverDesc] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -47,11 +48,23 @@ const PhotoDetail = () => {
                     <ImBubble />
                   </button>
                 </div>
-                <span className='date'>{photo.createdAt} ...</span>
+                <span className="date">{photo.createdAt} ...</span>
               </div>
               <div className="photo_title">
-                <h1>{photo.title}</h1>
-                <p>{photo.desc}</p>
+                <h1 className="title">{photo.title}</h1>
+                <p className="desc">
+                  {photo.desc.length > 60 && !overDesc
+                    ? photo.desc.slice(0, 60)
+                    : photo.desc}
+                  {photo.desc.length > 60 && (
+                    <span
+                      className="over"
+                      onClick={() => setOverDesc(!overDesc)}
+                    >
+                      {overDesc ? '... 접기' : '... 더보기'}
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
           </div>

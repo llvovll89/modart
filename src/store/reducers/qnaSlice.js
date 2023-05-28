@@ -5,6 +5,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   increment,
   updateDoc,
@@ -25,6 +26,23 @@ const uploadFile = async (file) => {
   return null;
 };
 
+export const recommendViews = createAsyncThunk(
+  'todays/recommendViews',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { qnaId } = payload;
+      const qnaRef = doc(db, 'questions', qnaId);
+
+      await updateDoc(qnaRef, {
+        recommend: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('추천을 할 수 없습니다.');
+    }
+  }
+);
+
 export const incrementViews = createAsyncThunk(
   'questions/incrementViews',
   async (payload, { rejectWithValue }) => {
@@ -37,7 +55,64 @@ export const incrementViews = createAsyncThunk(
       });
     } catch (error) {
       console.error(error);
-      return rejectWithValue('조회수를 업데이트할 수 없습니다.');
+      return rejectWithValue('조회수를 업데이트 할 수 없습니다.');
+    }
+  }
+);
+
+export const addComment = createAsyncThunk(
+  'question/comment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { questionId, commentData } = payload;
+      const qnaRef = doc(db, 'questions', questionId);
+
+      const qnaDoc = await getDoc(qnaRef);
+      if (!qnaDoc.exists()) {
+        return rejectWithValue('해당 질문이 존재하지 않습니다.');
+      }
+
+      const comments = qnaDoc.data().comments || [];
+      const updatedComments = [...comments, commentData];
+
+      await updateDoc(qnaRef, {
+        comments: updatedComments,
+      });
+
+      return { questionId, commentData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 추가 할 수 없습니다.');
+    }
+  }
+);
+
+export const deleteComment = createAsyncThunk(
+  'question/deleteComment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { questionId, commentData } = payload;
+
+      const qnaRef = doc(db, 'questions', questionId);
+      const qnaDoc = await getDoc(qnaRef);
+
+      if (!qnaDoc.exists()) {
+        return rejectWithValue('해당 질문이 존재하지 않습니다.');
+      }
+
+      const comments = qnaDoc.data().comments || [];
+      const updatedComments = comments.filter(
+        (comment) => comment.id !== commentData
+      );
+
+      await updateDoc(qnaRef, {
+        comments: updatedComments,
+      });
+
+      return { questionId, commentData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 삭제할 수 없습니다.');
     }
   }
 );
@@ -98,6 +173,7 @@ export const getQna = createAsyncThunk('question/get', async () => {
       id: doc.id,
       number: index + 1,
       createdAt: formattedTime,
+      comments: data.comments || {},
       ...dataWithoutCreatedAt,
     };
   });
@@ -136,7 +212,6 @@ const qnaSlice = createSlice({
         if (action.payload && action.payload.questionId) {
           const updatedQuestions = state.questions.map((qna) => {
             if (qna.id === action.payload.questionId) {
-              // 조회수 증가된 데이터로 업데이트
               return {
                 ...qna,
                 views: qna.views + 1,
@@ -153,6 +228,88 @@ const qnaSlice = createSlice({
         }
         return {
           ...state,
+          loading: false,
+        };
+      })
+      .addCase(recommendViews.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(recommendViews.fulfilled, (state, action) => {
+        if (action.payload && action.payload.qnaId) {
+          const updatedQuestions = state.questions.map((qna) => {
+            if (qna.id === action.payload.qnaId) {
+              return {
+                ...qna,
+                recommend: qna.recommend + 1,
+              };
+            }
+            return qna;
+          });
+
+          return {
+            ...state,
+            questions: updatedQuestions,
+            loading: false,
+          };
+        }
+        return {
+          ...state,
+          loading: false,
+        };
+      })
+      .addCase(addComment.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const { questionId, commentData } = action.payload;
+
+        const updatedQuestions = state.questions.map((qna) => {
+          if (qna.id === questionId) {
+            return {
+              ...qna,
+              comments: [...qna.comments, commentData],
+            };
+          }
+          return qna;
+        });
+
+        return {
+          ...state,
+          questions: updatedQuestions,
+          loading: false,
+        };
+      })
+      .addCase(deleteComment.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        const { questionId, commentId } = action.payload;
+
+        const updatedQuestions = state.questions.map((qna) => {
+          if (qna.id === questionId) {
+            const updatedComments = qna.comments.filter(
+              (comment) => comment.id !== commentId
+            );
+            return {
+              ...qna,
+              comments: updatedComments,
+            };
+          }
+          return qna;
+        });
+
+        return {
+          ...state,
+          questions: updatedQuestions,
           loading: false,
         };
       });

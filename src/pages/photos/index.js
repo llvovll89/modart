@@ -62,7 +62,7 @@ const PhotoContainer = styled.div`
 
 const PhotoContents = styled.div`
   max-width: 1280px;
-  background: #FFFFFF;
+  background: #ffffff;
   margin: 0 auto;
 
   .photo_list {
@@ -136,7 +136,7 @@ const PhotoContents = styled.div`
 
 const PhotoDetailPage = styled.div`
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 964px;
   min-height: calc(100vh - 60px);
   padding: 12px 20px;
   display: flex;
@@ -144,8 +144,9 @@ const PhotoDetailPage = styled.div`
   flex-direction: column;
 
   .contents {
-    max-width: 768px;
+    max-width: 654px;
     width: 100%;
+    word-break: break-all;
 
     .photo_users {
       width: 100%;
@@ -172,7 +173,7 @@ const PhotoDetailPage = styled.div`
         flex-direction: column;
         p {
           font-weight: 700;
-          font-size: clamp(14px, 1.5vw, 16px);
+          font-size: clamp(13px, 1.5vw, 16px);
         }
 
         span {
@@ -188,7 +189,6 @@ const PhotoDetailPage = styled.div`
       width: 100%;
       height: 450px;
       min-height: 400px;
-      padding: 6px;
       background: #fafafafa;
       border-radius: 6px;
       overflow: hidden;
@@ -212,42 +212,68 @@ const PhotoDetailPage = styled.div`
         align-items: center;
 
         .link {
-          button {;
-            width: 24px;
-            height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          button {
+            width: 30px;
+            height: 30px;
             margin-right: 12px;
+            background: #333;
+            border-radius: 50%;
+            position: relative;
+            color: #fff;
 
             svg {
-              width:100%;
-              height: 100%;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 60%;
+              height: 60%;
             }
 
-            &:first-child {
-              color: #df3a24;
+            &:nth-child(1) {
+              color: #e7a7a7;
+            }
+            &:nth-child(2) {
+              color: #a7c6e7;
             }
           }
         }
-      
+
         .date {
-          font-size: clamp(13.5px, 1.5vw, 16px);
-          font-weight: 700;
+          font-size: clamp(12px, 1.5vw, 14px);
+          font-weight: 500;
+          color: #9d8e8e;
         }
       }
-      
+
       .photo_title {
         padding-top: 12px;
-        h1 {
-          font-size: clamp(15px, 1.8vw, 17px);
+        .title {
+          font-size: clamp(14px, 1.8vw, 17px);
+          margin-bottom: 6px;
+          letter-spacing: 0.025rem;
         }
 
-        p {
-          font-size: clamp(14px, 1.4vw, 15px);
+        .desc {
+          letter-spacing: -0.015rem;
+          text-indent: 3px;
+          font-size: clamp(13px, 1.4vw, 15px);
+        }
+        .over {
+          margin-left: 6px;
+          cursor: pointer;
+          color: #7d7373;
         }
       }
     }
   }
 
   @media screen and (max-width: 768px) {
+    padding: 12px;
     .contents {
       .snapImg {
         min-height: 300px;

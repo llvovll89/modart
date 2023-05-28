@@ -193,6 +193,7 @@ export const TodayDetailPage = styled.div`
           .today_type {
             margin-right: 12px;
             font-size: clamp(12px, 1vw, 13px);
+            font-weight: 500;
           }
         }
         
@@ -230,10 +231,22 @@ export const TodayDetailPage = styled.div`
       padding: 16px 12px;
       
       .desc {
+        margin-bottom: 12px;
         display: inline-block;
       min-height: 200px;
       width: 100%;
       padding: 12px 6px 4px 6px;
+      }
+      
+      .recommend {
+        margin: 6px auto;
+        display: block;
+       padding : 12px 20px;
+       font-size: clamp(14px, 1.5vw, 16px);
+       background: rgba(47, 42, 42, 0.701);
+       border-radius: 6px;
+       color: #FFF;
+
       }
     }
 
@@ -296,10 +309,28 @@ export const TodayDetailPage = styled.div`
         border: 1px solid #e8e1e1;
         border-radius: 6px;
 
-        p {
+        .profile {
+          display: flex;
+          align-items: center;
+          margin-bottom: 16px;
+          gap: 6px;
+
+          img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+          }
+          
+          span {
+            font-size: clamp(13px, 1.35vw, 14px);
+            font-weight: 700;
+          }
+        }
+
+        .comment_text {
           font-size: clamp(12.5px, 1.5vw, 14px);
           font-weight: 600;
-          margin-bottom: 9px;
+          margin-bottom: 12px;
         }
 
         form {
@@ -313,11 +344,11 @@ export const TodayDetailPage = styled.div`
             padding: 6px 20px;
             width: 100%;
             height: 56px;
-            background: #ede6e6;
+            background: #ededed;
 
             &:focus {
               background: #FFF;
-              border: 1.5px solid #09f;
+              border: 2px solid #09f;
             }
           }
 
