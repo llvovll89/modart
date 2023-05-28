@@ -20,6 +20,7 @@ const QnaDetail = () => {
   const qnaList = useSelector((state) => state.qna.questions);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
+  const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
   const qna = qnaList.find((question) => question.id === id);
 
@@ -43,6 +44,7 @@ const QnaDetail = () => {
   };
 
   const submitComment = (questionId) => {
+    
     if (!user) {
       window.alert('로그인하여야 입력 가능합니다!');
       return;
@@ -56,7 +58,7 @@ const QnaDetail = () => {
     const commentData = {
       text: commentText,
       author: user.nickname,
-      profileImg: user.profileImg,
+      profileImg: user.profileImg || "",
       createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
 
@@ -74,6 +76,13 @@ const QnaDetail = () => {
     if (!user) {
       window.alert('로그인 하여야 삭제 가능합니다!');
     }
+
+  const comment = qna.comments[commentId];
+
+  if (comment && comment.author !== user.nickname) {
+    window.alert('다른 유저의 댓글은 삭제할 수 없습니다!');
+    return;
+  }
 
     dispatch(deleteComment({ questionId, commentId }))
       .then(() => {
@@ -169,10 +178,14 @@ const QnaDetail = () => {
                         <div key={commentId} className="comment_item">
                           <div className="profile">
                             <div className="user">
-                              <img
-                                src={comment.profileImg}
-                                alt={comment.author}
-                              />
+                              {user && user.profileImg ? (
+                                <img
+                                  src={user.profileImg}
+                                  alt={user.nickname}
+                                />
+                              ) : (
+                                <img src={NO_IMAGE_URL} alt={comment.author} />
+                              )}
                               <span>{comment.author}</span>
                             </div>
                             <span className="date">{comment.createdAt}</span>

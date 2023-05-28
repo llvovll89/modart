@@ -10,7 +10,7 @@ import {
   increment,
   updateDoc,
 } from 'firebase/firestore';
-import { db, storage } from '../../firebase/firebase';
+import { firebaseAuth, db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const storageRef = ref(storage, 'questions_photos');
@@ -69,7 +69,9 @@ export const addComment = createAsyncThunk(
 
       const qnaDoc = await getDoc(qnaRef);
       if (!qnaDoc.exists()) {
-        return rejectWithValue('해당 질문이 존재하지 않습니다.');
+        return rejectWithValue({
+          errorMessage: '해당 질문이 존재하지 않습니다.',
+        });
       }
 
       const comments = qnaDoc.data().comments || [];
@@ -91,7 +93,13 @@ export const deleteComment = createAsyncThunk(
   'question/deleteComment',
   async (payload, { rejectWithValue }) => {
     try {
-      const { questionId, commentData } = payload;
+      const { questionId, commentId  } = payload;
+
+      const currentUser = firebaseAuth.currentUser;
+
+      if (!currentUser) {
+        return rejectWithValue('로그인 후에 댓글을 삭제할 수 있습니다.');
+      }
 
       const qnaRef = doc(db, 'questions', questionId);
       const qnaDoc = await getDoc(qnaRef);
@@ -101,15 +109,21 @@ export const deleteComment = createAsyncThunk(
       }
 
       const comments = qnaDoc.data().comments || [];
+
       const updatedComments = comments.filter(
-        (comment) => comment.id !== commentData
+        (comment) =>
+          comment.id !== commentId || comment.userId !== currentUser.uid
       );
+
+       if (updatedComments.length === comments.length) {
+        return rejectWithValue('다른 사용자의 댓글은 삭제할 수 없습니다.');
+      }      
 
       await updateDoc(qnaRef, {
         comments: updatedComments,
       });
 
-      return { questionId, commentData };
+      return { questionId, commentId  };
     } catch (error) {
       console.error(error);
       return rejectWithValue('댓글을 삭제할 수 없습니다.');
@@ -271,6 +285,8 @@ const qnaSlice = createSlice({
 
         const updatedQuestions = state.questions.map((qna) => {
           if (qna.id === questionId) {
+            const comments = qna.comments || [];
+
             return {
               ...qna,
               comments: [...qna.comments, commentData],
