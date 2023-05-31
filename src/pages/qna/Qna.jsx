@@ -22,9 +22,9 @@ const Qna = () => {
     }
   };
 
-  const detailClick =(qna) => {
-    navigate(`/qna/details/${qna.id}`)
-  }
+  const detailClick = (qna) => {
+    navigate(`/qna/details/${qna.id}`);
+  };
 
   const handleQuestionClick = (questionId) => {
     dispatch(incrementViews({ questionId }))
@@ -41,7 +41,7 @@ const Qna = () => {
   }, [dispatch]);
 
   return (
-    <Section className='qna_section'>
+    <Section className="qna_section">
       <QnaContainer>
         <div className="contents">
           <div className="text">
@@ -66,11 +66,13 @@ const Qna = () => {
                 key={qna.id}
                 onClick={() => handleQuestionClick(qna.id)}
               >
-                <p className='number'>{qna.number}</p>
-                <p className='title' onClick={() => detailClick(qna)}>{qna.title}</p>
-                <p className='nickname'>{qna.nickname}</p>
-                <p className='date'>{qna.createdAt}</p>
-                <p className='views'>{qna.views ? qna.views : 0} 회</p>
+                <p className="number">{qna.number}</p>
+                <p className="title" onClick={() => detailClick(qna)}>
+                  {qna.title} <span>({qna.comments.length})</span>
+                </p>
+                <p className="nickname">{qna.nickname}</p>
+                <p className="date">{qna.createdAt}</p>
+                <p className="views">{qna.views ? qna.views : 0} 회</p>
               </li>
             ))
           ) : (

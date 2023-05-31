@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Section } from '../../styles/RecycleStyles';
 import { BoardContainer, BoardContents } from './index';
 import { AiFillSkin } from 'react-icons/ai';
-import { getBoards } from '../../store/reducers/boardSlice';
+import { getBoards, incrementViews } from '../../store/reducers/boardSlice';
 import Loading from '../../components/common/Loading';
 
 const Board = () => {
@@ -12,6 +12,16 @@ const Board = () => {
   const boardList = useSelector((state) => state.board.boards) || null;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleViewsClick = (boardId) => {
+    dispatch(incrementViews({ boardId }))
+      .then(() => {
+        dispatch(getBoards());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleWriteClick = () => {
     if (user) {
@@ -22,16 +32,22 @@ const Board = () => {
     }
   };
 
+  
   const detailClick = (board) => {
     navigate(`/board/details/${board.id}`);
   };
+
+  const handleCardClick = (board) => {
+    handleViewsClick(board.id);
+    detailClick(board);
+  }
 
   useEffect(() => {
     dispatch(getBoards());
   }, [dispatch]);
 
   return (
-    <Section className='ootd_section'>
+    <Section className="ootd_section">
       <BoardContainer>
         <div className="contents">
           <div className="text">
@@ -50,21 +66,40 @@ const Board = () => {
         <ul className="board_list">
           {boardList.length > 0 ? (
             boardList.map((board) => (
-              <li className="board_card" key={board.id}>
-                <div className="board_img" onClick={() => detailClick(board)}>
+              <li
+                className="board_card"
+                key={board.id}
+              >
+                <div className="like">
+                  {board.recommend > 0 ? (
+                    <>
+                    <span>👍</span>
+                    <p className='like_views'>{board.recommend}</p>
+                    </>
+                  ) : (
+                    <>
+                    <span>👍</span>
+                    <p className='like_views'>0</p>
+                    </>
+                  )}
+                </div>
+                <div className="board_img" onClick={() => handleCardClick(board)}>
                   <img src={board.photo} alt={board.title} />
                 </div>
                 <div className="items">
                   <h3
-                    className="board_title"
-                    onClick={() => detailClick(board)}
+                  className="board_title"
+                  onClick={() => handleCardClick(board)}
                   >
                     {board.title.length > 30
                       ? board.title.subString(0, 30) + '...'
                       : board.title}
                   </h3>
                   <div className="item_contents">
+                    <div className="sub_items">
                     <span className="item_brand">{board.brand}</span>
+                    <span className='item_views'>조회수 {board.views}(회)</span>
+                    </div>
                     <div className="sub_items">
                       <span className="item_nickname">{board.nickname}</span>
                       <span className="item_date">{board.createdAt}</span>

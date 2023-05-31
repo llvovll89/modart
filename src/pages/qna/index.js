@@ -137,6 +137,8 @@ export const QnaArticle = styled.article`
     .card_contents {
       padding: 10px 0;
       .card_desc {
+        padding-top: 12px;
+        min-height: 150px;
         margin-bottom: 6px;
         font-size: clamp(14px, 1vw, 16px);
         line-height: 1.5;
@@ -249,7 +251,7 @@ export const QnaArticle = styled.article`
 
         .comment_item {
           width: 100%;
-          margin: 6px 0;
+          margin: 12px 0;
           padding-bottom: 6px;
           border-bottom: 1px solid #ddd;
 
@@ -279,19 +281,46 @@ export const QnaArticle = styled.article`
           }
 
           .comment_desc {
+            .edit_value {
+              margin: 12px 0;
+              width: 100%;
+              padding: 12px;
+              border-radius: 4px;
+              outline: none;
+              border: 1px solid rgb(238, 238, 238);
+            }
 
             p {
               text-indent: 6px;
-              margin: 6px 0;
+              margin: 12px 0px 6px 0px;
               line-height: 30px;
-              min-height: 30px;
+              min-height: 60px;
               font-size: clamp(12px, 1.5vw, 14px);
             }
+          }
 
-            .delete_comment {
-              padding: 6px;
+          .comment_btns {
+            padding: 6px 0px;
+            width: 100%;
+
+            button {
+              padding: 6px 12px;
+              border-radius: 4px;
               font-size: clamp(12px, 1vw, 13px);
-              color: red;
+              color: #fff;
+              margin-right: 12px;
+            }
+
+            .delete_btn {
+              background: red;
+            }
+
+            .edit_btn {
+              background: #55a555;
+            }
+
+            .save_btn {
+              background: #09f;
             }
           }
         }

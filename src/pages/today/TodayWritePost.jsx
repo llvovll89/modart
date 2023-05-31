@@ -14,14 +14,10 @@ const TodayWritePost = () => {
 
   const onChangeHandler = (e) => {
     if (e.target.name === 'photo') {
-      const file = e.target.file[0];
-      if (file) {
-        setAddData({
-          ...addData,
-          photo: file,
-          fileName: file.name,
-        });
-      }
+      setAddData({
+        ...addData,
+        [e.target.name]: e.target.files[0],
+      })
     } else {
       setAddData({
         ...addData,

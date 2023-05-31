@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   addComment,
   deleteComment,
+  editComment,
   getQna,
   recommendViews,
 } from '../../store/reducers/qnaSlice';
@@ -17,6 +18,8 @@ const QnaDetail = () => {
   const { id } = useParams();
   const [comment, setComment] = useState(false);
   const [commentText, setCommentText] = useState('');
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [updatedCommentText, setUpdatedCommentText] = useState('');
   const qnaList = useSelector((state) => state.qna.questions);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
@@ -44,21 +47,20 @@ const QnaDetail = () => {
   };
 
   const submitComment = (questionId) => {
-    
     if (!user) {
-      window.alert('로그인하여야 입력 가능합니다!');
+      window.alert('로그인한 유저만 댓글을 쓸 수 있습니다!');
       return;
     }
 
     if (commentText.trim() === '') {
-      window.alert('댓글을 입력해주세요!');
+      window.alert('댓글을 입력 해주세요!');
       return;
     }
 
     const commentData = {
       text: commentText,
       author: user.nickname,
-      profileImg: user.profileImg || "",
+      profileImg: user.profileImg || '',
       createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
 
@@ -72,17 +74,49 @@ const QnaDetail = () => {
       });
   };
 
+  const editComments = (questionId, commentId) => {
+    if (!user) {
+      window.alert('로그인하여야 댓글을 수정할 수 있습니다!');
+      return;
+    }
+
+    if (updatedCommentText.trim() === '') {
+      window.alert('수정할 댓글을 입력해주세요!');
+      return;
+    }
+
+    const comment = qna.comments[commentId];
+
+    const commentData = {
+      text: updatedCommentText,
+      author: comment.author,
+      profileImg: comment.profileImg,
+      createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    };
+
+    dispatch(editComment({ questionId, commentId, commentData }))
+      .then(() => {
+        dispatch(getQna());
+        setEditingCommentId(null);
+        setUpdatedCommentText('');
+      })
+      .catch((error) => {
+        console.error('댓글을 수정할 수 없습니다.', error);
+      });
+  };
+
   const deletedComment = (questionId, commentId) => {
     if (!user) {
       window.alert('로그인 하여야 삭제 가능합니다!');
+      return;
     }
 
-  const comment = qna.comments[commentId];
+    const comment = qna.comments[commentId];
 
-  if (comment && comment.author !== user.nickname) {
-    window.alert('다른 유저의 댓글은 삭제할 수 없습니다!');
-    return;
-  }
+    if (comment && comment.author !== user.nickname) {
+      window.alert('다른 유저의 댓글은 삭제할 수 없습니다!');
+      return;
+    }
 
     dispatch(deleteComment({ questionId, commentId }))
       .then(() => {
@@ -174,6 +208,8 @@ const QnaDetail = () => {
                   {qna.comments &&
                     Object.keys(qna.comments).map((commentId) => {
                       const comment = qna.comments[commentId];
+                      const isEditing = editingCommentId === commentId;
+
                       return (
                         <div key={commentId} className="comment_item">
                           <div className="profile">
@@ -191,15 +227,44 @@ const QnaDetail = () => {
                             <span className="date">{comment.createdAt}</span>
                           </div>
                           <div className="comment_desc">
-                            <p>{comment.text}</p>
+                            {isEditing ? (
+                              <input
+                                type="text"
+                                value={updatedCommentText}
+                                onChange={(e) =>
+                                  setUpdatedCommentText(e.target.value)
+                                }
+                                className="edit_value"
+                              />
+                            ) : (
+                              <p>{comment.text}</p>
+                            )}
+                          </div>
+                          <div className="comment_btns">
                             {user && (
                               <button
-                                className="delete_comment"
+                                className="edit_btn"
+                                onClick={() => setEditingCommentId(commentId)}
+                              >
+                                수정
+                              </button>
+                            )}
+                            {user && (
+                              <button
+                                className="delete_btn"
                                 onClick={() =>
                                   deletedComment(qna.id, commentId)
                                 }
                               >
-                                댓글 삭제
+                                삭제
+                              </button>
+                            )}
+                            {isEditing && (
+                              <button
+                                className="save_btn"
+                                onClick={() => editComments(qna.id, commentId)}
+                              >
+                                저장
                               </button>
                             )}
                           </div>

@@ -3,13 +3,16 @@ import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
+  getDoc,
   getDocs,
   increment,
   updateDoc,
 } from 'firebase/firestore';
-import { db, storage } from '../../firebase/firebase';
+import { db, firebaseAuth, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const storageRef = ref(storage, 'todays_photos');
@@ -94,12 +97,108 @@ export const createData = createAsyncThunk(
   }
 );
 
+export const addComment = createAsyncThunk(
+  'todays/comment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { todayId, commentData } = payload;
+      const todayRef = doc(db, 'todays', todayId);
+
+      const todayDoc = await getDoc(todayRef);
+
+      if(!todayDoc.exists()){
+        return rejectWithValue({
+          errorMessage: '해당 질문이 존재하지 않습니다.',
+        })
+      }
+
+      const comments = todayDoc.data().comments || [];
+      const updatedComments = [...comments, commentData];
+
+      await updateDoc(todayRef, {
+        comments: updatedComments,
+      });
+
+      return { todayId, commentData };
+
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 추가할 수 없습니다.');
+    }
+  }
+);
+
+export const editComment = createAsyncThunk('todays/editComment', async (payload, {rejectWithValue}) => {
+  try {
+    const { todayId, commentId, updatedCommentData } = payload;
+
+    await updateDoc(todayRef, {
+      [`comments.${commentId}`]: updatedCommentData,
+    });
+
+    return { todayId, commentId, updatedCommentData };
+
+  } catch (error) {
+    console.error(error);
+    return rejectWithValue('댓글을 수정할 수 없습니다.');
+  }
+})
+
+export const deleteComment = createAsyncThunk(
+  'todays/deleteComment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { todayId, commentId } = payload
+      const currentUser = firebaseAuth.currentUser;
+
+      if (!currentUser) {
+        return rejectWithValue('로그인 후에 댓글을 삭제할 수 있습니다.');
+      }      
+
+      const todayRef = doc(db, 'todays', todayId);
+      const todayDoc = await getDoc(todayRef);
+
+      if(!todayDoc.exists()){
+        return rejectWithValue({
+          errorMessage: '해당 질문이 존재하지 않습니다.',
+        })
+      }
+
+      const comments = todayDoc.data().comments || [];
+      const userData = localStorage.getItem('user');
+      const parseData = JSON.parse(userData);
+
+      const updatedComments = comments.filter((comment, index) => {
+        if(index === parseInt(commentId) && comment.author === parseData.nickname) {
+          return false;
+        }
+
+        return true;
+      })
+
+      if (updatedComments.length === comments.length) {
+        return rejectWithValue('다른 사용자의 댓글은 삭제할 수 없습니다.');
+      }
+
+      await updateDoc(todayRef, {
+        comments: updatedComments,
+      });
+      
+
+      return { todayId, commentId };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 삭제할 수 없습니다.');
+    }
+  }
+);
+
+
 export const getTodays = createAsyncThunk('todays/get', async () => {
   moment.locale('ko');
 
   const querySnapshot = await getDocs(collection(db, 'todays'));
-  const todaysData = querySnapshot.docs.map((doc, index) => {
-    // index 파라미터 추가
+  const todaysData = querySnapshot.docs.map((doc) => {
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
     let formattedTime;
@@ -114,7 +213,6 @@ export const getTodays = createAsyncThunk('todays/get', async () => {
 
     return {
       id: doc.id,
-      number: index + 1,
       createdAt: formattedTime,
       ...dataWithoutCreatedAt,
     };
@@ -200,6 +298,66 @@ const todaysSlice = createSlice({
         return {
           ...state,
           loading: false,
+        };
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const { todayId, commentData } = action.payload;
+
+        const updatedTodays = state.todays.map((today) => {
+          if (today.id === todayId) {
+            const updatedComments = [...today.comments, commentData];
+            return {
+              ...today,
+              comments: updatedComments,
+            };
+          }
+          return today;
+        });
+
+        return {
+          ...state,
+          todays: updatedTodays,
+        };
+      })
+      .addCase(editComment.fulfilled, (state, action) => {
+        const { todayId, commentId, updatedCommentData } = action.payload;
+
+        const updatedTodays = state.todays.map((today) => {
+          if (today.id === todayId) {
+            const updatedComments = [...today.comments];
+            updatedComments[commentId] = updatedCommentData;
+            return {
+              ...today,
+              comments: updatedComments,
+            };
+          }
+          return today;
+        });
+
+        return {
+          ...state,
+          todays: updatedTodays,
+        };
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        const { todayId, commentId } = action.payload;
+
+        const updatedTodays = state.todays.map((today) => {
+          if (today.id === todayId) {
+            const updatedComments = today.comments.filter(
+              (comment) => comment.id !== commentId
+            );
+            return {
+              ...today,
+              comments: updatedComments,
+            };
+          }
+          return today;
+        });
+
+        return {
+          ...state,
+          todays: updatedTodays,
         };
       });
   },

@@ -29,23 +29,23 @@ export const createData = createAsyncThunk(
 
       const photoURL = await uploadFile(photo);
 
-      const photoRef = await addDoc(collection(db, 'photos'), {
+      const photoData = {
         category,
         title,
         desc,
-        photo: photoURL,
         nickname,
         createdAt: Date.now(),
-      });
+      };
+
+      if (photoURL) {
+        photoData.photo = photoURL;
+      }
+
+      const photoRef = await addDoc(collection(db, 'photos'), photoData);
 
       return {
         id: photoRef.id,
-        category,
-        title,
-        desc,
-        photo: photoURL,
-        nickname,
-        createdAt: Date.now(),
+        ...photoData,
       };
     } catch (error) {
       console.error(error);

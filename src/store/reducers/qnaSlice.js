@@ -89,14 +89,57 @@ export const addComment = createAsyncThunk(
   }
 );
 
+export const editComment = createAsyncThunk(
+  'question/editComment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { questionId, commentId, updatedCommentData } = payload;
+
+      const currentUser = firebaseAuth.currentUser;
+      const currentUserId = currentUser?.uid;
+
+      if (!currentUser) {
+        return rejectWithValue('로그인 후에 댓글을 수정할 수 있습니다.');
+      }
+
+      const qnaRef = doc(db, 'questions', questionId);
+      const qnaDoc = await getDoc(qnaRef);
+
+      if (!qnaDoc.exists()) {
+        return rejectWithValue('해당 질문이 존재하지 않습니다.');
+      }
+
+      const comments = qnaDoc.data().comments || [];
+      const updatedComments = comments.map((comment) => {
+        if (comment.id === commentId && comment.userId === currentUserId) {
+          return {
+            ...comment,
+            ...updatedCommentData,
+          };
+        }
+
+        return comment;
+      });
+
+      await updateDoc(qnaRef, {
+        comments: updatedComments,
+      });
+
+      return { questionId, commentId, updatedCommentData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 수정할 수 없습니다.');
+    }
+  }
+);
+
 export const deleteComment = createAsyncThunk(
   'question/deleteComment',
   async (payload, { rejectWithValue }) => {
     try {
-      const { questionId, commentId  } = payload;
-
+      const { questionId, commentId } = payload;
       const currentUser = firebaseAuth.currentUser;
-
+      
       if (!currentUser) {
         return rejectWithValue('로그인 후에 댓글을 삭제할 수 있습니다.');
       }
@@ -109,21 +152,28 @@ export const deleteComment = createAsyncThunk(
       }
 
       const comments = qnaDoc.data().comments || [];
+      const userData = localStorage.getItem('user');
+      const parseData = JSON.parse(userData);
 
-      const updatedComments = comments.filter(
-        (comment) =>
-          comment.id !== commentId || comment.userId !== currentUser.uid
-      );
+      const updatedComments = comments.filter((comment, index) => {
+        if (
+          index === parseInt(commentId) &&
+          comment.author === parseData.nickname
+        ) {
+          return false;
+        }
 
-       if (updatedComments.length === comments.length) {
+        return true;
+      });
+
+      if (updatedComments.length === comments.length) {
         return rejectWithValue('다른 사용자의 댓글은 삭제할 수 없습니다.');
-      }      
+      }
 
       await updateDoc(qnaRef, {
         comments: updatedComments,
       });
-
-      return { questionId, commentId  };
+      return { questionId, commentId };
     } catch (error) {
       console.error(error);
       return rejectWithValue('댓글을 삭제할 수 없습니다.');
@@ -290,6 +340,41 @@ const qnaSlice = createSlice({
             return {
               ...qna,
               comments: [...qna.comments, commentData],
+            };
+          }
+          return qna;
+        });
+
+        return {
+          ...state,
+          questions: updatedQuestions,
+          loading: false,
+        };
+      })
+      .addCase(editComment.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(editComment.fulfilled, (state, action) => {
+        const { questionId, commentId, updatedCommentData } = action.payload;
+
+        const updatedQuestions = state.questions.map((qna) => {
+          if (qna.id === questionId) {
+            const updatedComments = qna.comments.map((comment) => {
+              if (comment.id === commentId) {
+                return {
+                  ...comment,
+                  ...updatedCommentData,
+                };
+              }
+              return comment;
+            });
+
+            return {
+              ...qna,
+              comments: updatedComments,
             };
           }
           return qna;

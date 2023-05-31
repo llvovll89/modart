@@ -4,7 +4,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
+  increment,
+  updateDoc,
 } from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -57,6 +61,67 @@ export const createData = createAsyncThunk(
   }
 );
 
+export const recommendViews = createAsyncThunk('boards/recommendViews', async (payload, {rejectWithValue}) => {
+  try {
+    const { boardId } = payload;
+    const boardRef = doc(db, 'boards', boardId);
+
+    await updateDoc(boardRef, {
+      recommend: increment(1),
+    })
+
+  } catch (error) {
+    console.error(error);
+    return rejectWithValue('추천을 할 수 없습니닷.');
+  }
+})
+
+export const incrementViews = createAsyncThunk(
+  'boards/incrementViews',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { boardId } = payload;
+      const boardRef = doc(db, 'boards', boardId);
+
+      await updateDoc(boardRef, {
+        views: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('조회수를 업데이트 할 수 없습니다.');
+    }
+  }
+);
+
+export const addComment = createAsyncThunk(
+  'boards/comment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { boardId, commentData } = payload;
+      const boardRef = doc(db, 'boards', boardId);
+      const boardDoc = await getDoc(boardRef);
+
+      if (!boardDoc.exists()) {
+        return rejectWithValue({
+          errorMessage: '해당 질문이 존재하지 않습니다.',
+        });
+      }
+
+      const comments = boardDoc.data().comments || [];
+      const updatedComments = [...comments, commentData];
+
+      await updateDoc(boardRef, {
+        comments: updatedComments,
+      });
+
+      return { boardId, commentData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 추가 할 수 없습니다.');
+    }
+  }
+);
+
 export const getBoards = createAsyncThunk('boards/get', async () => {
   moment.locale('ko');
 
@@ -84,7 +149,7 @@ export const getBoards = createAsyncThunk('boards/get', async () => {
 
 const boardSlice = createSlice({
   name: 'board',
-  initialState: { boards: [], postCount: 0 },
+  initialState: { boards: [], postCount: 0, loading: false },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -102,7 +167,88 @@ const boardSlice = createSlice({
           boards: action.payload,
           postCount: action.payload.length,
         };
-      });
+      })
+      .addCase(addComment.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const { boardId, commentData } = action.payload;
+
+        const updatedBoards = state.questions.map((board) => {
+          if (board.id === boardId) {
+            const comments = board.comments || [];
+
+            return {
+              ...board,
+              comments: [...board.comments, commentData],
+            };
+          }
+          return board;
+        });
+
+        return {
+          ...state,
+          boards: updatedBoards,
+          loading: false,
+        };
+      })
+      .addCase(incrementViews.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(incrementViews.fulfilled, (state, action) => {
+        if (action.payload && action.payload.boardId) {
+          const updatedBoards = state.boards.map((ootd) => {
+            if (ootd.id === action.payload.boardId) {
+              return {
+                ...ootd,
+                views: ootd.views + 1,
+              };
+            }
+            return ootd;
+          });
+
+          return {
+            ...state,
+            boards: updatedBoards,
+            loading: false,
+          };
+        }
+      })
+      .addCase(recommendViews.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(recommendViews.fulfilled, (state, action) => {
+        if (action.payload && action.payload.boardId) {
+          const updatedBoards = state.boards.map((ootd) => {
+            if (ootd.id === action.payload.boardId) {
+              return {
+                ...ootd,
+                recommend: ootd.recommend + 1,
+              };
+            }
+            return ootd;
+          });
+
+          return {
+            ...state,
+            boards: updatedBoards,
+            loading: false,
+          };
+        }
+        return {
+          ...state,
+          loading: false,
+        };
+      })
   },
 });
 

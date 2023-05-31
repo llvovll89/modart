@@ -10,7 +10,6 @@ import Loading from '../../components/common/Loading';
 const TodayStory = () => {
   const user = useSelector((state) => state.login.user);
   const todayList = useSelector((state) => state.today.todays);
-  const [newTodayList, setNewTodayList] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,15 +38,11 @@ const TodayStory = () => {
     navigate(`/today/details/${today.id}`);
   };
 
+
+
   useEffect(() => {
     dispatch(getTodays());
   }, [dispatch]);
-
-  useEffect(() => {
-    const sortList = [...todayList].sort((a, b) => b.createdAt - a.createdAt);
-    setNewTodayList(sortList);
-    console.log(sortList);
-  }, [todayList]);
 
   return (
     <Section className="today_section">
@@ -68,8 +63,8 @@ const TodayStory = () => {
 
       <TodayContents>
         <ul className="today_list">
-          {newTodayList ? (
-            newTodayList.slice(0, 10).map((today) => (
+          {todayList ? (
+            todayList.slice(0, 10).map((today) => (
               <li className="today_card" key={today.id}>
                 <div className="today_type">
                   <span>{today.type}</span>
@@ -89,8 +84,8 @@ const TodayStory = () => {
                     }}
                   >
                     {today.title.length > 30
-                      ? today.title.subString(0, 30) + '...'
-                      : today.title}
+                      ? today.title.subString(0, 30) + '...' 
+                      : today.title }
                   </h3>
                   <div className="item_contents">
                     <span className="item_type">{today.type}</span>

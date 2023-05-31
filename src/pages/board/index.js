@@ -91,6 +91,19 @@ const BoardContents = styled.div`
         margin-bottom: 0;
       }
 
+      .like {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        padding: 6px;
+        color: #AAA;
+
+        .like_views {
+          font-size: clamp(12px, 1.5vw, 14px);
+        }
+      }
+
       .board_img {
         img {
           width: 70px;
@@ -116,7 +129,7 @@ const BoardContents = styled.div`
         }
 
         .item_contents {
-          .item_brand {
+          .item_brand, .item_views {
             display: inline-block;
             color: #686868;
             font-size: clamp(11px, 1vw, 12px);
@@ -125,10 +138,14 @@ const BoardContents = styled.div`
           }
 
           .sub_items {
+            margin: 3px 0px;
             display: flex;
             gap: 6px;
-
             font-size: clamp(11px, 1.2vw, 13px);
+
+            &:first-child {
+              justify-content: space-between;
+            }
           }
         }
       }
@@ -290,11 +307,11 @@ const BoardDetailPage = styled.div`
           width: 100%;
 
           .profile {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            .profileImg {
+            .profile_contents {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              .profileImg {
               width: 36px;
               height: 36px;
               border-radius: 50%;
@@ -302,6 +319,7 @@ const BoardDetailPage = styled.div`
 
             .nickname {
               font-size: clamp(12px, 1vw, 14px);
+            }
             }
           }
 

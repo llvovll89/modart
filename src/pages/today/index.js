@@ -167,8 +167,7 @@ export const TodayContents = styled.div`
 `;
 
 export const TodayDetailPage = styled.div`
-  margin: 0px auto;
-  margin-top: 30px;
+  margin: 30px auto;
   max-width: 964px;
   width: 100%;
   min-height: 460px;
@@ -303,7 +302,7 @@ export const TodayDetailPage = styled.div`
         }
       }
       
-      .comment_form {
+      .comments {
         margin-top: 20px;
         padding: 20px;
         border: 1px solid #e8e1e1;
@@ -333,7 +332,7 @@ export const TodayDetailPage = styled.div`
           margin-bottom: 12px;
         }
 
-        form {
+        .comment_form {
           margin-top: 6px;
           width: 100%;
           display: flex;
@@ -352,7 +351,7 @@ export const TodayDetailPage = styled.div`
             }
           }
 
-          button[type="submit"] {
+          .submit {
             width: 96px;
             height: 56px;
             border: 1px solid #ccc;
