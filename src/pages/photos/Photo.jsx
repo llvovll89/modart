@@ -12,6 +12,8 @@ const Photo = () => {
   const photoList = useSelector((state) => state.photo.photos) || null;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
+
   const [newPhotoList, setNewPhotoList] = useState([]);
 
   const handleWriteClick = () => {
@@ -62,7 +64,11 @@ const Photo = () => {
             newPhotoList.slice(0, 10).map((photo) => (
               <li className="photo_card" key={photo.id}>
                 <div className="photo_img" onClick={() => detailClick(photo)}>
+                 {photo.photo ? (
                   <img src={photo.photo} alt={photo.title} />
+                 ) : (
+                  <img src={NO_IMAGE_URL} alt="server_error" />
+                 )}
                 </div>
                 <div className="items">
                   <h3

@@ -2,7 +2,7 @@ import {
   createSlice,
   createAsyncThunk,
   isRejectedWithValue,
-} from '@reduxjs/toolkit';
+} from "@reduxjs/toolkit";
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -10,25 +10,29 @@ import {
   signOut,
   setPersistence,
   browserLocalPersistence,
-} from 'firebase/auth';
-import { auth, db, storage } from '../../firebase/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
+import { auth, db, storage } from "../../firebase/firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-export const googleLogin = createAsyncThunk('login/googleLogin', async () => {
+export const googleLogin = createAsyncThunk("login/googleLogin", async () => {
   const provider = new GoogleAuthProvider();
   const result = await signInWithPopup(auth, provider);
   const googleUser = result.user;
   console.log(googleUser);
 
-  const userDocRef = doc(db, 'users', googleUser.uid);
+  const userDocRef = doc(db, "users", googleUser.uid);
   const userDocSnapshot = await getDoc(userDocRef);
-  return userDocSnapshot.data();
+  const userData = userDocSnapshot.data();
+  return { ...userData, nickname: userData.displayName };
 });
 
-export const signIn = createAsyncThunk('auth/login', async (userData) => {
+export const signIn = createAsyncThunk("auth/login", async (payload) => {
   try {
-    const { email, password } = userData;
+    const { email, password } = payload;
     await setPersistence(auth, browserLocalPersistence);
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -36,11 +40,11 @@ export const signIn = createAsyncThunk('auth/login', async (userData) => {
       password
     );
     const user = userCredential.user;
-    const userDocRef = doc(db, 'users', user.uid);
+    const userDocRef = doc(db, "users", user.uid);
     const userDocSnapshot = await getDoc(userDocRef);
 
     if (!userDocSnapshot.exists()) {
-      throw new Error('회원가입을 하지 않은 유저입니다.');
+      throw new Error("회원가입을 하지 않은 유저입니다.");
     }
     return userDocSnapshot.data();
   } catch (error) {
@@ -48,7 +52,7 @@ export const signIn = createAsyncThunk('auth/login', async (userData) => {
   }
 });
 
-export const signOuterUer = createAsyncThunk('auth/signOut', async () => {
+export const signOuterUer = createAsyncThunk("auth/signOut", async () => {
   try {
     await signOut(auth);
     await setPersistence(auth, browserLocalPersistence);
@@ -57,28 +61,51 @@ export const signOuterUer = createAsyncThunk('auth/signOut', async () => {
   }
 });
 
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { currentPassword, newPassword } = payload;
+      const user = auth.currentUser;
+      if (user) {
+        const credentials = EmailAuthProvider.credential(
+          user.email,
+          currentPassword
+        );
+
+        await reauthenticateWithCredential(user, credentials);
+        await updatePassword(user, newPassword);
+        return "비밀번호가 성공적으로 변경되었습니다.";
+      } else {
+        throw new Error("사용자를 찾을 수 없습니다.");
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const uploadFile = async (file) => {
-  const storageRef = ref(storage, 'users_photos');
+  const storageRef = ref(storage, "users_photos");
   const fileRef = ref(storageRef, file.name);
   await uploadBytes(fileRef, file);
   const fileURL = await getDownloadURL(fileRef);
   return fileURL;
-}
+};
 
 export const updateUserData = createAsyncThunk(
-  'login/updateUserData',
+  "login/updateUserData",
   async (updatedData, { getState }) => {
     try {
       const user = auth.currentUser;
       if (user) {
-        const userDocRef = doc(db, 'users', user.uid);
+        const userDocRef = doc(db, "users", user.uid);
         const currentState = getState();
         const currentUserData = currentState.login.user;
 
-        let newData = {...updatedData};
+        let newData = { ...updatedData };
 
-        if(updatedData.photo) {
+        if (updatedData.photo) {
           const photoURL = await uploadFile(updatedData.photo);
           newData.photo = photoURL;
           delete newData.photo;
@@ -92,7 +119,7 @@ export const updateUserData = createAsyncThunk(
         await updateDoc(userDocRef, updatedUserData);
         return updatedData;
       } else {
-        throw new Error('사용자를 찾을 수 없습니다.');
+        throw new Error("사용자를 찾을 수 없습니다.");
       }
     } catch (error) {
       return isRejectedWithValue(error.message);
@@ -103,25 +130,25 @@ export const updateUserData = createAsyncThunk(
 export const listenToAuthChanges = () => (dispatch) => {
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      const userDocRef = doc(db, 'users', user.uid);
+      const userDocRef = doc(db, "users", user.uid);
       const userDocSnapshot = await getDoc(userDocRef);
       if (userDocSnapshot.exists()) {
         const userData = userDocSnapshot.data();
         dispatch({
-          type: 'login/loginSuccess',
+          type: "login/loginSuccess",
           payload: userData,
         });
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem("user", JSON.stringify(userData));
       }
     } else {
-      dispatch({ type: 'login/logout' });
-      localStorage.removeItem('user');
+      dispatch({ type: "login/logout" });
+      localStorage.removeItem("user");
     }
   });
 };
 
 const loadUserFromLocalStorage = () => {
-  const userData = localStorage.getItem('user');
+  const userData = localStorage.getItem("user");
   if (userData) {
     return JSON.parse(userData);
   }
@@ -129,7 +156,7 @@ const loadUserFromLocalStorage = () => {
 };
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState: {
     user: loadUserFromLocalStorage(),
   },
@@ -139,7 +166,7 @@ const loginSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(`${googleLogin.rejected}`, (state, action) => {
-      alert('로그인 실패!');
+      alert("로그인 실패!");
       console.log(action.payload);
     });
     builder.addCase(`${signIn.fulfilled}`, (state, action) => {
@@ -161,12 +188,23 @@ const loginSlice = createSlice({
     });
     // 로그아웃
     builder.addCase(`${signOuterUer.fulfilled}`, (state, action) => {
-      alert('로그아웃 성공!');
+      alert("로그아웃 성공!");
       state.user = null;
     });
     builder.addCase(`${signOuterUer.rejected}`, (state, action) => {
-      alert('로그아웃 실패!');
+      alert("로그아웃 실패!");
       console.log(action.payload);
+    });
+    // 비밀번호 변경
+    builder.addCase(changePassword.fulfilled, (state, action) => {
+      state.error = null;
+      window.alert(action.payload);
+      console.log(action.payload);
+    });
+    builder.addCase(changePassword.rejected, (state, action) => {
+      state.error = action.payload;
+      console.log(action.payload);
+      window.alert(action.payload);
     });
   },
 });

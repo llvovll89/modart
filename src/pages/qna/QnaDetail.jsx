@@ -149,7 +149,7 @@ const QnaDetail = () => {
                   <span>{qna.nickname}</span>
                 </div>
                 <div className="inner">
-                  <span>👍 {qna.recommend}</span>
+                  <span><AiOutlineLike /> {qna.recommend}</span>
                   <span className="date">{qna.createdAt}</span>
                 </div>
               </div>
@@ -182,7 +182,11 @@ const QnaDetail = () => {
                     <div className="top">
                       {user ? (
                         <div className="profile">
-                          <img src={user.profileImg} alt={user.nickname} />
+                          {user.profileImg ? (
+                            <img src={user.profileImg} alt={user.nickname} />
+                          ) : (
+                            <img src={NO_IMAGE_URL} alt={user.nickname} />
+                          )}
                           <span>{user.nickname}</span>
                         </div>
                       ) : (

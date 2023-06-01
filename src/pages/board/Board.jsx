@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Section } from '../../styles/RecycleStyles';
 import { BoardContainer, BoardContents } from './index';
-import { AiFillSkin } from 'react-icons/ai';
+import { AiFillSkin, AiOutlineLike } from 'react-icons/ai';
 import { getBoards, incrementViews } from '../../store/reducers/boardSlice';
 import Loading from '../../components/common/Loading';
 
@@ -73,12 +73,12 @@ const Board = () => {
                 <div className="like">
                   {board.recommend > 0 ? (
                     <>
-                    <span>👍</span>
+                    <span><AiOutlineLike /></span>
                     <p className='like_views'>{board.recommend}</p>
                     </>
                   ) : (
                     <>
-                    <span>👍</span>
+                    <span><AiOutlineLike /></span>
                     <p className='like_views'>0</p>
                     </>
                   )}

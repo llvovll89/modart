@@ -411,7 +411,7 @@ export const QnaArticle = styled.article`
 `;
 
 export const QnaContents = styled.div`
-  max-width: 964px;
+  max-width: 1024px;
   margin: 12px auto 0px auto;
   background: #fefefe;
 
@@ -422,7 +422,7 @@ export const QnaContents = styled.div`
 
     .qna_card {
       display: flex;
-      min-height: 30px;
+      min-height: 40px;
       align-items: center;
       background: #ffffff;
       border-bottom: 1px solid #fff;

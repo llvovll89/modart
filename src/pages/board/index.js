@@ -96,6 +96,7 @@ const BoardContents = styled.div`
         align-items: center;
         flex-direction: column;
         justify-content: center;
+        min-width: 46px;
         padding: 6px;
         color: #AAA;
 

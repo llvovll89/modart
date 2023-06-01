@@ -39,12 +39,38 @@ const Section = styled.section`
 const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 16px;
   height: 100%;
   min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  &.photo_container {
+    .contents {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .visible {
+      margin-top: 12px;
+      text-align: center;
+
+      button {
+        padding: 12px;
+        min-width: 120px;
+
+        span {
+          font-size: clamp(20px, 2vw, 26px);
+
+          svg {
+            color: #333;
+          }
+        }
+      }
+    }
+  }
 
 
   .title {

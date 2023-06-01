@@ -62,6 +62,13 @@ export const TodayContainer = styled.div`
 `;
 
 export const TodayContents = styled.div`
+@font-face {
+  font-family: 'Chosunilbo_myungjo';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
   max-width: 1280px;
   margin: 0 auto;
   background: #ffffff;
@@ -86,19 +93,21 @@ export const TodayContents = styled.div`
       gap: 12px;
 
       &:last-child {
-        margin-bottom: 0;
+        margin-bottom: 12px;
       }
 
       .today_type {
         min-width: 42px;
-        width: 76px;
+        width: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-right: 12px;
+        background: #ccc;
 
         span {
-          font-size: clamp(12.5px, 1.5vw, 13.5px);
+          color: #333;
+          font-family: 'Chosunilbo_myungjo';
+          font-size: clamp(11.5px, 1.5vw, 12.5px);
         }
       }
 
@@ -147,13 +156,14 @@ export const TodayContents = styled.div`
 
   @media screen and (max-width: 768px) {
     .today_list {
-      gap: 3px;
+      padding: 0 6px;
+      gap: 2px;
       .today_card {
         gap: 0px;
         margin: 0px 0px 2px;
 
         .today_type {
-          padding-right: 0px;
+          margin-right: 6px;
           max-width: 70px;
         }
 

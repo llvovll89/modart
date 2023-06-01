@@ -18,17 +18,33 @@ const AccountForm = ({ text, link }) => {
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    setAuthValue({
-      ...authValue,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    if (name === 'email') {
+      // true , false 나옴
+      const isValidDomain =
+        value.endsWidth('naver.com') || value.endsWidth('gmail.com');
+      setAuthValue({
+        ...authValue,
+        [name]: value,
+        isValidEmail: isValidDomain,
+      });
+    } else {
+      setAuthValue({
+        ...authValue,
+        [name]: value,
+      });
+    }
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const isFormValid = Object.values(authValue).every((value) => value !== '');
-    const { email, password, nickname, photo } = authValue;
+    const { email, password, nickname, photo, isValidEmail } = authValue;
     const photoVal = photo ? photo : '';
+    const isFormValid =
+      email !== '' &&
+      password !== '' &&
+      nickname !== '' &&
+      isValidEmail;
 
     if (isFormValid) {
       if (text === '회원가입') {
@@ -52,7 +68,6 @@ const AccountForm = ({ text, link }) => {
         try {
           const user = await dispatch(signIn(authValue)).unwrap();
           if (!user) {
-            // 저장된 유저가 없는 경우
             setAlertText('회원가입을 하지 않은 유저입니다.');
             setIsAlertVisible(true);
             setTimeout(() => {
@@ -69,6 +84,20 @@ const AccountForm = ({ text, link }) => {
           }, 2000);
         }
       }
+    } else {
+      if (email === '') {
+        setAlertText('이메일을 입력해주세요.');
+      } else if (password === '') {
+        setAlertText('비밀번호를 입력해주세요.');
+      } else if (nickname === '') {
+        setAlertText('닉네임을 입력해주세요.');
+      } else if (!isValidEmail) {
+        setAlertText('naver & gmail 만 가능합니다.');
+      }
+      setIsAlertVisible(true);
+      setTimeout(() => {
+        setIsAlertVisible(false);
+      }, 2000);
     }
   };
 

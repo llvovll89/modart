@@ -313,6 +313,10 @@ export const AccountEditForm = styled.div`
               border-bottom: 1px solid rgb(235, 235, 235);
             }
 
+            .password {
+              height: 46px;
+            }
+
             .btn_area {
               padding-top: 28px;
               text-align: center;

@@ -2,46 +2,32 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Section, Container, Card } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
 import { getPhotos } from '../../store/reducers/photoSlice';
-import '@splidejs/react-splide/css';
+import { AiOutlinePlus } from 'react-icons/ai';
 import Loading from '../../components/common/Loading';
 
 const PhotoList = () => {
   const allPhotoList = useSelector((state) => state.photo.photos);
   const [filterPhotoList, setFilterPhotoList] = useState([]);
-  const [perPage, setPerPage] = useState(allPhotoList.length);
-  const [gap, setGap] = useState('16px');
-  const [focus, setFocus] = useState('left');
+  const [visibleCount, setVisibleCount] = useState(4);
+  const [totalVisible, setTotalVisible] = useState(4);
+  const [collapsedCount, setCollapsedCount] = useState(0);
   const dispatch = useDispatch();
 
-  const handleResize = useCallback(() => {
-    if (window.innerWidth >= 1280) {
-      setPerPage(5);
-      setFocus('left');
-    } else if (window.innerWidth >= 1024) {
-      setPerPage(4);
-      setGap('14px');
-      setFocus('left');
-    } else if (window.innerWidth >= 768) {
-      setPerPage(3);
-      setGap('12px');
-      setFocus('center');
-    } else {
-      setPerPage(2);
-      setGap('10px');
-      setFocus('center');
-    }
-  }, []);
+  const handleLoadMore = () => {
+    const newVisibleCount = visibleCount + 4;
+    setVisibleCount(newVisibleCount);
+    setTotalVisible(newVisibleCount);
+  };
+
+  const handleCollapse = () => {
+    setCollapsedCount(totalVisible);
+    setVisibleCount(4);
+  };
 
   useEffect(() => {
     dispatch(getPhotos());
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [dispatch, handleResize]);
+  }, [dispatch]);
 
   useEffect(() => {
     const sortList = [...allPhotoList].sort(
@@ -52,57 +38,48 @@ const PhotoList = () => {
 
   return (
     <Section>
-      <Container>
+      <Container className="photo_container">
         <div className="title">
           <h1>Photos</h1>
           <span>최신 photo 리스트</span>
         </div>
         <div className="contents">
           {filterPhotoList.length > 0 ? (
-            <Splide
-              options={{
-                type: 'loop',
-                perPage,
-                gap,
-                focus,
-                pagination: false,
-                drag: 'free',
-                arrows: false,
-                autoScroll: {
-                  pauseOnHover: false,
-                  pauseOnFocus: false,
-                  rewind: false,
-                  speed: 1.5,
-                },
-              }}
-              extensions={{ AutoScroll }}
-            >
-              {filterPhotoList.slice(0, 10).map((photo) => (
-                <SplideSlide key={photo.id}>
-                  <Card>
-                    <div className="top">
-                      <Link to={`photo/details/${photo.id}`}>
-                        <img src={photo.photo} alt="photo" />
-                      </Link>
-                    </div>
-                    <div className="bottom">
-                      <p className="photo_category">{`<${photo.category}>`}</p>
-                      <p className="photo_nickname">{photo.nickname}</p>
-                      <p className="photo_title">{photo.title}</p>
-                      <p className="photo_desc">
-                        {photo.desc.length > 60
-                          ? photo.desc.slice(0, 50) + '...'
-                          : photo.desc}
-                      </p>
-                    </div>
-                  </Card>
-                </SplideSlide>
+            <>
+              {filterPhotoList.slice(0, visibleCount).map((photo) => (
+                <Card key={photo.id}>
+                  <div className="top">
+                    <Link to={`photo/details/${photo.id}`}>
+                      <img src={photo.photo} alt="photo" />
+                    </Link>
+                  </div>
+                  <div className="bottom">
+                    <p className="photo_category">{`<${photo.category}>`}</p>
+                    <p className="photo_nickname">{photo.nickname}</p>
+                    <p className="photo_title">{photo.title}</p>
+                    <p className="photo_desc">
+                      {photo.desc.length > 60
+                        ? photo.desc.slice(0, 50) + '...'
+                        : photo.desc}
+                    </p>
+                  </div>
+                </Card>
               ))}
-            </Splide>
+            </>
           ) : (
             <Loading />
           )}
         </div>
+
+        {totalVisible < filterPhotoList.length && (
+          <div className="visible">
+            {collapsedCount > 0 ? (
+              <button onClick={handleCollapse}>접기</button>
+            ) : (
+              <button onClick={handleLoadMore}><span><AiOutlinePlus /> </span></button>
+            )}
+          </div>
+        )}
       </Container>
     </Section>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Section } from '../../../styles/RecycleStyles';
 import { AccountEditForm } from '.';
-import { updateUserData } from '../../../store/reducers/loginSlice';
+import { changePassword, updateUserData } from '../../../store/reducers/loginSlice';
 import NoUserImg from '../../../assets/images/user.png';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../firebase/firebase';
@@ -12,6 +12,8 @@ const AccountEdit = () => {
   const [updateData, setUpdateData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [thumbnailImage, setThumbnailImage] = useState(null);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
 
@@ -36,6 +38,15 @@ const AccountEdit = () => {
       }));
     }
   };
+
+  const passwordChangeHandler = async () => {
+    try {
+      dispatch(changePassword({ currentPassword, newPassword }));
+      changeBtnClick('password'); 
+    } catch (error) {
+      console.log('비밀번호 변경에 실패하였습니다.', error);
+    }
+  }
 
   const uploadFile = async (file) => {
     try {
@@ -80,6 +91,7 @@ const AccountEdit = () => {
         await dispatch(updateUserData(newData)).unwrap();
         const updatedUser = { ...user, ...newData };
         dispatch({ type: 'login/updateUserData', payload: updatedUser });
+        changeBtnClick(key);
       }
     } catch (error) {
       console.log('데이터 업데이트에 실패하였습니다.', error);
@@ -200,7 +212,8 @@ const AccountEdit = () => {
                 )}
               </div>
             </div>
-            <div className={`area${active.email ? ' active' : ''}`}>
+            {/*
+              <div className={`area${active.email ? ' active' : ''}`}>
               <label>Email</label>
               <div className={`input_area${active.email ? ' active' : ''}`}>
                 {active.email ? (
@@ -238,6 +251,7 @@ const AccountEdit = () => {
                 )}
               </div>
             </div>
+            */}
             <div className={`area${active.intro ? ' active' : ''}`}>
               <label>소개</label>
               <div className={`input_area${active.intro ? ' active' : ''}`}>
@@ -282,7 +296,10 @@ const AccountEdit = () => {
               <label>비밀번호변경</label>
               <div className={`input_area${active.password ? ' active' : ''}`}>
                 {active.password ? (
-                  <input type="password" />
+                  <>
+                    <input type="password" className='password' placeholder='이전 비밀번호 입력..' onChange={(e) => setCurrentPassword(e.target.value)} />
+                    <input type="password" className='password' placeholder='새로운 비밀번호 입력..' onChange={(e) => setNewPassword(e.target.value)} />
+                  </>
                 ) : (
                   <p>비밀번호변경</p>
                 )}
@@ -296,10 +313,13 @@ const AccountEdit = () => {
                     </button>
                     <button
                       className="submit"
-                      onClick={() => updateProfileUser('password')}
+                      onClick={() => {
+                        updateProfileUser('password');
+                        passwordChangeHandler();
+                      }}
                     >
                       저장하기
-                    </button>
+                    </button> 
                   </div>
                 ) : (
                   <button
