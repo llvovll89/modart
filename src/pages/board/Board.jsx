@@ -67,8 +67,8 @@ const Board = () => {
           {boardList.length > 0 ? (
             boardList.map((board) => (
               <li
-                className="board_card"
-                key={board.id}
+              className="board_card"
+              key={board.id}
               >
                 <div className="like">
                   {board.recommend > 0 ? (
@@ -87,18 +87,20 @@ const Board = () => {
                   <img src={board.photo} alt={board.title} />
                 </div>
                 <div className="items">
-                  <h3
-                  className="board_title"
-                  onClick={() => handleCardClick(board)}
-                  >
-                    {board.title.length > 30
-                      ? board.title.subString(0, 30) + '...'
-                      : board.title}
-                  </h3>
+                <h3
+                className="board_title"
+                onClick={() => handleCardClick(board)}
+              >
+                {board.title.length > 30
+                  ? board.title.substring(0, 30) + '...' + (board.comments && board.comments.length > 0 ? ` (${board.comments.length})` : '')
+                  : board.title + (board.comments && board.comments.length > 0 ? ` (${board.comments.length})` : '')
+                }
+              </h3>
+              
+              
                   <div className="item_contents">
                     <div className="sub_items">
                     <span className="item_brand">{board.brand}</span>
-                    <span className='item_views'>조회수 {board.views}(회)</span>
                     </div>
                     <div className="sub_items">
                       <span className="item_nickname">{board.nickname}</span>

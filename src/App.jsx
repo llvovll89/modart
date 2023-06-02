@@ -23,6 +23,7 @@ import QnaEdit from './pages/qna/QnaEdit';
 import QnaWritePost from './pages/qna/QnaWritePost';
 import TodayEdit from './pages/today/TodayEdit';
 import AccountEdit from './pages/auth/users/AccountEdit';
+import Footer from './components/footer/Footer';
 
 const routes = [
   { path: '/', element: <Home /> },
@@ -83,7 +84,8 @@ function App() {
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
           ))}
-        </Routes>
+          </Routes>
+          <Footer />
       </Router>
     </Wrap>
   );

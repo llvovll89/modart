@@ -34,12 +34,12 @@ const Photo = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const sortList = [...photoList].sort((a,b) => b.createdAt - a.createdAt);
+    const sortList = [...photoList].sort((a, b) => b.createdAt - a.createdAt);
     setNewPhotoList(sortList);
   }, [photoList]);
 
   return (
-    <Section className='photo_section'>
+    <Section className="photo_section">
       <PhotoContainer>
         <div className="contents">
           <div className="text">
@@ -55,20 +55,18 @@ const Photo = () => {
         </div>
       </PhotoContainer>
       <PhotoContents>
-      <div className="filter">
-        
-      </div>
+        <div className="filter"></div>
 
         <ul className="photo_list">
           {newPhotoList.length > 0 ? (
             newPhotoList.slice(0, 10).map((photo) => (
               <li className="photo_card" key={photo.id}>
                 <div className="photo_img" onClick={() => detailClick(photo)}>
-                 {photo.photo ? (
-                  <img src={photo.photo} alt={photo.title} />
-                 ) : (
-                  <img src={NO_IMAGE_URL} alt="server_error" />
-                 )}
+                  {photo.photo ? (
+                    <img src={photo.photo} alt={photo.title} />
+                  ) : (
+                    <img src={NO_IMAGE_URL} alt="server_error" />
+                  )}
                 </div>
                 <div className="items">
                   <h3
@@ -76,9 +74,17 @@ const Photo = () => {
                     onClick={() => detailClick(photo)}
                   >
                     {photo.title.length > 30
-                      ? photo.title.subString(0, 30) + '...'
-                      : photo.title}
+                      ? photo.title.substring(0, 30) +
+                        '...' +
+                        (photo.comments && photo.comments.length > 0
+                          ? ` (${photo.comments.length})`
+                          : '')
+                      : photo.title +
+                        (photo.comments && photo.comments.length > 0
+                          ? ` (${photo.comments.length})`
+                          : '')}
                   </h3>
+
                   <div className="item_contents">
                     <span className="item_category">{photo.category}</span>
                     <div className="sub_items">

@@ -22,11 +22,18 @@ const AccountForm = ({ text, link }) => {
     if (name === 'email') {
       // true , false 나옴
       const isValidDomain =
-        value.endsWidth('naver.com') || value.endsWidth('gmail.com');
+        value.endsWith('naver.com') || value.endsWith('gmail.com');
       setAuthValue({
         ...authValue,
         [name]: value,
         isValidEmail: isValidDomain,
+      });
+    } else if (name === 'nickname') {
+      const { name, value } = e.target;
+      const valueTrim = value.trim();
+      setAuthValue({
+        ...authValue,
+        [name]: valueTrim,
       });
     } else {
       setAuthValue({
@@ -41,10 +48,7 @@ const AccountForm = ({ text, link }) => {
     const { email, password, nickname, photo, isValidEmail } = authValue;
     const photoVal = photo ? photo : '';
     const isFormValid =
-      email !== '' &&
-      password !== '' &&
-      nickname !== '' &&
-      isValidEmail;
+      email !== '' && password !== '' && nickname !== '' && isValidEmail;
 
     if (isFormValid) {
       if (text === '회원가입') {

@@ -37,7 +37,7 @@ const BoardDetail = () => {
       id: Date.now(),
       text: commentText,
       author: user.nickname,
-      profileImg: user.profileImg || '',
+      profileImg: user.profileImg ? user.profileImg : "",
       createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
 
@@ -53,7 +53,7 @@ const BoardDetail = () => {
       return;
     }
 
-    dispatch(recommendViews({boardId})).then(() => {
+    dispatch(recommendViews({ boardId })).then(() => {
       getBoards();
     });
   };
@@ -121,7 +121,7 @@ const BoardDetail = () => {
                 </div>
               </div>
             </div>
-            {comment ? (
+            {comment || board.comments ? (
               <div className="comment">
                 <div className="comment_form">
                   <div className="users">
@@ -136,7 +136,7 @@ const BoardDetail = () => {
                           <p className="nickname">{user.nickname}</p>
                         </div>
                       ) : (
-                        <div className="profile_content">
+                        <div className="profile_contents">
                           <img
                             className="profileImg"
                             src={NO_IMG_URL}
@@ -164,7 +164,33 @@ const BoardDetail = () => {
                 </div>
 
                 <ul className="comment_list">
-                  <li></li>
+                  {board.comments &&
+                    Object.entries(board.comments).map(
+                      ([commentId, comment]) => {
+                        return (
+                          <li className="comment_item" key={commentId}>
+                            <div className="profile">
+                              <div className="users">
+                              {comment.profileImg ? (
+                                <img src={comment.profileImg} alt="" />
+                              ) : (
+                                <img src={NO_IMG_URL} alt="" />
+                              )}
+                              <span className="comment_name">
+                                {comment.author}
+                              </span>
+                              </div>
+                              <span className="comment_date">
+                                {comment.createdAt}
+                              </span>
+                            </div>
+                            <div className="content">
+                                <p className="comment_desc">{comment.text}</p>
+                            </div>
+                          </li>
+                        );
+                      }
+                    )}
                 </ul>
               </div>
             ) : null}

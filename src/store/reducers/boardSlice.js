@@ -24,35 +24,34 @@ const uploadFile = async (file) => {
 
 export const createData = createAsyncThunk(
   'boards/add',
-  async (boardData, { rejectWithValue }) => {
+  async (boardsData, { rejectWithValue }) => {
     try {
-      if (!boardData) {
+      if (!boardsData) {
         throw new Error('boardData is undefined');
       }
 
-      const { brand, height, weight, title, desc, photo, nickname } = boardData;
+      const { brand, height, weight, title, desc, photo, nickname } = boardsData;
       const photoURL = await uploadFile(photo);
-      const boardRef = await addDoc(collection(db, 'boards'), {
+    
+      const boardData = {
         brand,
         height,
         weight,
         title,
         desc,
-        photo: photoURL,
         nickname,
         createdAt: Date.now(),
-      });
+      }
+
+      if(photoURL) {
+        boardData.photo = photoURL;
+      }
+
+      const boardRef = await addDoc(collection(db, 'boards'), boardData);
 
       return {
         id: boardRef.id,
-        brand,
-        height,
-        weight,
-        title,
-        desc,
-        photo: photoURL,
-        nickname,
-        createdAt: Date.now(),
+        ...boardData,
       };
     } catch (error) {
       console.error(error);
@@ -177,13 +176,13 @@ const boardSlice = createSlice({
       .addCase(addComment.fulfilled, (state, action) => {
         const { boardId, commentData } = action.payload;
 
-        const updatedBoards = state.questions.map((board) => {
+        const updatedBoards = state.boards.map((board) => {
           if (board.id === boardId) {
             const comments = board.comments || [];
 
             return {
               ...board,
-              comments: [...board.comments, commentData],
+              comments: [...comments, commentData],
             };
           }
           return board;

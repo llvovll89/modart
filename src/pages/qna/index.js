@@ -413,7 +413,7 @@ export const QnaArticle = styled.article`
 export const QnaContents = styled.div`
   max-width: 1024px;
   margin: 12px auto 0px auto;
-  background: #fefefe;
+  background: #FFFFFF;
 
   .qna_list {
     padding: 1px 3px 0 1px;
@@ -549,7 +549,7 @@ export const QnaCard = styled.div`
             display: flex;
             align-items: center;
             gap: 9px;
-            font-size: clamp(14px, 1.5vw, 16px);
+            font-size: clamp(12px, 1.5vw, 14.5px);
             font-weight: 500;
             line-height: 1.6;
             color: #333;
@@ -572,7 +572,7 @@ export const QnaCard = styled.div`
             position: relative;
             left: 16px;
             color: #4d5256;
-            font-size: clamp(13.5px, 1.5vw, 16px);
+            font-size: clamp(12px, 1.5vw, 14px);
           }
         }
       }

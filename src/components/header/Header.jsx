@@ -51,8 +51,8 @@ const Header = ({ toggle, toggleMenu }) => {
               {nickName}
             </Link>
           </li>
-          <li className="item logOut">
-            <span onClick={logOutHandler}>
+          <li className="item logOut" onClick={logOutHandler}>
+            <span>
               <AiOutlineLogout />
             </span>
           </li>
@@ -136,7 +136,7 @@ const Header = ({ toggle, toggleMenu }) => {
             </li>
             <li className={`item ${activeItem === 1 ? 'active' : ''}`}>
               <Link to="/board" onClick={() => handleLinkClick(1)}>
-                OOTD
+                DailyLook
               </Link>
             </li>
 

@@ -10,7 +10,7 @@ const loading = keyframes`
   to {
     transform: rotate(1turn);
   }
-`
+`;
 
 // styles
 
@@ -20,14 +20,10 @@ const Section = styled.section`
   min-height: 100vh;
   background: #ffffff;
 
-  &.qna_section , 
-  &.ootd_section,
-  &.photo_section,
-  &.today_section,
   &.today_detail_section,
   &.qna_write_section,
-  &.qna_section {
-    background: #FAFAFA;
+  &.photo_detail_section {
+    background: #fafafa;
   }
 
   @media screen and (max-width: 768px) {
@@ -46,7 +42,9 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  &.photo_container {
+  &.photo_container,
+  &.today_container {
+    padding: 0px;
     .contents {
       position: relative;
       display: grid;
@@ -62,18 +60,27 @@ const Container = styled.div`
         min-width: 120px;
 
         span {
-          font-size: clamp(20px, 2vw, 26px);
-
+          display: inline-flex;
+          width: 26px;
+          height: 26px;
           svg {
+            width: 100%;
+            height: 100%;
             color: #333;
           }
         }
       }
     }
+
+    @media screen and (max-width: 768px) {
+      .contents {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   }
 
-
   .title {
+    padding: 0 16px;
     h1 {
       font-size: clamp(16px, 1.5vw, 18px);
     }
@@ -767,7 +774,7 @@ const LoaderContainer = styled.div`
     border-top-color: #08f;
     border-radius: 50%;
     margin-bottom: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.16);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
     animation: ${loading} 1.5s ease infinite;
   }
 
@@ -776,8 +783,7 @@ const LoaderContainer = styled.div`
     font-weight: 700;
     letter-spacing: -0.075rem;
   }
-
-`
+`;
 
 export {
   Section,

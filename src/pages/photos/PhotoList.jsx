@@ -3,26 +3,26 @@ import { Section, Container, Card } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPhotos } from '../../store/reducers/photoSlice';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlineArrowUp } from 'react-icons/ai';
 import Loading from '../../components/common/Loading';
 
 const PhotoList = () => {
   const allPhotoList = useSelector((state) => state.photo.photos);
   const [filterPhotoList, setFilterPhotoList] = useState([]);
   const [visibleCount, setVisibleCount] = useState(4);
-  const [totalVisible, setTotalVisible] = useState(4);
-  const [collapsedCount, setCollapsedCount] = useState(0);
+  const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
 
   const handleLoadMore = () => {
-    const newVisibleCount = visibleCount + 4;
-    setVisibleCount(newVisibleCount);
-    setTotalVisible(newVisibleCount);
+    if (visibleCount + 4 >= filterPhotoList.length) {
+      setCollapsed(true);
+    }
+    setVisibleCount((prevCount) => prevCount + 4);
   };
-
+  
   const handleCollapse = () => {
-    setCollapsedCount(totalVisible);
     setVisibleCount(4);
+    setCollapsed(false);
   };
 
   useEffect(() => {
@@ -71,12 +71,20 @@ const PhotoList = () => {
           )}
         </div>
 
-        {totalVisible < filterPhotoList.length && (
+        {filterPhotoList.length > 4 && (
           <div className="visible">
-            {collapsedCount > 0 ? (
-              <button onClick={handleCollapse}>접기</button>
+            {collapsed ? (
+              <button onClick={handleCollapse}>
+                <span className='closed'>
+                  <AiOutlineArrowUp />
+                </span>
+              </button>
             ) : (
-              <button onClick={handleLoadMore}><span><AiOutlinePlus /> </span></button>
+              <button onClick={handleLoadMore}>
+                <span>
+                  <AiOutlinePlus />
+                </span>
+              </button>
             )}
           </div>
         )}

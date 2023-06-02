@@ -79,7 +79,6 @@ export const TodayContents = styled.div`
     padding: 3px 0px;
     display: flex;
     flex-direction: column;
-    background: #FAFAFA;
     gap: 6px;
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
       sans-serif;
@@ -98,16 +97,35 @@ export const TodayContents = styled.div`
 
       .today_type {
         min-width: 42px;
-        width: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #ccc;
 
-        span {
+        .today_type_span {
           color: #333;
-          font-family: 'Chosunilbo_myungjo';
-          font-size: clamp(11.5px, 1.5vw, 12.5px);
+          font-size: clamp(10px, 1vw, 11px);
+
+          &.type1 {
+            color: salmon;
+          }
+
+          &.type2 {
+            color: #54b3b7;
+          }
+
+          &.type3 {
+            color: #09f;
+          }
+
+          &.type4 {
+            color: #eded6d;
+          }
+          &.type5 {
+            color: #d95f5f;
+          }
+          &.type6 {
+            color: #3d3939;
+          }
         }
       }
 
@@ -252,10 +270,9 @@ export const TodayDetailPage = styled.div`
         display: block;
        padding : 12px 20px;
        font-size: clamp(14px, 1.5vw, 16px);
-       background: rgba(47, 42, 42, 0.701);
+       background: #09f;
        border-radius: 6px;
        color: #FFF;
-
       }
     }
 

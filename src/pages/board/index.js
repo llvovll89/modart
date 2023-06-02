@@ -101,7 +101,7 @@ const BoardContents = styled.div`
         color: #AAA;
 
         .like_views {
-          font-size: clamp(12px, 1.5vw, 14px);
+          font-size: clamp(12px, 1.5vw, 13px);
         }
       }
 
@@ -119,9 +119,10 @@ const BoardContents = styled.div`
         padding: 3px 0px;
         .board_title {
           color: #3262c5;
-          font-size: clamp(14.5px, 2vw, 16px);
+          font-size: clamp(11.5px, 2vw, 14px);
           cursor: pointer;
           transition: all 0.15s linear;
+          margin-bottom: 4px;
 
           &:hover {
             color: #04f;
@@ -136,13 +137,14 @@ const BoardContents = styled.div`
             font-size: clamp(11px, 1vw, 12px);
             line-height: 1.5;
             margin-bottom: 2px;
+            text-overflow: ellipsis;
           }
 
           .sub_items {
             margin: 3px 0px;
             display: flex;
             gap: 6px;
-            font-size: clamp(11px, 1.2vw, 13px);
+            font-size: clamp(10px, 1.2vw, 12px);
 
             &:first-child {
               justify-content: space-between;
@@ -156,6 +158,18 @@ const BoardContents = styled.div`
   @media screen and (max-width: 1280px) {
     .board_card {
       padding: 0 6px;
+
+      .items {
+        width: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .board_list {
+      .board_card {
+      max-height: 80px;
+    }
     }
   }
 `;
@@ -312,6 +326,7 @@ const BoardDetailPage = styled.div`
               display: flex;
               align-items: center;
               gap: 6px;
+
               .profileImg {
               width: 36px;
               height: 36px;
@@ -327,30 +342,81 @@ const BoardDetailPage = styled.div`
           .submit_btn {
             cursor: pointer;
             border: 1px solid #cecece;
-            padding: 9px 20px;
+            padding: 9px 16px;
             border-radius: 4px;
+            font-size: clamp(12px, 1vw, 14px);
           }
         }
         .form {
           width: 100%;
           padding: 12px;
           textarea {
+            border-radius: 4px;
             resize: none;
             width: 100%;
             height: 100px;
             padding: 12px;
             outline: none;
             border: 1px solid #cecece;
+            letter-spacing: -0.012rem;
+
+            &:focus {
+              border: 1.5px solid #09f;
+            }
           }
         }
       }
 
       .comment_list {
+        width: 100%;
+        padding: 12px;
+        .comment_item {
+          margin-bottom: 20px;
+
+          .profile {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+
+            .users {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+
+              img {
+                width: 30px;
+                height: 30px;
+                object-fit: cover;
+                border-radius: 50%;
+              }
+
+              .comment_name {
+                font-size: clamp(11.5px, 1vw, 12.5px);
+              }
+            }
+
+            .comment_date {
+              font-size: clamp(11.5px, 1vw, 12.5px);
+              color: #999;
+            }
+          }
+
+          .content {
+            .comment_desc {
+              font-size: clamp(12px, 1.5vw, 13px);
+            }
+          }
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 0px;
       }
     }
   }
 
   @media screen and (max-width: 768px) {
+    padding: 12px;
     .contents {
       .board {
         display: block;

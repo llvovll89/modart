@@ -68,10 +68,21 @@ const Qna = () => {
               >
                 <p className="number">{qna.number}</p>
                 <p className="title" onClick={() => detailClick(qna)}>
-                  {qna.title} <span>({qna.comments.length})</span>
+                  {qna.title.length >= 40
+                    ? qna.title.substring(40) + '...'
+                    : qna.title}{' '}
+                  <span>
+                    {qna.comments && qna.comments.length > 0
+                      ? `(${qna.comments.length})`
+                      : null}
+                  </span>
                 </p>
                 <p className="nickname">{qna.nickname}</p>
-                <p className="date">{qna.createdAt}</p>
+                <p className="date">
+                  {qna.createdAt.length >= 9
+                    ? qna.createdAt.slice(5)
+                    : qna.createdAt}
+                </p>
                 <p className="views">{qna.views ? qna.views : 0} 회</p>
               </li>
             ))

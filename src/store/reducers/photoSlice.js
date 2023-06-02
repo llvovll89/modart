@@ -1,7 +1,14 @@
 import moment from 'moment/moment';
 import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from 'firebase/firestore';
 import { db, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -20,12 +27,12 @@ const uploadFile = async (file) => {
 
 export const createData = createAsyncThunk(
   'photos/add',
-  async (photoData, { rejectWithValue }) => {
+  async (photosData, { rejectWithValue }) => {
     try {
-      if (!photoData) {
+      if (!photosData) {
         throw new Error('photoData is Not Fount');
       }
-      const { category, title, desc, photo, nickname } = photoData;
+      const { category, title, desc, photo, nickname } = photosData;
 
       const photoURL = await uploadFile(photo);
 
@@ -81,6 +88,39 @@ export const getPhotos = createAsyncThunk('photos/get', async () => {
   return photoData;
 });
 
+// comment (댓글)
+export const addComment = createAsyncThunk(
+  'photos/comment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { photoId, commentData } = payload;
+      const photoRef = doc(db, 'photos', photoId);
+      const photoDoc = await getDoc(photoRef);
+
+      // exists 는 photoDoc가 존재하는지 여부에따라 true false 반환
+      if (!photoDoc.exists()) {
+        return rejectWithValue({
+          errorMessage: '해당 댓글이 존재하지 않습니다.',
+        });
+      }
+
+      // data() 는 photoDoc (스냅샷)안에 있는 data의 comments를 가져온다.
+      const comments = photoDoc.data().comments || [];
+      const updatedComments = [...comments, commentData];
+
+      await updateDoc(photoRef, {
+        comments: updatedComments,
+      });
+
+      // extraReducer 의 상태값
+      return { photoId, commentData };
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('댓글을 추가할 수 없습니다.');
+    }
+  }
+);
+
 const photoSlice = createSlice({
   name: 'photo',
   initialState: { photos: [], postCount: 0 },
@@ -100,6 +140,24 @@ const photoSlice = createSlice({
           ...state,
           photos: action.payload,
           postCount: action.payload.length,
+        };
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const { photoId, commentData } = action.payload;
+        const updatedPhotos = state.photos.map((photo) => {
+          if (photo.id === photoId) {
+            const updatedComments = [...photo.comments, commentData];
+            return {
+              ...photo,
+              comments: updatedComments,
+            };
+          }
+          return photo;
+        });
+
+        return {
+          ...state,
+          photos: updatedPhotos,
         };
       });
   },

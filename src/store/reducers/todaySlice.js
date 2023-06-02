@@ -108,7 +108,7 @@ export const addComment = createAsyncThunk(
 
       if(!todayDoc.exists()){
         return rejectWithValue({
-          errorMessage: '해당 질문이 존재하지 않습니다.',
+          errorMessage: '해당 댓글이 존재하지 않습니다.',
         })
       }
 

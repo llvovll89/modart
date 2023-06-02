@@ -44,15 +44,10 @@ const HeaderContainer = styled.header`
           &.active {
             background-color: rgba(40, 41, 44, 0.04);
             a {
-              font-weight: 600;
               color: #000;
               text-decoration: underline 0.5px;
               text-underline-offset: 3px;
             }
-          }
-
-          &:hover {
-            background-color: rgba(32, 33, 36, 0.04);
           }
 
           &.user_nickname {
@@ -75,16 +70,12 @@ const HeaderContainer = styled.header`
           a,
           span {
             font-size: clamp(12px, 1.5vw, 13.5px);
-            font-weight: 400;
+            font-weight: 600;
             letter-spacing: 0.012rem;
-            color: #5f6368;
+            color: #333;
             display: block;
             width: 100%;
             height: 100%;
-
-            &:hover {
-              color: #202124;
-            }
           }
         }
 
@@ -133,20 +124,24 @@ const HeaderContainer = styled.header`
           text-align: center;
 
           &.active {
-            background-color: rgba(40, 41, 44, 0.04);
             a {
-              font-weight: 600;
-              color: #000;
+              background: #74b0d7;
+              color: #FFF;
               text-decoration: underline 0.5px;
               text-underline-offset: 3px;
             }
           }
 
           &:hover {
-            background-color: rgba(32, 33, 36, 0.04);
+            background-color: #FEFEFE;
           }
+          
 
           &.user_nickname {
+            &.active {
+              background: #74b0d7;
+
+            }
             a {
               position: relative;
             }
@@ -158,13 +153,10 @@ const HeaderContainer = styled.header`
             width: 100%;
             height: 100%;
             font-size: clamp(12.5px, 1.5vw, 14px);
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.012rem;
-            color: #5f6368;
-
-            &:hover {
-              color: #202124;
-            }
+            color: #333;
+            padding: 0 6px;
           }
         }
       }

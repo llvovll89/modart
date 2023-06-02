@@ -120,7 +120,7 @@ const TodayDetail = () => {
             <div className="user_info">
               <p className="user_nickname">{today.nickname}</p>
               <div className="items">
-                <span>댓글</span>
+                <span>댓글 {today.comments && today.comments.length > 0 ? today.comments.length : null}</span>
                 <span>조회수 {today.views}</span>
                 <span>추천 {today.recommend > 0 ? today.recommend : 0}</span>
               </div>

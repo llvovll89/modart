@@ -149,7 +149,9 @@ const QnaDetail = () => {
                   <span>{qna.nickname}</span>
                 </div>
                 <div className="inner">
-                  <span><AiOutlineLike /> {qna.recommend}</span>
+                  <span>
+                    <AiOutlineLike /> {qna.recommend}
+                  </span>
                   <span className="date">{qna.createdAt}</span>
                 </div>
               </div>

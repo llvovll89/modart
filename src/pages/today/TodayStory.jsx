@@ -15,6 +15,25 @@ const TodayStory = () => {
 
   const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
+  const typeColor = (type) => {
+    switch (type) {
+      case '연예인':
+        return 'type1';
+      case '패션':
+        return 'type2';
+      case '운동':
+        return 'type3';
+      case '유머':
+        return 'type4';
+      case '미용':
+        return 'type5';
+      case '미스터리':
+        return 'type6';
+      default:
+        return '';
+    }
+  };
+
   const handleWriteClick = () => {
     if (user) {
       return navigate('/today/write');
@@ -37,8 +56,6 @@ const TodayStory = () => {
   const detailClick = (today) => {
     navigate(`/today/details/${today.id}`);
   };
-
-
 
   useEffect(() => {
     dispatch(getTodays());
@@ -67,7 +84,7 @@ const TodayStory = () => {
             todayList.slice(0, 10).map((today) => (
               <li className="today_card" key={today.id}>
                 <div className="today_type">
-                  <span>{today.type}</span>
+                  <span className={`today_type_span ${typeColor(today.type)}`}>{today.type}</span>
                 </div>
                 <div className="today_img">
                   {today.photo ? (
@@ -83,9 +100,10 @@ const TodayStory = () => {
                       detailClick(today), handleTodayClick(today.id);
                     }}
                   >
-                    {today.title.length > 30
-                      ? today.title.subString(0, 30) + '...' 
-                      : today.title }
+                  {today.title.length > 30
+                    ? today.title.substring(0, 30) + '...' + (today.comments && today.comments.length > 0 ? ` (${today.comments.length})` : '')
+                    : today.title + (today.comments && today.comments.length > 0 ? ` (${today.comments.length})` : '')
+                  }
                   </h3>
                   <div className="item_contents">
                     <span className="item_type">{today.type}</span>
