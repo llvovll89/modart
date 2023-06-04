@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Section } from '../../styles/RecycleStyles';
 import { TodayContainer, TodayContents } from './index';
 import { TfiWrite } from 'react-icons/tfi';
+import { AiOutlineFieldTime , AiOutlineLike} from 'react-icons/ai';
+import { BiUserCircle } from 'react-icons/bi';
 import { getTodays, incrementViews } from '../../store/reducers/todaySlice';
 import Loading from '../../components/common/Loading';
 
@@ -106,12 +108,15 @@ const TodayStory = () => {
                   }
                   </h3>
                   <div className="item_contents">
-                    <span className="item_type">{today.type}</span>
-                    <div className="sub_items">
-                      <span className="item_nickname">{today.nickname}</span>
-                      <span className="item_date">{today.createdAt}</span>
-                    </div>
+                  <div className="sub_items">
+                  <span className="item_nickname"><BiUserCircle /> {today.nickname}</span>
+                  <span className="item_date"><AiOutlineFieldTime /> {today.createdAt}</span>
+                  <span className='item_views'><AiOutlineLike /> {today.recommend > 0 ? today.recommend : 0}</span>
                   </div>
+                  </div>
+                  <p className="today_desc">
+                    {today.desc.length > 60 ? today.desc.substring(0, 60) + '...' : today.desc}
+                  </p>
                 </div>
               </li>
             ))

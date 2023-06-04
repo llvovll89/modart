@@ -12,13 +12,21 @@ import {
   recommendViews,
 } from '../../store/reducers/qnaSlice';
 import NoImage from '../../assets/images/user.png';
-import { AiOutlineLike, AiOutlineComment, AiOutlineStar } from 'react-icons/ai';
+import {
+  AiOutlineLike,
+  AiOutlineComment,
+  AiOutlineStar,
+  AiFillEdit,
+  AiOutlineCheck,
+} from 'react-icons/ai';
 
 const QnaDetail = () => {
   const { id } = useParams();
   const [comment, setComment] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
+  const [updateText, setUpdateText] = useState('');
+  const [updateToggle, setUpdateToggle] = useState(false);
   const [updatedCommentText, setUpdatedCommentText] = useState('');
   const qnaList = useSelector((state) => state.qna.questions);
   const user = useSelector((state) => state.login.user);
@@ -35,6 +43,14 @@ const QnaDetail = () => {
       .catch((err) => {
         console.error('좋아요를 클릭 할 수 없습니다!', err);
       });
+  };
+
+  const updatedWritePost = (e) => {
+    const [name, value] = e.target;
+    const updateData = {
+      // title:
+      text: updateText,
+    };
   };
 
   const textAreaAlert = () => {
@@ -157,7 +173,15 @@ const QnaDetail = () => {
               </div>
             </header>
             <div className="card_contents">
-              <p className="card_desc">{qna.desc}</p>
+              {updateToggle ? (
+                <input
+                  className="update_input"
+                  type="text"
+                  placeholder={qna.desc}
+                />
+              ) : (
+                <p className="card_desc">{qna.desc}</p>
+              )}
             </div>
             <footer className="card_footer">
               <div className="inner">
@@ -176,6 +200,24 @@ const QnaDetail = () => {
                 >
                   <AiOutlineComment /> 답변하기
                 </button>
+                {qna.nickname === user.nickname ? (
+                  <button
+                    className="qna_btn"
+                    onClick={() => {
+                      setUpdateToggle(!updateToggle);
+                    }}
+                  >
+                    {updateToggle ? (
+                      <>
+                      <AiOutlineCheck /> 저장하기
+                      </>
+                    ) : (
+                      <>
+                      <AiFillEdit /> 수정하기
+                      </>
+                    )}
+                  </button>
+                ) : null}
               </div>
 
               {!comment && (

@@ -14,16 +14,27 @@ const PhotoList = () => {
   const dispatch = useDispatch();
 
   const handleLoadMore = () => {
-    if (visibleCount + 4 >= filterPhotoList.length) {
+    if (visibleCount + getIncrement() >= filterPhotoList.length) {
       setCollapsed(true);
     }
-    setVisibleCount((prevCount) => prevCount + 4);
+    setVisibleCount((prevCount) => prevCount + getIncrement());
   };
   
   const handleCollapse = () => {
     setVisibleCount(4);
     setCollapsed(false);
   };
+
+  const getIncrement = useCallback(() => {
+    const browserWidth = window.innerWidth;
+    if(browserWidth <= 564) {
+      return 1;
+    } else if (browserWidth <= 768) {
+      return 2;
+    } else {
+      return 4;
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(getPhotos());
@@ -35,6 +46,22 @@ const PhotoList = () => {
     );
     setFilterPhotoList(sortList);
   }, [allPhotoList]);
+
+  useEffect(() => {
+    setVisibleCount(getIncrement());
+  }, [getIncrement]);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getIncrement());
+    };
+  
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [getIncrement]);
+  
 
   return (
     <Section>
@@ -54,7 +81,7 @@ const PhotoList = () => {
                     </Link>
                   </div>
                   <div className="bottom">
-                    <p className="photo_category">{`<${photo.category}>`}</p>
+                    <p className="photo_category">{`${photo.category}`}</p>
                     <p className="photo_nickname">{photo.nickname}</p>
                     <p className="photo_title">{photo.title}</p>
                     <p className="photo_desc">

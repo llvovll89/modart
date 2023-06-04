@@ -28,6 +28,14 @@ export const GlobalStyles = createGlobalStyle`
     body {
         font-family: 'Poppins', sans-serif;
     }
+
+    img {
+      width: 100%;
+      height: 100%;
+        transform: translateZ(0);
+          backface-visibility: hidden;
+            image-rendering: crisp-edges;
+    }
 `;
 
 export const Wrap = styled.div`

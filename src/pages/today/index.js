@@ -58,16 +58,16 @@ export const TodayContainer = styled.div`
   @media screen and (max-width: 768px) {
     height: 13rem;
   }
-
 `;
 
 export const TodayContents = styled.div`
-@font-face {
-  font-family: 'Chosunilbo_myungjo';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
+  @font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff')
+      format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
 
   max-width: 1280px;
   margin: 0 auto;
@@ -88,8 +88,10 @@ export const TodayContents = styled.div`
       margin: 0px 0px 6px 0px;
       padding: 3px;
       min-height: 57px;
-      max-height: 70px;
       gap: 12px;
+      padding-bottom: 12px;
+
+      border-bottom: 1px solid #eee;
 
       &:last-child {
         margin-bottom: 12px;
@@ -130,10 +132,9 @@ export const TodayContents = styled.div`
       }
 
       .today_img {
-        padding-left: 12px;
         img {
-          width: 70px;
-          height: 100%;
+          width: 100px;
+          height: 100px;
           object-fit: cover;
           vertical-align: top;
           cursor: pointer;
@@ -141,32 +142,50 @@ export const TodayContents = styled.div`
       }
 
       .items {
+        width: 100%;
         padding: 3px 2px;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
 
         .today_title {
-          color: rgb(50, 98, 197);
-          font-size: clamp(14.5px, 2vw, 16px);
+          color: #333;
+          font-size: clamp(13px, 2vw, 16px);
           cursor: pointer;
           transition: all 0.15s linear 0s;
 
-          &:hover {
-            color: rgb(0, 68, 255);
+          &:hover, 
+          &:focus {
+            color: #07f;
             text-decoration: underline 0.5px;
           }
         }
 
-        .item_type {
-          display: inline-block;
-          color: rgb(104, 104, 104);
-          font-size: clamp(11px, 1vw, 12px);
-          line-height: 1.5;
-          margin-bottom: 2px;
+        .today_desc {
+          display: block;
+          font-size: clamp(13px, 1.5vw, 15px);
+          letter-spacing: 0.012rem;
         }
 
         .sub_items {
           display: flex;
           gap: 6px;
-          font-size: clamp(11px, 1.2vw, 13px);
+          align-items: center;
+          font-size: clamp(11px, 1.2vw, 12px);
+          color: rgb(104, 104, 104);
+
+          span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            line-height: 1.5;
+
+            svg {
+              color: rgb(104, 104, 104);
+              font-size: clamp(16px, 1.5vw, 20px);
+            }
+          }
         }
       }
     }
@@ -177,7 +196,7 @@ export const TodayContents = styled.div`
       padding: 0 6px;
       gap: 2px;
       .today_card {
-        gap: 0px;
+        gap: 6px;
         margin: 0px 0px 2px;
 
         .today_type {
@@ -186,11 +205,13 @@ export const TodayContents = styled.div`
         }
 
         .today_img {
-          padding-left: 0px;
-          padding-right: 6px;
+          img {
+            width: 70px;
+            height: 70px;
+          }
         }
       }
-    }  
+    }
   }
 `;
 
@@ -199,9 +220,10 @@ export const TodayDetailPage = styled.div`
   max-width: 964px;
   width: 100%;
   min-height: 460px;
-  padding: 0px 6px;
   border-radius: 6px;
-  background: #FFFFFF;
+  padding: 12px 0;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.077);
 
   .contents {
     display: flex;
@@ -209,26 +231,26 @@ export const TodayDetailPage = styled.div`
     gap: 6px;
 
     .today_header {
-        display: flex;
-        padding: 16px 12px;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #eee;
-        
-        .today_title {
-          font-size: clamp(16px, 1.5vw, 18px);
-          .today_type {
-            margin-right: 12px;
-            font-size: clamp(12px, 1vw, 13px);
-            font-weight: 500;
-          }
-        }
-        
-        .today_date {
+      display: flex;
+      padding: 16px 12px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+
+      .today_title {
+        font-size: clamp(16px, 1.5vw, 18px);
+        .today_type {
+          margin-right: 12px;
           font-size: clamp(12px, 1vw, 13px);
-          color: #333;
-          font-weight: 400;
+          font-weight: 500;
         }
+      }
+
+      .today_date {
+        font-size: clamp(12px, 1vw, 13px);
+        color: #333;
+        font-weight: 400;
+      }
     }
 
     .user_info {
@@ -256,23 +278,23 @@ export const TodayDetailPage = styled.div`
 
     .today_desc {
       padding: 16px 12px;
-      
+
       .desc {
         margin-bottom: 12px;
         display: inline-block;
-      min-height: 200px;
-      width: 100%;
-      padding: 12px 6px 4px 6px;
+        min-height: 200px;
+        width: 100%;
+        padding: 12px 6px 4px 6px;
       }
-      
+
       .recommend {
         margin: 6px auto;
         display: block;
-       padding : 12px 20px;
-       font-size: clamp(14px, 1.5vw, 16px);
-       background: #09f;
-       border-radius: 6px;
-       color: #FFF;
+        padding: 12px 20px;
+        font-size: clamp(14px, 1.5vw, 16px);
+        background: #09f;
+        border-radius: 6px;
+        color: #fff;
       }
     }
 
@@ -280,9 +302,9 @@ export const TodayDetailPage = styled.div`
       .comment_header {
         width: 100%;
         padding: 12px;
-        background: #f3f3f3;
+        background: #181818;
         border-radius: 6px;
-        border: 1px solid #ccc;
+        color: #fff;
 
         p {
           font-size: clamp(13px, 1.5vw, 14px);
@@ -298,22 +320,22 @@ export const TodayDetailPage = styled.div`
             display: flex;
             align-items: center;
             margin-bottom: 6px;
-            
+
             img {
               width: 40px;
               height: 40px;
               border-radius: 6px;
               object-fit: cover;
             }
-  
+
             span {
               font-size: clamp(13px, 1.35vw, 14px);
-  
+
               &.comment_name {
                 font-weight: 600;
                 margin-left: 12px;
               }
-  
+
               &.comment_date {
                 margin-left: 12px;
                 font-size: clamp(12px, 1.2vw, 13px);
@@ -322,18 +344,40 @@ export const TodayDetailPage = styled.div`
               }
             }
           }
-  
+
           .bt {
-            padding: 12px 6px;
+            padding: 12px 0px;
+            min-height: 50px;
+          }
+
+          .btns {
+            padding: 12px 0px 0px 0px;
+            display: flex;
+            gap: 12px;
+
+            button {
+              min-height: 36px;
+              cursor: pointer;
+              padding: 6px 12px;
+              font-size: clamp(11px, 1.5vw, 12px);
+              border: 1px solid #ccc;
+              border-radius: 6px;
+
+              &:first-child {
+                color: #3aa53a;
+              }
+
+              &:last-child {
+                color: #dc5b4c;
+              }
+            }
           }
         }
       }
-      
+
       .comments {
         margin-top: 20px;
         padding: 20px;
-        border: 1px solid #e8e1e1;
-        border-radius: 6px;
 
         .profile {
           display: flex;
@@ -346,7 +390,7 @@ export const TodayDetailPage = styled.div`
             height: 36px;
             border-radius: 50%;
           }
-          
+
           span {
             font-size: clamp(13px, 1.35vw, 14px);
             font-weight: 700;
@@ -366,6 +410,7 @@ export const TodayDetailPage = styled.div`
           gap: 6px;
 
           input {
+            border-radius: 6px;
             border: 1px solid #ccc;
             padding: 6px 20px;
             width: 100%;
@@ -373,7 +418,7 @@ export const TodayDetailPage = styled.div`
             background: #ededed;
 
             &:focus {
-              background: #FFF;
+              background: #fff;
               border: 2px solid #09f;
             }
           }
@@ -388,4 +433,4 @@ export const TodayDetailPage = styled.div`
       }
     }
   }
-`
+`;

@@ -82,8 +82,8 @@ const BoardContents = styled.div`
     .board_card {
       display: flex;
       min-height: 57px;
-      max-height: 70px;
-      margin-bottom: 6px;
+      margin: 12px 0px;
+      padding-bottom: 12px;
       border-bottom: 1px solid #ededed;
       gap: 12px;
 
@@ -107,8 +107,8 @@ const BoardContents = styled.div`
 
       .board_img {
         img {
-          width: 70px;
-          height: 100%;
+          width: 85px;
+          height: 85px;
           object-fit: cover;
           vertical-align: top;
           cursor: pointer;
@@ -117,15 +117,21 @@ const BoardContents = styled.div`
 
       .items {
         padding: 3px 0px;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+
         .board_title {
-          color: #3262c5;
-          font-size: clamp(11.5px, 2vw, 14px);
+          color: #333;
+          font-size: clamp(13px, 2vw, 16px);
           cursor: pointer;
           transition: all 0.15s linear;
           margin-bottom: 4px;
+          text-overflow: ellipsis;
 
-          &:hover {
-            color: #04f;
+          &:hover,
+          &:focus {
+            color: #09f;
             text-decoration: underline 0.5px;
           }
         }
@@ -134,7 +140,7 @@ const BoardContents = styled.div`
           .item_brand, .item_views {
             display: inline-block;
             color: #686868;
-            font-size: clamp(11px, 1vw, 12px);
+            font-size: clamp(11px, 1vw, 14px);
             line-height: 1.5;
             margin-bottom: 2px;
             text-overflow: ellipsis;
@@ -144,7 +150,7 @@ const BoardContents = styled.div`
             margin: 3px 0px;
             display: flex;
             gap: 6px;
-            font-size: clamp(10px, 1.2vw, 12px);
+            font-size: clamp(11px, 1.2vw, 14px);
 
             &:first-child {
               justify-content: space-between;
@@ -168,7 +174,6 @@ const BoardContents = styled.div`
   @media screen and (max-width: 768px) {
     .board_list {
       .board_card {
-      max-height: 80px;
     }
     }
   }

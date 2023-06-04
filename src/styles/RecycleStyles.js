@@ -49,6 +49,7 @@ const Container = styled.div`
       position: relative;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      transition: 0.15s all linear;
     }
 
     .visible {
@@ -67,6 +68,9 @@ const Container = styled.div`
             width: 100%;
             height: 100%;
             color: #333;
+            &:hover {
+              color: #09f;
+            }
           }
         }
       }
@@ -75,6 +79,13 @@ const Container = styled.div`
     @media screen and (max-width: 768px) {
       .contents {
         grid-template-columns: repeat(2, 1fr);
+        place-items: center;
+      }
+    }
+
+    @media screen and (max-width: 564px) {
+      .contents {
+        grid-template-columns: 1fr;
       }
     }
   }
@@ -339,12 +350,20 @@ const AuthForm = styled.div`
 `;
 
 const Card = styled.div`
-  min-width: 220px;
-  max-width: 300px;
+  min-width: 240px;
   display: flex;
   flex-direction: column;
   padding: 12px;
   gap: 6px;
+  transition: all 0.15s linear;
+
+  &.board_card {
+    min-width: 250px;
+
+    @media screen and (max-width: 564px) {
+      min-width: 230px;
+    }
+  }
 
   .top {
     position: relative;
@@ -363,6 +382,7 @@ const Card = styled.div`
 
   .bottom {
     padding-top: 6px;
+    text-overflow: ellipsis;
 
     .photo_category,
     .today_category {
@@ -370,7 +390,7 @@ const Card = styled.div`
       overflow: hidden;
       color: #222;
       font-weight: 700;
-      font-size: clamp(11px, 1.5vw, 12.5px);
+      font-size: clamp(11px, 1.5vw, 13px);
     }
 
     .board_nickname,
@@ -379,8 +399,6 @@ const Card = styled.div`
       vertical-align: top;
       display: inline-block;
       overflow: hidden;
-      height: 17px;
-      line-height: 17px;
       padding-bottom: 2px;
       font-size: clamp(12px, 1.5vw, 13px);
       font-weight: 700;
@@ -396,11 +414,11 @@ const Card = styled.div`
     .photo_desc,
     .today_desc,
     .today_title {
-      margin-top: 6px;
       max-height: 44px;
       line-height: 16px;
-      font-size: clamp(12px, 1.5vw, 13px);
+      font-size: clamp(11px, 1.5vw, 14px);
       white-space: normal;
+      word-break: break-all;
     }
 
     .photo_title {
@@ -409,9 +427,16 @@ const Card = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    min-width: 180px;
+    min-width: 100%;
     .top {
       height: 260px;
+    }
+  }
+
+  @media screen and (max-width: 564px) {
+    min-width: 90%;
+    .top {
+      height: 240px;
     }
   }
 `;

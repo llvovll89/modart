@@ -16,16 +16,27 @@ const TodayList = () => {
   const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
   const handleLoadMore = () => {
-    if (visibleCount + 4 >= filterTodayList.length) {
+    if (visibleCount + getIncrement() >= filterTodayList.length) {
       setCollapsed(true);
     }
-    setVisibleCount((prevCount) => prevCount + 4);
+    setVisibleCount((prevCount) => prevCount + getIncrement());
   };
   
   const handleCollapse = () => {
     setVisibleCount(4);
     setCollapsed(false);
   };
+
+  const getIncrement = useCallback(() => {
+    const browserWidth = window.innerWidth;
+    if(browserWidth <= 564) {
+      return 1;
+    } else if (browserWidth <= 768) {
+      return 2;
+    } else {
+      return 4;
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(getTodays());
@@ -35,6 +46,22 @@ const TodayList = () => {
     const sortList = [...todayList].sort((a,b) => b.createdAt - a.createdAt);
     setFilterTodayList(sortList);
   }, [todayList]);
+
+  useEffect(() => {
+    setVisibleCount(getIncrement());
+  }, [getIncrement]);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getIncrement());
+    };
+  
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [getIncrement]);
+  
 
   return (
     <Section>
@@ -59,7 +86,7 @@ const TodayList = () => {
                     </Link>
                   </div>
                   <div className="bottom">
-                    <p className="today_category">{`<${today.type}>`}</p>
+                    <p className="today_category">{`${today.type}`}</p>
                     <p className="today_nickname">{today.nickname}</p>
                     <p className="today_title">{today.title}</p>
                     <p className="today_desc">

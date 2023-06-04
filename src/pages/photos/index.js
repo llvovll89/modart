@@ -96,13 +96,14 @@ const PhotoContents = styled.div`
       .items {
         padding: 3px 0px;
         .photo_title {
-          color: #3262c5;
+          color: #333;
           font-size: clamp(14.5px, 2vw, 16px);
           cursor: pointer;
           transition: all 0.15s linear;
 
-          &:hover {
-            color: #04f;
+          &:hover,
+          &:focus {
+            color: #08f;
             text-decoration: underline 0.5px;
           }
         }

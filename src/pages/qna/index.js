@@ -136,13 +136,20 @@ export const QnaArticle = styled.article`
 
     .card_contents {
       padding: 10px 0;
+      min-height: 150px;
       .card_desc {
         padding-top: 12px;
-        min-height: 150px;
         margin-bottom: 6px;
         font-size: clamp(14px, 1vw, 16px);
         line-height: 1.5;
         letter-spacing: -0.025rem;
+      }
+      .update_input {
+        width: 100%;
+        margin-bottom: 6px;
+        font-size: clamp(14px, 1vw, 16px);
+        letter-spacing: -0.025rem;
+        padding: 12px;
       }
     }
 
@@ -165,6 +172,10 @@ export const QnaArticle = styled.article`
           font-size: clamp(12px, 1.5vw, 14px);
           color: #ffffff;
 
+          span {
+
+          }
+
           &:nth-child(1) {
             background: #d472a3;
             &:focus {
@@ -182,6 +193,14 @@ export const QnaArticle = styled.article`
               color: #333;
             }
             background: #09f;
+          }
+
+          &:nth-child(4) {
+            &:focus {
+              color: #333;
+            }
+
+            background: #d7d72a;
           }
 
           svg {
@@ -413,7 +432,7 @@ export const QnaArticle = styled.article`
 export const QnaContents = styled.div`
   max-width: 1024px;
   margin: 12px auto 0px auto;
-  background: #FFFFFF;
+  background: #ffffff;
 
   .qna_list {
     padding: 1px 3px 0 1px;

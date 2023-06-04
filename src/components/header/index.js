@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
   background-color: #ffffff;
   position: fixed;
   width: 100%;
@@ -76,6 +78,7 @@ const HeaderContainer = styled.header`
             display: block;
             width: 100%;
             height: 100%;
+            font-family: 'Noto Sans KR', sans-serif;
           }
         }
 
@@ -93,7 +96,7 @@ const HeaderContainer = styled.header`
               width: 20px;
               height: 20px;
               position: absolute;
-              top:50%;
+              top: 50%;
               left: 50%;
               transform: translate(-50%, -50%);
             }
@@ -126,21 +129,19 @@ const HeaderContainer = styled.header`
           &.active {
             a {
               background: #74b0d7;
-              color: #FFF;
+              color: #fff;
               text-decoration: underline 0.5px;
               text-underline-offset: 3px;
             }
           }
 
           &:hover {
-            background-color: #FEFEFE;
+            background-color: #fefefe;
           }
-          
 
           &.user_nickname {
             &.active {
               background: #74b0d7;
-
             }
             a {
               position: relative;
@@ -153,10 +154,11 @@ const HeaderContainer = styled.header`
             width: 100%;
             height: 100%;
             font-size: clamp(12.5px, 1.5vw, 14px);
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.012rem;
             color: #333;
             padding: 0 6px;
+            font-family: 'Noto Sans KR', sans-serif;
           }
         }
       }
@@ -215,7 +217,6 @@ const HeaderContainer = styled.header`
 
             a,
             span {
-              font-size: clamp(12px, 1.5vw, 13.5px);
               display: block;
               padding: 6px 16px;
               letter-spacing: -0.15px;
@@ -243,14 +244,14 @@ const HeaderContainer = styled.header`
 
               .account {
                 font-size: clamp(12px, 1.5vw, 13.5px);
-              display: block;
-              padding: 6px 16px;
-              letter-spacing: 0.78px;
-              font-weight: 700;
-              text-align: left;
-              text-indent: 6px;
-              color: #202124;
-              background: transparent;
+                display: block;
+                padding: 6px 16px;
+                letter-spacing: 0.78px;
+                font-weight: 700;
+                text-align: left;
+                text-indent: 6px;
+                color: #202124;
+                background: transparent;
               }
             }
           }

@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { getBoards } from '../../store/reducers/boardSlice';
 import { Card, Container, Section } from '../../styles/RecycleStyles';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
-import { AiFillHeart } from 'react-icons/ai';
 import Loading from '../../components/common/Loading';
 
 const BoardList = () => {
@@ -21,17 +20,21 @@ const BoardList = () => {
     if (window.innerWidth >= 1280) {
       setPerPage(5);
       setFocus('left');
-    } else if (window.innerWidth >= 1024) {
+    } else if (window.innerWidth >= 964) {
       setPerPage(4);
       setGap('14px');
       setFocus('left');
     } else if (window.innerWidth >= 768) {
       setPerPage(3);
       setGap('12px');
-      setFocus('center');
-    } else {
+      setFocus('left');
+    } else if (window.innerWidth >= 564) {
       setPerPage(2);
-      setGap('10px');
+      setGap('16px');
+      setFocus('left');
+    } else {
+      setPerPage(1);
+      setGap('10px')
       setFocus('center');
     }
   }, []);
@@ -73,7 +76,7 @@ const BoardList = () => {
             >
               {boardList.slice(0, 10).map((board) => (
                 <SplideSlide key={board.id}>
-                  <Card>
+                  <Card className='board_card'>
                     <div className="top">
                       <Link to={`board/details/${board.id}`}>
                         <img src={board.photo} alt="board" />

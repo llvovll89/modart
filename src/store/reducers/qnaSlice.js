@@ -216,6 +216,10 @@ export const createData = createAsyncThunk(
   }
 );
 
+// export const updatedData = createAsyncThunk('question/updated' , async (payload, {rejectWithValue}) => {
+//   cosnt {  }
+// })
+
 export const getQna = createAsyncThunk('question/get', async () => {
   moment.locale('ko');
 
