@@ -33,6 +33,7 @@ const HeaderContainer = styled.header`
     .navbar {
       display: flex;
       gap: 12px;
+
       .users {
         display: flex;
         align-items: center;
@@ -45,6 +46,7 @@ const HeaderContainer = styled.header`
 
           &.active {
             background-color: rgba(40, 41, 44, 0.04);
+            
             a {
               color: #000;
               text-decoration: underline 0.5px;
@@ -57,6 +59,7 @@ const HeaderContainer = styled.header`
             align-items: center;
             justify-content: center;
             gap: 6px;
+            width: 100%;
 
             img {
               width: 36px;
@@ -108,12 +111,11 @@ const HeaderContainer = styled.header`
         margin: 0 6px;
 
         .account {
-          padding: 8px 16px;
-          width: 100%;
-          background: #09f;
-          color: #fefefe;
+          padding: 12px 16px;
+          border: 1px solid #eee;
+          color: #000;
           font-size: clamp(13.5px, 2vw, 14px);
-          border-radius: 9999px;
+          font-weight: 700;
         }
       }
 

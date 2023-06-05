@@ -16,6 +16,7 @@ export const AccountContainer = styled.div`
       border: 1px solid #ebebeb;
       border-radius: 10px;
       background-color: #fff;
+      margin-bottom: 20px;
 
       .user_detail {
         display: flex;
@@ -157,6 +158,82 @@ export const AccountContainer = styled.div`
         }
       }
     }
+
+    .customer_service {
+      padding: 23px;
+      border: 1px solid #ebebeb;
+      border-radius: 10px;
+      background-color: #fff;
+      display: flex;
+      flex-flow: column wrap;
+      gap: 12px;
+
+      .customer_info {
+        .customer_title {
+          padding-bottom: 20px;
+          border-bottom: 1px solid #eee;
+          h1 {
+            font-size: clamp(16px, 1.5vw, 22px);
+          }
+          span {
+            line-height: 1.2;
+            font-size: clamp(12px, 1.25vw, 14px);
+            letter-spacing: -0.21px;
+            color: rgba(34, 34, 34, 0.5);
+          }
+        }
+      }
+
+      .customer_contents {
+        .items {
+          padding: 20px 0px;
+          border-bottom: 1px solid #eee;
+          h2 {
+            font-size: clamp(14.5px, 1.5vw, 18px);
+            margin-bottom: 12px;
+          }
+          .item_container {
+            width: 100%;
+            justify-content: center;
+            gap: 6px;
+            display: flex;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+
+        .item {
+          padding: 20px;
+          min-width: 120px;
+          text-align: center;
+          border-radius: 6px;
+          border: 1px solid #eee;
+          font-size: clamp(12.5px, 1.5vw, 14px);
+          cursor: pointer;
+        }
+          }
+        }
+
+        .account_questions {
+          padding: 20px 0px;
+          border-bottom: 1px solid #eee;
+          p {
+            font-size: clamp(14.5px, 1.5vw, 18px);
+            margin-bottom: 12px;
+            font-weight: 700;
+          }
+        }
+
+        @media screen and (max-width: 768px) {
+           .items {
+            .item_container {
+              padding: 20px 0px;
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+            }
+           }
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -282,6 +359,18 @@ export const AccountEditForm = styled.div`
         position: relative;
         border-bottom: 1px solid #ebebeb;
 
+        &.deleteAccount {
+          .deleteAccount_btn {
+            margin: 0 auto;
+            margin-top: 20px;
+            width: 120px;
+            padding: 9px 16px;
+            color: #fff;
+            background: red;
+            border-radius: 6px;
+          }
+        }
+
         &.active {
           border-bottom: none;
         }
@@ -330,7 +419,7 @@ export const AccountEditForm = styled.div`
                 justify-content: center;
                 vertical-align: middle;
                 text-align: center;
-                border-radius: 12px;
+                border-radius: 6px;
                 font-size: 14px;
                 letter-spacing: -0.14px;
 
@@ -363,6 +452,7 @@ export const AccountEditForm = styled.div`
             position: absolute;
             right: 0;
             height: 42px;
+            min-width: 100px;
             background: #181818;
             padding: 0 20px;
             color: #fefefe;
@@ -379,6 +469,15 @@ export const AccountEditForm = styled.div`
     .contents {
       .user_profile {
         padding: 26px 0px;
+      }
+
+      .profile_info .area .input_area.active .btn_area button {
+        height: 36px;
+        padding: 6px 20px;
+      }
+
+      .profile_info .area .input_area .change_btn {
+        min-width: 75px;
       }
     }
   }

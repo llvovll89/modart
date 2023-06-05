@@ -97,7 +97,10 @@ const AccountForm = ({ text, link }) => {
         setAlertText('닉네임을 입력해주세요.');
       } else if (!isValidEmail) {
         setAlertText('naver & gmail 만 가능합니다.');
+      } else if (email === '' && password === '') {
+        setAlertText('email, password 입력해주시기 바랍니다.');
       }
+
       setIsAlertVisible(true);
       setTimeout(() => {
         setIsAlertVisible(false);
@@ -131,7 +134,6 @@ const AccountForm = ({ text, link }) => {
         </div>
         <div className="textbox">
           <strong className="title">ModArt</strong>
-          <span>{'< 모드아트 />'}</span>
         </div>
       </div>
       <div className="right">

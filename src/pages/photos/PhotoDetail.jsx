@@ -107,12 +107,21 @@ const PhotoDetail = () => {
             {commentToggle && (
               <div className="comments">
                 <div className="profile">
-                  {user.profileImg ? (
-                    <img src={user.profileImg} alt={photo.nickname} />
+                  {user ? (
+                    <>
+                      {user.profileImg ? (
+                        <img src={user.profileImg} alt={photo.nickname} />
+                      ) : (
+                        <img src={NO_IMAGE_URL} alt={photo.nickname} />
+                      )}
+                      <p>{user.nickname}</p>
+                    </>
                   ) : (
-                    <img src={NO_IMAGE_URL} alt={photo.nickname} />
+                    <>
+                      <img src={NO_IMAGE_URL} alt="..." />
+                      <p>Default Nickname</p>
+                    </>
                   )}
-                  <p>{user.nickname}</p>
                 </div>
 
                 <ul className="comment_list">

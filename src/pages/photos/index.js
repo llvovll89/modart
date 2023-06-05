@@ -151,6 +151,7 @@ const PhotoDetailPage = styled.div`
     margin: 0 auto;
     max-width: 768px;
     word-break: break-all;
+    width: 100%;
     padding: 12px;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.07);
     border: 1px solid #eee;
@@ -295,7 +296,8 @@ const PhotoDetailPage = styled.div`
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eee;
 
       img {
         width: 36px;
@@ -306,6 +308,7 @@ const PhotoDetailPage = styled.div`
 
       p {
         font-weight: 700;
+        font-size: clamp(12px, 1.5vw, 14px);
       }
     }
 
@@ -371,14 +374,16 @@ const PhotoDetailPage = styled.div`
 
           p {
             font-weight: 700;
+            font-size: clamp(11px, 1.5vw, 13px);
           }
         }
 
         .submit_btn {
           padding: 6px 12px;
-          font-size: clamp(12px, 1.5vw, 13.5px);
-          border: 1px solid #333;
+          font-size: clamp(11px, 1.5vw, 13px);
           border-radius: 6px;
+          color: #FFF;
+          background: #333;
         }
       }
       .input_form {
@@ -402,6 +407,8 @@ const PhotoDetailPage = styled.div`
   @media screen and (max-width: 768px) {
     flex-direction: column;
     padding: 12px;
+    gap: 6px;
+
     .contents {
       .snapImg {
         min-height: 300px;

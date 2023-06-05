@@ -29,7 +29,7 @@ export const FooterContainer = styled.footer`
         display: flex;
         flex-direction: column;
         padding: 6px 0px 0px;
-        font-size: clamp(11px, 2vw, 16px);
+        font-size: clamp(11px, 2vw, 13px);
     }
   }
 

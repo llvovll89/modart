@@ -2,20 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Section } from '../../../styles/RecycleStyles';
 import { AccountEditForm } from '.';
-import { changePassword, updateUserData } from '../../../store/reducers/loginSlice';
+import {
+  changePassword,
+  updateUserData,
+} from '../../../store/reducers/loginSlice';
 import NoUserImg from '../../../assets/images/user.png';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../firebase/firebase';
+import { deleteAccount } from '../../../store/reducers/loginSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AccountEdit = () => {
   const [active, setActive] = useState({});
   const [updateData, setUpdateData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-  const [thumbnailImage, setThumbnailImage] = useState(null);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
+  const navigator = useNavigate();
 
   const changeBtnClick = (key) => {
     setActive((prevActive) => ({
@@ -24,6 +29,7 @@ const AccountEdit = () => {
       email: key === 'email' ? !prevActive.email : prevActive.email,
       intro: key === 'intro' ? !prevActive.intro : prevActive.intro,
       password: key === 'password' ? !prevActive.password : prevActive.password,
+      photo: key === 'photo' ? !prevActive.photo : prevActive.photo,
     }));
   };
 
@@ -42,11 +48,11 @@ const AccountEdit = () => {
   const passwordChangeHandler = async () => {
     try {
       dispatch(changePassword({ currentPassword, newPassword }));
-      changeBtnClick('password'); 
+      changeBtnClick('password');
     } catch (error) {
       console.log('비밀번호 변경에 실패하였습니다.', error);
     }
-  }
+  };
 
   const uploadFile = async (file) => {
     try {
@@ -64,6 +70,7 @@ const AccountEdit = () => {
   const updateProfileUser = async (key) => {
     try {
       let newData = {};
+
       if (active.name && updateData.nickname) {
         newData.nickname = updateData.nickname;
         changeBtnClick('name');
@@ -82,9 +89,8 @@ const AccountEdit = () => {
       }
       if (selectedImage) {
         const photoURL = await uploadFile(selectedImage);
-        newData.photo = photoURL;
-        changeBtnClick('photo');
-        setSelectedImage(null);
+        newData.profileImg = photoURL;
+        console.log(photoURL, selectedImage);
       }
 
       if (Object.keys(newData).length > 0) {
@@ -98,21 +104,24 @@ const AccountEdit = () => {
     }
   };
 
+  const deleteAccountHandler = () => {
+    if (!user) {
+      window.alert('로그인하여야만 가능합니다.');
+      return;
+    }
+
+    const alertDeleteAccount = confirm('정말 계정을 탈퇴 하시겠습니까?');
+    if (alertDeleteAccount) {
+      dispatch(deleteAccount());
+      navigator('/');
+    }
+
+    return;
+  };
+
   useEffect(() => {
     setActive({});
   }, [user]);
-
-  useEffect(() => {
-    if (selectedImage) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setThumbnailImage(e.target.result);
-      };
-      reader.readAsDataURL(selectedImage);
-    } else {
-      setThumbnailImage(null);
-    }
-  }, [selectedImage]);
 
   return (
     <Section>
@@ -124,15 +133,15 @@ const AccountEdit = () => {
 
           <div className="user_profile">
             <div className="user_img">
-              {thumbnailImage ? (
+              {user.profileImg ? (
                 <img
-                  src={thumbnailImage}
+                  src={user.profileImg}
                   alt={user.nickname}
                   style={{ maxWidth: '90px', maxHeight: '90px' }}
                 />
               ) : (
                 <img
-                  src={user.profileImg ? user.profileImg : NoUserImg}
+                  src={NoUserImg}
                   alt={user.nickname}
                   style={{ maxWidth: '90px', maxHeight: '90px' }}
                 />
@@ -157,10 +166,18 @@ const AccountEdit = () => {
                     name="photo"
                     onChange={updateUsersData}
                   />
-
-                  <label htmlFor="photo" className="file_label">
-                    <p>{selectedImage ? '저장하기' : '이미지변경'}</p>
-                  </label>
+                  {selectedImage ? (
+                    <button
+                      className="file_label"
+                      onClick={() => updateProfileUser('photo')}
+                    >
+                      <p>저장하기</p>
+                    </button>
+                  ) : (
+                    <label htmlFor="photo" className="file_label">
+                      <p>이미지변경</p>
+                    </label>
+                  )}
                 </div>
                 <div className="img_delete">
                   <p onClick={() => setSelectedImage(null)}>삭제하기</p>
@@ -297,8 +314,18 @@ const AccountEdit = () => {
               <div className={`input_area${active.password ? ' active' : ''}`}>
                 {active.password ? (
                   <>
-                    <input type="password" className='password' placeholder='이전 비밀번호 입력..' onChange={(e) => setCurrentPassword(e.target.value)} />
-                    <input type="password" className='password' placeholder='새로운 비밀번호 입력..' onChange={(e) => setNewPassword(e.target.value)} />
+                    <input
+                      type="password"
+                      className="password"
+                      placeholder="이전 비밀번호 입력.."
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                    />
+                    <input
+                      type="password"
+                      className="password"
+                      placeholder="새로운 비밀번호 입력.."
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
                   </>
                 ) : (
                   <p>비밀번호변경</p>
@@ -319,7 +346,7 @@ const AccountEdit = () => {
                       }}
                     >
                       저장하기
-                    </button> 
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -330,6 +357,17 @@ const AccountEdit = () => {
                   </button>
                 )}
               </div>
+            </div>
+
+            <div className="area deleteAccount">
+              <label htmlFor="deleteAccount_btn">계정삭제</label>
+              <button
+                className="deleteAccount_btn"
+                name="deleteAccount_btn"
+                onClick={deleteAccountHandler}
+              >
+                계정삭제
+              </button>
             </div>
           </div>
         </div>

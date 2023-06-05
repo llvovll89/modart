@@ -200,7 +200,7 @@ const QnaDetail = () => {
                 >
                   <AiOutlineComment /> 답변하기
                 </button>
-                {qna.nickname === user.nickname ? (
+                {user && qna.nickname === user.nickname ? (
                   <button
                     className="qna_btn"
                     onClick={() => {

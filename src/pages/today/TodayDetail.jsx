@@ -22,6 +22,8 @@ const TodayDetail = () => {
   const today = todays.find((todayId) => todayId.id === id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
+
   const handleRecommendClick = (todayId) => {
     dispatch(recommendViews({ todayId }))
       .then(() => {
@@ -120,7 +122,12 @@ const TodayDetail = () => {
             <div className="user_info">
               <p className="user_nickname">{today.nickname}</p>
               <div className="items">
-                <span>댓글 {today.comments && today.comments.length > 0 ? today.comments.length : null}</span>
+                <span>
+                  댓글{' '}
+                  {today.comments && today.comments.length > 0
+                    ? today.comments.length
+                    : null}
+                </span>
                 <span>조회수 {today.views}</span>
                 <span>추천 {today.recommend > 0 ? today.recommend : 0}</span>
               </div>
@@ -159,7 +166,7 @@ const TodayDetail = () => {
                         <div className="bt">
                           <p className="comment_desc">{comment.text}</p>
                         </div>
-                        {comment.author === user.nickname ? (
+                        {user && comment.author === user.nickname ? (
                           <div className="btns">
                             <button>수정하기</button>
                             <button
@@ -178,8 +185,17 @@ const TodayDetail = () => {
 
                 <div className="comments">
                   <div className="profile">
-                    <img src={user.profileImg} alt={user.nickname} />
-                    <span>{user.nickname}</span>
+                    {user ? (
+                      <>
+                        <img src={user.profileImg} alt={user.nickname} />
+                        <span>{user.nickname}</span>
+                      </>
+                    ) : (
+                      <>
+                        <img src={NO_IMAGE_URL} alt="..." />
+                        <span>Default Nickname</span>
+                      </>
+                    )}
                   </div>
                   <p className="comment_text">댓글 쓰기</p>
                   <div className="comment_form">

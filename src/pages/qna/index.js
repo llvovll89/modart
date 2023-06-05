@@ -173,7 +173,6 @@ export const QnaArticle = styled.article`
           color: #ffffff;
 
           span {
-
           }
 
           &:nth-child(1) {
@@ -436,58 +435,67 @@ export const QnaContents = styled.div`
 
   .qna_list {
     padding: 1px 3px 0 1px;
-    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
-      sans-serif;
+    /* font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
+      sans-serif; */
+    width: 100%;
 
     .qna_card {
       display: flex;
       min-height: 40px;
       align-items: center;
       background: #ffffff;
-      border-bottom: 1px solid #fff;
-      gap: 12px;
+      width: 100%;
       margin-bottom: 3.5px;
-      padding: 0 4px;
       word-break: break-all;
+      padding: 12px 12px 20px 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 26px;
+      gap: 6px;
+      border-bottom: 1px solid #eee;
 
       p {
+        padding-left: 6px;
         display: block;
         font-size: clamp(12px, 1vw, 13px);
       }
 
       .number {
-        width: 5%;
         text-align: center;
       }
       .title {
+        font-weight: 700;
+        margin: 6px 0;
         text-overflow: ellipsis;
         color: #0c2d43;
         cursor: pointer;
-        width: 70%;
         color: #333;
+        font-size: clamp(13.5px, 1.5vw, 16px);
 
         &:hover {
           color: #770088;
           text-decoration: underline 0.5px;
         }
       }
-      .nickname {
-        text-align: center;
-        width: 10%;
-      }
-
-      .date,
-      .views {
-        text-align: center;
-        width: 10%;
-      }
-
-      .views {
-        width: 15%;
-      }
 
       &:last-child {
         margin-bottom: 0;
+      }
+
+      .sub_contents {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .views,
+        .like {
+          cursor: pointer;
+          min-width: 40px;
+          
+          svg {
+            color: #0c2d43;
+          }
+        }
       }
 
       .qna_img {
@@ -502,31 +510,31 @@ export const QnaContents = styled.div`
 
   @media screen and (max-width: 768px) {
     .qna_list {
+      margin: 20px 0;
       .qna_card {
-        min-height: 26px;
-
         .number {
-          width: 5%;
           text-align: center;
         }
         .title {
-          width: 50%;
-          color: #333;
-
           &:hover {
             color: #770088;
             text-decoration: underline 0.5px;
           }
         }
-        .nickname {
-          text-align: center;
-          width: 15%;
+
+        .sub_contents {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          justify-content: center;
         }
 
-        .date,
-        .views {
-          text-align: center;
-          width: 10%;
+        .qna_img {
+          img {
+            width: 60px;
+            height: 50px;
+            vertical-align: top;
+          }
         }
       }
     }
@@ -584,12 +592,10 @@ export const QnaCard = styled.div`
         .qna_answer {
           position: relative;
           border-top: 1px solid rgba(226, 220, 220, 0.45);
-          padding: 20px 0px 20px 6px;
+          padding: 20px 0px 0px 6px;
           overflow: hidden;
 
           .qna_desc {
-            position: relative;
-            left: 16px;
             color: #4d5256;
             font-size: clamp(12px, 1.5vw, 14px);
           }

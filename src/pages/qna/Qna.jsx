@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { Section } from '../../styles/RecycleStyles';
-import { AiFillQuestionCircle } from 'react-icons/ai';
+import {
+  AiFillQuestionCircle,
+  AiOutlineComment,
+  AiOutlineEye,
+  AiOutlineLike,
+} from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { QnaContainer, QnaContents } from '.';
@@ -61,13 +66,15 @@ const Qna = () => {
         <ul className="qna_list">
           {qnaList && qnaList.length > 0 ? (
             qnaList.map((qna) => (
-              <li
-                className="qna_card"
-                key={qna.id}
-                onClick={() => handleQuestionClick(qna.id)}
-              >
+              <li className="qna_card" key={qna.id}>
                 <p className="number">{qna.number}</p>
-                <p className="title" onClick={() => detailClick(qna)}>
+                <p
+                  className="title"
+                  onClick={() => {
+                    detailClick(qna);
+                    handleQuestionClick(qna.id);
+                  }}
+                >
                   {qna.title.length >= 40
                     ? qna.title.substring(40) + '...'
                     : qna.title}{' '}
@@ -77,13 +84,21 @@ const Qna = () => {
                       : null}
                   </span>
                 </p>
-                <p className="nickname">{qna.nickname}</p>
-                <p className="date">
-                  {qna.createdAt.length >= 9
-                    ? qna.createdAt.slice(5)
-                    : qna.createdAt}
-                </p>
-                <p className="views">{qna.views ? qna.views : 0} 회</p>
+
+                <div className="sub_contents">
+                  <p className="like">
+                    <AiOutlineLike /> {qna.recommend > 0 ? qna.recommend : 0}
+                  </p>
+                  <p
+                    className="views"
+                    onClick={() => {
+                      detailClick(qna);
+                      handleQuestionClick(qna.id);
+                    }}
+                  >
+                    <AiOutlineEye /> {qna.views > 0 ? qna.views : 0}
+                  </p>
+                </div>
               </li>
             ))
           ) : (

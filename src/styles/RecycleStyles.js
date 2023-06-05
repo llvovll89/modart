@@ -135,7 +135,7 @@ const AuthForm = styled.div`
   .left {
     position: relative;
     flex: 1 1 50%;
-    background: #23272b;
+    background: #0b3b6b;
 
     .textbox {
       position: absolute;

@@ -21,6 +21,7 @@ const Header = ({ toggle, toggleMenu }) => {
 
   const logOutHandler = () => {
     const alertLogout = confirm('정말 로그아웃 하시겠습니까?');
+    
     if (alertLogout) {
       dispatch(signOuterUer());
       navigate('/');

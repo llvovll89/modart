@@ -75,7 +75,7 @@ const TodayList = () => {
         {filterTodayList.length > 0 ? (
           <>
             {filterTodayList.slice(0, visibleCount).map((today) => (
-                <Card>
+                <Card key={today.id}> 
                   <div className="top">
                     <Link to={`today/details/${today.id}`}>
                       {today.photo ? (

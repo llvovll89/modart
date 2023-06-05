@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db, storage } from "../../firebase/firebase";
-import { doc, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { browserLocalPersistence, createUserWithEmailAndPassword, setPersistence, signOut } from 'firebase/auth';
+import { auth, db, storage } from '../../firebase/firebase';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-const storageRef = ref(storage, "profile_img");
+const storageRef = ref(storage, 'profile_img');
 
 const uploadFile = async (file) => {
   if (file) {
@@ -17,7 +17,7 @@ const uploadFile = async (file) => {
   return null;
 };
 
-export const signUp = createAsyncThunk("auth/signUp", async (userData) => {
+export const signUp = createAsyncThunk('auth/signUp', async (userData) => {
   try {
     const { email, password, nickname, photo } = userData;
     const userCredential = await createUserWithEmailAndPassword(
@@ -26,7 +26,7 @@ export const signUp = createAsyncThunk("auth/signUp", async (userData) => {
       password
     );
     const user = userCredential.user;
-    const userDocRef = doc(db, "users", user.uid);
+    const userDocRef = doc(db, 'users', user.uid);
     const fileURL = await uploadFile(photo);
 
     await setDoc(userDocRef, {
@@ -34,7 +34,7 @@ export const signUp = createAsyncThunk("auth/signUp", async (userData) => {
       nickname,
       password,
       email,
-      profileImg: fileURL || "",
+      profileImg: fileURL || '',
     });
 
     return {
@@ -42,15 +42,17 @@ export const signUp = createAsyncThunk("auth/signUp", async (userData) => {
       email,
       password,
       nickname,
-      profileImg: fileURL || "",
+      profileImg: fileURL || '',
     };
   } catch (error) {
     throw error;
   }
 });
 
+
+
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: null,
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
