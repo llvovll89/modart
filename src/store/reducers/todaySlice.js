@@ -3,8 +3,6 @@ import 'moment/locale/ko';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   addDoc,
-  arrayRemove,
-  arrayUnion,
   collection,
   doc,
   getDoc,

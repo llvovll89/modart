@@ -34,6 +34,7 @@ const QnaDetail = () => {
   const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
   const qna = qnaList.find((question) => question.id === id);
+  const comments = qna && Object.values(qna.comments);
 
   const likeButtonClick = (qnaId) => {
     dispatch(recommendViews({ qnaId }))
@@ -209,11 +210,11 @@ const QnaDetail = () => {
                   >
                     {updateToggle ? (
                       <>
-                      <AiOutlineCheck /> 저장하기
+                        <AiOutlineCheck /> 저장하기
                       </>
                     ) : (
                       <>
-                      <AiFillEdit /> 수정하기
+                        <AiFillEdit /> 수정하기
                       </>
                     )}
                   </button>
@@ -253,9 +254,9 @@ const QnaDetail = () => {
                     </div>
                   </div>
 
-                  {qna.comments &&
-                    Object.keys(qna.comments).map((commentId) => {
-                      const comment = qna.comments[commentId];
+                  {comments &&
+                    comments.map((comment) => {
+                      const commentId = comment.id;
                       const isEditing = editingCommentId === commentId;
 
                       return (

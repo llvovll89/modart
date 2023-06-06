@@ -229,30 +229,23 @@ const PhotoDetailPage = styled.div`
           display: flex;
           align-items: center;
           justify-content: center;
+          gap: 6px;
 
           button {
-            width: 30px;
-            height: 30px;
-            margin-right: 12px;
-            background: #333;
+            width: 36px;
+            height: 36px;
+            margin-right: 12px
             border-radius: 50%;
             position: relative;
-            color: #fff;
+            color: #181818;
 
             svg {
               position: absolute;
               top: 50%;
               left: 50%;
               transform: translate(-50%, -50%);
-              width: 60%;
-              height: 60%;
-            }
-
-            &:nth-child(1) {
-              color: #e7a7a7;
-            }
-            &:nth-child(2) {
-              color: #a7c6e7;
+              width: 80%;
+              height: 80%;
             }
           }
         }
@@ -266,15 +259,25 @@ const PhotoDetailPage = styled.div`
 
       .photo_title {
         padding-top: 12px;
+
+        .like_length {
+          font-size: clamp(13px, 1.5vw, 16px);
+          font-weight: 600;
+        }
+
         .title {
           font-size: clamp(14px, 1.8vw, 17px);
           margin-bottom: 6px;
           letter-spacing: 0.025rem;
+          font-weight: 500;
+
+          span {
+            font-weight: 600;
+          }
         }
 
         .desc {
           letter-spacing: -0.015rem;
-          text-indent: 3px;
           font-size: clamp(13px, 1.4vw, 15px);
         }
         .over {
@@ -315,6 +318,8 @@ const PhotoDetailPage = styled.div`
     .comment_list {
       width: 100%;
       padding: 12px;
+      height: calc(100vh - 180px);
+      overflow-y: scroll;
 
       .comment_item {
         margin-bottom: 20px;
@@ -323,10 +328,12 @@ const PhotoDetailPage = styled.div`
           display: flex;
           justify-content: space-between;
           margin-bottom: 12px;
+          align-items: center;
 
           .users {
             display: flex;
             gap: 6px;
+            align-items: center;
 
             img {
               width: 36px;
@@ -336,8 +343,10 @@ const PhotoDetailPage = styled.div`
             }
 
             .comment_name {
-              font-size: clamp(11.5px 1vw, 12.5px);
+              font-weight: 600;
+              font-size: clamp(11.5px, 1vw, 12.5px);
             }
+
           }
 
           .comment_date {
@@ -351,6 +360,61 @@ const PhotoDetailPage = styled.div`
             padding: 6px 0;
             font-size: clamp(12px, 1.5vw, 13px);
           }
+
+          .update_comment {
+            margin: 12px 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: space-between;
+
+            .update_input {
+              width: 100%;
+              padding: 12px;
+              border: 1px solid #eee;
+              border-radius: 6px;
+              letter-spacing: -0.025rem;
+              font-size: clamp(12px, 1.5vw, 13.5px);
+            
+              &:focus ,
+              &:active {
+                border: 1.5px solid #333;
+              }
+            }
+
+            .update_add_btn {
+              min-width: 42px;
+              height: 100%;
+
+              span {
+                font-size: clamp(16px, 1.5vw, 20px);
+              }
+            }
+          }
+        }
+
+        .comment_btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            button {
+              padding: 6px 12px;
+              
+              span {
+                font-size: clamp(14px, 1.5vw , 18px);
+              }
+
+              /* &.edit_comment_btn {
+                color: #4bae4b;
+              }
+
+              &.delete_comment_btn {
+                color: salmon;
+              } */
+            }
         }
       }
     }
@@ -391,13 +455,15 @@ const PhotoDetailPage = styled.div`
         textarea {
           resize: none;
           width: 100%;
-          min-height: 65px;
+          height: 46px;
           border: 1px solid #eee;
           border-radius: 3px;
           padding: 12px;
+          font-size: clamp(12.5px, 1.25vw, 14px);
+          letter-spacing: -0.025rem;
 
           &:focus {
-            border: 2px solid #09f;
+            border: 1.5px solid #7d7373;
           }
         }
       }
