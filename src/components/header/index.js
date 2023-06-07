@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap');
 
   background-color: #ffffff;
   position: fixed;
@@ -81,7 +82,6 @@ const HeaderContainer = styled.header`
             display: block;
             width: 100%;
             height: 100%;
-            font-family: 'Noto Sans KR', sans-serif;
           }
         }
 
@@ -160,7 +160,6 @@ const HeaderContainer = styled.header`
             letter-spacing: 0.012rem;
             color: #333;
             padding: 0 6px;
-            font-family: 'Noto Sans KR', sans-serif;
           }
         }
       }

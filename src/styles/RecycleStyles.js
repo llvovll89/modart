@@ -14,6 +14,13 @@ const loading = keyframes`
 
 // styles
 
+export const ModalContainer = styled.div`
+  width: 300px;
+  height: 300px;
+  border-radius: 6px;
+  padding: 12px;
+`
+
 const Section = styled.section`
   width: 100%;
   padding-top: 60px;
@@ -112,16 +119,26 @@ const Container = styled.div`
 
 const AuthForm = styled.div`
   position: relative;
-  max-width: 760px;
+  max-width: 768px;
   min-height: 500px;
   width: 100%;
   gap: 6px;
   box-shadow: 0 8px 16px rgba(182, 190, 204, 0.5);
   display: flex;
 
+  &.active {
+    &::after {
+      position: absolute;
+      content: "";
+      background: rgba(0,0,0,0.42);
+      width: 100%;
+      height: 100%;
+    }
+  }
+
   .toggle {
     position: absolute;
-    top: 20px;
+    top: 0;
     left: 0;
     display: none;
     cursor: pointer;
@@ -266,6 +283,15 @@ const AuthForm = styled.div`
       a {
         font-size: clamp(12px, 1.8vw, 14px);
       }
+
+      .resetPassword {
+        button {
+          transition: color 0.2s linear;
+          &:hover {
+            color: #20f;
+          }
+        }
+      }
     }
 
     .socialLogin {
@@ -315,18 +341,81 @@ const AuthForm = styled.div`
     }
   }
 
-  @media screen and (max-width: 646px) {
+  .reset_form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 360px;
+    height: 360px;
+    background: #FFF;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    padding: 40px 20px 36px;
+    display: flex;
+    border-radius: 6px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.122);
+    flex-flow: column wrap;
+    justify-content: space-between;
+
+    p {
+      display: block;
+      font-size: clamp(14.5px, 1.5vw, 18px);
+      text-align: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1rem;
+    }
+
+    .input_area {
+      position: relative;
+      width: 100%;
+
+      label {
+        display: inline-block;
+        padding: 0 12px;
+        font-size: clamp(11.5px, 1vw, 13px);
+        margin-bottom: 6px;
+      }
+
+      input {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        min-height: 46px;
+        border-bottom: 1px solid #131313;
+      }
+    }
+
+    .send {
+      width: 100%;
+      background: #191919;
+      min-height: 46px;
+      color: #fff;
+    }
+
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: block;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
     flex-direction: column;
-    min-height: 100vh;
     box-shadow: none;
     justify-content: space-between;
+    max-width: 564px;
 
     .toggle {
       display: block;
     }
     .left {
       width: 100%;
-      max-width: 454px;
+      min-height: 200px;
       display: flex;
       align-items: center;
       background: #ffffff;

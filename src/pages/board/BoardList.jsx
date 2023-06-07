@@ -66,10 +66,10 @@ const BoardList = () => {
                 drag: 'free',
                 arrows: false,
                 autoScroll: {
-                  pauseOnHover: false,
+                  pauseOnHover: true,
                   pauseOnFocus: false,
-                  rewind: false,
-                  speed: 2,
+                  rewind: true,
+                  speed: -1,
                 },
               }}
               extensions={{ AutoScroll }}

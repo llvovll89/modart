@@ -5,13 +5,17 @@ import { signUp } from '../../store/reducers/authSlice';
 import { googleLogin, signIn } from '../../store/reducers/loginSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { BsArrowLeft } from 'react-icons/bs';
+import {AiOutlineCloseCircle } from 'react-icons/ai';
 import { FcGoogle, FcAddImage } from 'react-icons/fc';
 import Alert from './Alert';
+import { auth } from '../../firebase/firebase';
 
 const AccountForm = ({ text, link }) => {
   const [authValue, setAuthValue] = useState({});
   const [googleUser, setGoogleUser] = useState({});
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [resetBtn, setResetBtn] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
   const [alertText, setAlertText] = useState('');
 
   const dispatch = useDispatch();
@@ -126,8 +130,19 @@ const AccountForm = ({ text, link }) => {
     });
   };
 
+  const sendPasswordResetEmail = async (email) => {
+    try {
+      await auth.sendPasswordResetEmail(email);
+      window.alert('비밀번호 재설정 이메일이 전송되었습니다.');
+      setResetEmail('');
+      setResetBtn(!resetBtn);
+    } catch (error) {
+      window.alert('이메일 전송에 실패하였습니다.', error);
+    }
+  };
+
   return (
-    <AuthForm>
+    <AuthForm className={resetBtn ? 'active' : ''}>
       <div className="left">
         <div className="toggle" onClick={() => navigate('/')}>
           <BsArrowLeft />
@@ -145,6 +160,7 @@ const AccountForm = ({ text, link }) => {
                 <Input
                   type="email"
                   name="email"
+                  id='email'
                   onChange={handleInputChange}
                   autoComplete="off"
                 />
@@ -154,6 +170,7 @@ const AccountForm = ({ text, link }) => {
                 <Input
                   type="password"
                   name="password"
+                  id='password'
                   onChange={handleInputChange}
                   autoComplete="off"
                 />
@@ -163,6 +180,7 @@ const AccountForm = ({ text, link }) => {
                 <Input
                   type="text"
                   name="nickname"
+                  id='nickname'
                   onChange={handleInputChange}
                   autoComplete="off"
                 />
@@ -189,11 +207,12 @@ const AccountForm = ({ text, link }) => {
           ) : (
             <>
               <div className="area">
-                <Input type="email" name="email" onChange={handleInputChange} />
+                <Input type="email" id="email" name="email" onChange={handleInputChange} />
                 <label htmlFor="email">email</label>
               </div>
               <div className="area">
                 <Input
+                  id="password"
                   type="password"
                   name="password"
                   onChange={handleInputChange}
@@ -216,8 +235,38 @@ const AccountForm = ({ text, link }) => {
           <Link to={`/account/${link === '회원가입' ? 'signup' : 'login'}`}>
             {link}
           </Link>
+          <div className="resetPassword">
+            <button className="reset" onClick={() => setResetBtn(!resetBtn)}>
+              비밀번호 재설정
+            </button>
+          </div>
         </div>
       </div>
+
+      {resetBtn ? (
+        <div className="reset_form">
+          <p>비밀번호 재설정 page</p>
+          <div className="input_area">
+            <label htmlFor="email2">로그인 이메일</label>
+            <input
+              name="email2"
+              type="email"
+              id="email2"
+              placeholder="가입시 입력한 email 입력.."
+              onChange={(e) => setResetEmail(e.target.value)}
+            />
+          </div>
+          <button
+            className="send"
+            onClick={() => sendPasswordResetEmail(resetEmail)}
+          >
+            전송하기
+          </button>
+
+          
+          <AiOutlineCloseCircle className="close" onClick={() => setResetBtn(!resetBtn)} />
+        </div>
+      ) : null}
     </AuthForm>
   );
 };

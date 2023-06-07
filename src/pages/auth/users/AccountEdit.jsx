@@ -33,6 +33,11 @@ const AccountEdit = () => {
     }));
   };
 
+  const passwordChangeAlert = () => {
+    alert('해시 암호화 설정이 되어있어 비밀번호는 변경 불가합니다.');
+    return;
+  };
+
   const updateUsersData = (e) => {
     const { name, value } = e.target;
     if (e.target.name === 'photo') {
@@ -90,7 +95,6 @@ const AccountEdit = () => {
       if (selectedImage) {
         const photoURL = await uploadFile(selectedImage);
         newData.profileImg = photoURL;
-        console.log(photoURL, selectedImage);
       }
 
       if (Object.keys(newData).length > 0) {
@@ -98,7 +102,13 @@ const AccountEdit = () => {
         const updatedUser = { ...user, ...newData };
         dispatch({ type: 'login/updateUserData', payload: updatedUser });
         changeBtnClick(key);
+
+        if (selectedImage) {
+          updatedUser.profileImg = URL.createObjectURL(selectedImage);
+        }
       }
+
+      changeBtnClick(key);
     } catch (error) {
       console.log('데이터 업데이트에 실패하였습니다.', error);
     }
@@ -133,7 +143,13 @@ const AccountEdit = () => {
 
           <div className="user_profile">
             <div className="user_img">
-              {user.profileImg ? (
+              {selectedImage ? (
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt={user.nickname}
+                  style={{ maxWidth: '90px', maxHeight: '90px' }}
+                />
+              ) : user.profileImg ? (
                 <img
                   src={user.profileImg}
                   alt={user.nickname}
@@ -169,19 +185,23 @@ const AccountEdit = () => {
                   {selectedImage ? (
                     <button
                       className="file_label"
-                      onClick={() => updateProfileUser('photo')}
+                      onClick={() => {
+                        updateProfileUser('photo'), changeBtnClick('photo');
+                      }}
                     >
                       <p>저장하기</p>
                     </button>
                   ) : (
                     <label htmlFor="photo" className="file_label">
-                      <p>이미지변경</p>
+                      <p>프로필변경</p>
                     </label>
                   )}
                 </div>
-                <div className="img_delete">
-                  <p onClick={() => setSelectedImage(null)}>삭제하기</p>
-                </div>
+                {selectedImage ? (
+                  <div className="img_delete">
+                    <p onClick={() => setSelectedImage(null)}>삭제하기</p>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -351,7 +371,10 @@ const AccountEdit = () => {
                 ) : (
                   <button
                     className="change_btn"
-                    onClick={() => changeBtnClick('password')}
+                    onClick={() => {
+                      // changeBtnClick('password'),
+                      passwordChangeAlert();
+                    }}
                   >
                     변경
                   </button>

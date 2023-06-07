@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import bcrypt from 'bcryptjs';
 import { browserLocalPersistence, createUserWithEmailAndPassword, setPersistence, signOut } from 'firebase/auth';
 import { auth, db, storage } from '../../firebase/firebase';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
@@ -20,11 +21,14 @@ const uploadFile = async (file) => {
 export const signUp = createAsyncThunk('auth/signUp', async (userData) => {
   try {
     const { email, password, nickname, photo } = userData;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      hashedPassword
     );
+    
     const user = userCredential.user;
     const userDocRef = doc(db, 'users', user.uid);
     const fileURL = await uploadFile(photo);
@@ -32,7 +36,6 @@ export const signUp = createAsyncThunk('auth/signUp', async (userData) => {
     await setDoc(userDocRef, {
       uid: user.uid,
       nickname,
-      password,
       email,
       profileImg: fileURL || '',
     });
@@ -40,7 +43,6 @@ export const signUp = createAsyncThunk('auth/signUp', async (userData) => {
     return {
       uid: user.uid,
       email,
-      password,
       nickname,
       profileImg: fileURL || '',
     };
