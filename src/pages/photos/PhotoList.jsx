@@ -21,7 +21,14 @@ const PhotoList = () => {
   };
   
   const handleCollapse = () => {
-    setVisibleCount(4);
+    if (window.innerWidth <= 768) {
+      setVisibleCount(2);
+    } else if (window.innerWidth <= 564) {
+      setVisibleCount(1);
+    } else {
+      setVisibleCount(4);
+    }
+    
     setCollapsed(false);
   };
 

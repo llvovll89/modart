@@ -4,7 +4,7 @@ export const QnaContainer = styled.div`
   margin: auto;
   width: 100%;
   height: 16rem;
-  background: pink;
+  background: #dda0aa;
   overflow: hidden;
 
   .contents {

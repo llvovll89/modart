@@ -21,15 +21,22 @@ const TodayList = () => {
     }
     setVisibleCount((prevCount) => prevCount + getIncrement());
   };
-  
+
   const handleCollapse = () => {
-    setVisibleCount(4);
+    if (window.innerWidth <= 768) {
+      setVisibleCount(2);
+    } else if (window.innerWidth <= 564) {
+      setVisibleCount(1);
+    } else {
+      setVisibleCount(4);
+    }
+
     setCollapsed(false);
   };
 
   const getIncrement = useCallback(() => {
     const browserWidth = window.innerWidth;
-    if(browserWidth <= 564) {
+    if (browserWidth <= 564) {
       return 1;
     } else if (browserWidth <= 768) {
       return 2;
@@ -43,39 +50,38 @@ const TodayList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const sortList = [...todayList].sort((a,b) => b.createdAt - a.createdAt);
+    const sortList = [...todayList].sort((a, b) => b.createdAt - a.createdAt);
     setFilterTodayList(sortList);
   }, [todayList]);
 
   useEffect(() => {
     setVisibleCount(getIncrement());
   }, [getIncrement]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setVisibleCount(getIncrement());
     };
-  
-    window.addEventListener("resize", handleResize);
+
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [getIncrement]);
-  
 
   return (
     <Section>
-      <Container className='today_container'>
+      <Container className="today_container">
         <div className="title">
           <h1>Today Story</h1>
           <span>최신 일상이야기 리스트</span>
         </div>
 
         <div className="contents">
-        {filterTodayList.length > 0 ? (
-          <>
-            {filterTodayList.slice(0, visibleCount).map((today) => (
-                <Card key={today.id}> 
+          {filterTodayList.length > 0 ? (
+            <>
+              {filterTodayList.slice(0, visibleCount).map((today) => (
+                <Card key={today.id}>
                   <div className="top">
                     <Link to={`today/details/${today.id}`}>
                       {today.photo ? (
@@ -96,18 +102,18 @@ const TodayList = () => {
                     </p>
                   </div>
                 </Card>
-            ))}
+              ))}
             </>
-        ) : (
-          <Loading />
-        )}
+          ) : (
+            <Loading />
+          )}
         </div>
 
         {filterTodayList.length > 4 && (
           <div className="visible">
             {collapsed ? (
               <button onClick={handleCollapse}>
-                <span className='closed'>
+                <span className="closed">
                   <AiOutlineArrowUp />
                 </span>
               </button>

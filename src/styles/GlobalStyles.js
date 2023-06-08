@@ -25,6 +25,10 @@ export const GlobalStyles = createGlobalStyle`
         color: #000;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
         font-family: 'Poppins', sans-serif;
     }

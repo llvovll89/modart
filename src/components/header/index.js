@@ -129,8 +129,9 @@ const HeaderContainer = styled.header`
           text-align: center;
 
           &.active {
+
             a {
-              background: #74b0d7;
+              background: #333;
               color: #fff;
               text-decoration: underline 0.5px;
               text-underline-offset: 3px;
@@ -208,6 +209,7 @@ const HeaderContainer = styled.header`
             border-bottom: 1px solid #ebebeb;
             &.active {
               background-color: rgba(40, 41, 44, 0.04);
+              
               a {
                 font-weight: 600;
                 color: #000;

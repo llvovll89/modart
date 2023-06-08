@@ -49,10 +49,10 @@ const BoardList = () => {
 
   return (
     <Section>
-      <Container>
+      <Container id='today_list'>
         <div className="title">
-          <h1>OOTD</h1>
-          <span>최신 OOTD 리스트</span>
+          <h1>DailyLook</h1>
+          <span>New DailyLook 리스트</span>
         </div>
         <div className="contents">
           {boardList.length > 0 ? (

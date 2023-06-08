@@ -4,7 +4,7 @@ const PhotoContainer = styled.div`
   margin: auto;
   width: 100%;
   height: 16rem;
-  background: #88e3ac;
+  background: #3cdd7d;
   overflow: hidden;
 
   .contents {

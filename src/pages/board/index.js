@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const BoardContainer = styled.div`
-  background: rgb(49, 53, 51);
+  background: rgb(35, 37, 36);
   margin: auto;
   width: 100%;
   height: 16rem;
@@ -350,6 +350,7 @@ const BoardDetailPage = styled.div`
             padding: 9px 16px;
             border-radius: 4px;
             font-size: clamp(12px, 1vw, 14px);
+            color: #000;
           }
         }
         .form {

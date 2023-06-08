@@ -516,14 +516,15 @@ const Card = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    min-width: 100%;
+    min-width: 90%;
+    width: 90%;
+    
     .top {
       height: 260px;
     }
   }
 
   @media screen and (max-width: 564px) {
-    min-width: 90%;
     .top {
       height: 240px;
     }

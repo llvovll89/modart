@@ -9,6 +9,7 @@ import TodayList from '../today/TodayList';
 const Home = () => {
   return (
     <>
+      <Main />
       <BoardList />
       <TodayList />
       <PhotoList />
