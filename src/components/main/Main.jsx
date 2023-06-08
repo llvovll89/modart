@@ -55,13 +55,13 @@ const Main = () => {
           </div>
           
           {mobileImg ? (
-            <div className="main_img2">
+            <div className="main_img">
             <img src={MainImage} alt="Main-poster.." />
             </div>
             ) : (
-              <div className="main_img">
+              <div className="main_img2">
               <img src={MainImage2} alt="Main-poster.." />
-            </div>
+              </div>
           )}
         </div>
       </Main_container>

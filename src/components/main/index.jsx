@@ -14,7 +14,7 @@ const move = keyframes`
 
 const cameraMove = keyframes`
     0% {
-        top: 16%;
+        top: 15%;
         transform: rotate(0deg);
     }
     50% {
@@ -22,7 +22,7 @@ const cameraMove = keyframes`
         transform: rotate(16deg);
     }
     100% {
-        top: 16%;
+        top: 15%;
         transform: rotate(0deg);
     }
     `;
@@ -81,7 +81,8 @@ export const Main_container = styled.main`
 
   height: calc(100vh - 60px);
   position: relative;
-  background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+  background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
+ background-blend-mode: screen;
   .contents {
     width: 100%;
     padding: 0 16px;
@@ -91,7 +92,7 @@ export const Main_container = styled.main`
       position: absolute;
       top: 40%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -40%);
       max-width: 1300px;
       padding-left: 20px;
       width: 100%;
@@ -130,8 +131,8 @@ export const Main_container = styled.main`
     .question_img,
     .camera_img {
       position: absolute;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
 
       img {
         width: 100%;
@@ -140,14 +141,14 @@ export const Main_container = styled.main`
     }
 
     .question_img {
-      top: 16%;
-      right: 30%;
+      top: 15%;
+      right: 27%;
       animation: ${cameraMove} 3.5s linear infinite;
     }
 
     .camera_img {
       top: 66%;
-      right: 3%;
+      right: 4%;
       animation: ${questionMove} 4s linear infinite;
     }
 
@@ -158,7 +159,7 @@ export const Main_container = styled.main`
 
       transform: translate(10%, -45%);
       width: 355px;
-      height: 400px;
+      height: 355px;
       animation: ${move} 3s ease infinite;
 
       img {
@@ -202,9 +203,9 @@ export const Main_container = styled.main`
 
       .items {
         padding: 6px;
-        top: 85%;
+        top: 80%;
         left: 50%;
-        transform: translate(-50%, -85%);
+        transform: translate(-50%, -80%);
         .overview {
           padding: 6px 6px 6px 12px;
 
@@ -221,6 +222,7 @@ export const Main_container = styled.main`
 
       .camera_img,
       .question_img {
+        display: none;
         width: 46px;
         height: 46px;
       }

@@ -8,7 +8,6 @@ import {
 } from '../../store/reducers/boardSlice';
 import { Section } from '../../styles/RecycleStyles';
 import { BoardDetailPage } from '.';
-import BoardImg from '../../assets/images/main.gif';
 import moment from 'moment';
 
 const BoardDetail = () => {
@@ -81,7 +80,7 @@ const BoardDetail = () => {
                 <div className="info">
                   <div className="user">
                     <div className="user_info">
-                      <img src={BoardImg} alt={board.nickname} />
+                      <img src={board.profileImg} alt={board.nickname} />
                       <p>{board.nickname}</p>
                     </div>
                     <div className="like">

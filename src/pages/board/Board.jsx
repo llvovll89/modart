@@ -6,6 +6,7 @@ import { BoardContainer, BoardContents } from './index';
 import { AiFillSkin, AiOutlineLike } from 'react-icons/ai';
 import { getBoards, incrementViews } from '../../store/reducers/boardSlice';
 import Loading from '../../components/common/Loading';
+import ErrorImg from '../../assets/images/main_poster.png';
 
 const Board = () => {
   const user = useSelector((state) => state.login.user);
@@ -32,6 +33,9 @@ const Board = () => {
     }
   };
 
+  const errorImgHandler = (event) => {
+    event.target.src = ErrorImg;
+  }
   
   const detailClick = (board) => {
     navigate(`/board/details/${board.id}`);
@@ -84,7 +88,7 @@ const Board = () => {
                   )}
                 </div>
                 <div className="board_img" onClick={() => handleCardClick(board)}>
-                  <img src={board.photo} alt={board.title} />
+                  <img src={board.photo} alt={board.title} onError={errorImgHandler} />
                 </div>
                 <div className="items">
                 <h3

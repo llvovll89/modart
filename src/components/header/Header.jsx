@@ -21,7 +21,7 @@ const Header = ({ toggle, toggleMenu }) => {
 
   const logOutHandler = () => {
     const alertLogout = confirm('정말 로그아웃 하시겠습니까?');
-    
+
     if (alertLogout) {
       dispatch(signOuterUer());
       navigate('/');
@@ -29,11 +29,18 @@ const Header = ({ toggle, toggleMenu }) => {
     return;
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+    window.scrollTo({ top: 0 });
+  };
+
   const handleLinkClick = (index) => {
     setActiveItem(index);
     if (window.innerWidth <= 768) {
       toggleClick();
     }
+
+    window.scrollTo({ top: 0});
   };
 
   const toggleClick = (event) => {
@@ -119,14 +126,7 @@ const Header = ({ toggle, toggleMenu }) => {
     >
       <div className="contents">
         <div className="logo">
-          <h1
-            onClick={() => {
-              navigate('/');
-              setActiveItem(null);
-            }}
-          >
-            ModArt
-          </h1>
+          <h1 onClick={handleLogoClick}>ModArt</h1>
         </div>
         <ul className={`navbar${toggle ? ' mobile' : ''}`}>
           <div className="list">

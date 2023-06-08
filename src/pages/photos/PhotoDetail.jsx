@@ -8,7 +8,6 @@ import {
   recommendViews,
 } from '../../store/reducers/photoSlice';
 import { PhotoDetailPage } from '.';
-import PhotoImg from '../../assets/images/main.gif';
 import { Section } from '../../styles/RecycleStyles';
 import {
   AiOutlineHeart,
@@ -144,7 +143,7 @@ const PhotoDetail = () => {
             <div className={`contents ${commentToggle ? 'active' : ''}`}>
               <div className="photo_users">
                 <div className="user_img">
-                  <img src={PhotoImg} alt={photo.nickname} />
+                  <img src={photo.profileImg} alt={photo.nickname} />
                 </div>
                 <div className="user">
                   <p>{photo.nickname}</p>
