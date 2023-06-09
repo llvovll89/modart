@@ -44,14 +44,15 @@ export const TodayContainer = styled.div`
     }
 
     .image {
-      padding: 20px;
-      width: 100%;
+      padding: 16px;
+      width: 80%;
+      height: 100%;
 
-      svg {
+      img {
         width: 100%;
         height: 100%;
-        color: #fefefe;
       }
+      
     }
   }
 

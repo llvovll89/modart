@@ -8,6 +8,7 @@ import { AiOutlineFieldTime , AiOutlineLike} from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { getTodays, incrementViews } from '../../store/reducers/todaySlice';
 import Loading from '../../components/common/Loading';
+import TodayMainImg from '../../assets/images/main_poster2.png'
 
 const TodayStory = () => {
   const user = useSelector((state) => state.login.user);
@@ -60,6 +61,19 @@ const TodayStory = () => {
   };
 
   useEffect(() => {
+    const handleScrollToTop = () => {
+      window.scrollTo(0, 0);
+    };
+
+    handleScrollToTop();
+
+    return () => {
+      removeEventListener('scroll' , handleScrollToTop);
+    }
+
+  } , []);
+
+  useEffect(() => {
     dispatch(getTodays());
   }, [dispatch]);
 
@@ -75,7 +89,7 @@ const TodayStory = () => {
             </button>
           </div>
           <div className="image">
-            <TfiWrite />
+            <img src={TodayMainImg} alt="today.." />
           </div>
         </div>
       </TodayContainer>

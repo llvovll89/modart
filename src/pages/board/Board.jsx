@@ -7,6 +7,7 @@ import { AiFillSkin, AiOutlineLike } from 'react-icons/ai';
 import { getBoards, incrementViews } from '../../store/reducers/boardSlice';
 import Loading from '../../components/common/Loading';
 import ErrorImg from '../../assets/images/main_poster.png';
+import DailyPoster from '../../assets/images/ootdPoster.png'
 
 const Board = () => {
   const user = useSelector((state) => state.login.user);
@@ -47,6 +48,19 @@ const Board = () => {
   }
 
   useEffect(() => {
+    const handleScrollToTop = () => {
+      window.scrollTo(0, 0);
+    };
+
+    handleScrollToTop();
+
+    return () => {
+      removeEventListener('scroll' , handleScrollToTop);
+    }
+
+  } , []);
+
+  useEffect(() => {
     dispatch(getBoards());
   }, [dispatch]);
 
@@ -62,7 +76,7 @@ const Board = () => {
             </button>
           </div>
           <div className="image">
-            <AiFillSkin />
+            <img src={DailyPoster} alt="poster.." />
           </div>
         </div>
       </BoardContainer>

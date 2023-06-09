@@ -89,12 +89,6 @@ const Container = styled.div`
         place-items: center;
       }
     }
-
-    @media screen and (max-width: 564px) {
-      .contents {
-        grid-template-columns: 1fr;
-      }
-    }
   }
 
   .title {
@@ -450,7 +444,11 @@ const Card = styled.div`
     min-width: 250px;
 
     @media screen and (max-width: 564px) {
-      min-width: 230px;
+      min-width: 270px;
+
+      .top {
+        width: 100%;
+      }
     }
   }
 
@@ -517,7 +515,6 @@ const Card = styled.div`
 
   @media screen and (max-width: 768px) {
     min-width: 90%;
-    width: 90%;
     
     .top {
       height: 260px;
@@ -527,7 +524,18 @@ const Card = styled.div`
   @media screen and (max-width: 564px) {
     .top {
       height: 240px;
+      width: 200px;
     }
+
+    &.photo_card,
+  &.today_card {
+    height: 300px;
+
+    .top {
+      width: 100%;
+      height: 160px;
+    }
+  }
   }
 `;
 

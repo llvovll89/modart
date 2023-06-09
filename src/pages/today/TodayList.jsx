@@ -11,6 +11,7 @@ const TodayList = () => {
   const [visibleCount, setVisibleCount] = useState(4);
   const [filterTodayList, setFilterTodayList] = useState([]);
   const [collapsed, setCollapsed] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
 
   const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
@@ -20,13 +21,12 @@ const TodayList = () => {
       setCollapsed(true);
     }
     setVisibleCount((prevCount) => prevCount + getIncrement());
+    window.scrollTo(0, scrollPosition);
   };
 
   const handleCollapse = () => {
     if (window.innerWidth <= 768) {
       setVisibleCount(2);
-    } else if (window.innerWidth <= 564) {
-      setVisibleCount(1);
     } else {
       setVisibleCount(4);
     }
@@ -34,16 +34,19 @@ const TodayList = () => {
     setCollapsed(false);
   };
 
+  const handleScroll = useCallback(() => {
+    setScrollPosition(window.pageYOffset);
+  }, []);
+
   const getIncrement = useCallback(() => {
     const browserWidth = window.innerWidth;
-    if (browserWidth <= 564) {
-      return 1;
-    } else if (browserWidth <= 768) {
+    if (browserWidth <= 768) {
       return 2;
     } else {
       return 4;
     }
   }, []);
+
 
   useEffect(() => {
     dispatch(getTodays());
@@ -57,6 +60,13 @@ const TodayList = () => {
   useEffect(() => {
     setVisibleCount(getIncrement());
   }, [getIncrement]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,7 +91,7 @@ const TodayList = () => {
           {filterTodayList.length > 0 ? (
             <>
               {filterTodayList.slice(0, visibleCount).map((today) => (
-                <Card key={today.id}>
+                <Card key={today.id} className='today_card'>
                   <div className="top">
                     <Link to={`today/details/${today.id}`}>
                       {today.photo ? (

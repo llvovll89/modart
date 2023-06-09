@@ -601,6 +601,24 @@ export const QnaCard = styled.div`
           }
         }
       }
+
+    }
+    .view_more {
+      margin: 0 auto;
+      margin-top: 20px;
+      min-height: 36px;
+      width: 100px;
+      text-align: center;
+
+      a {
+        width: 100%;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        display: inline-block;
+        padding: 12px;
+
+        font-size: clamp(12px, 1.5vw, 14px);
+      }
     }
   }
 

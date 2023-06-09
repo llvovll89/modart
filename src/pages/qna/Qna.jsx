@@ -42,6 +42,19 @@ const Qna = () => {
   };
 
   useEffect(() => {
+    const handleScrollToTop = () => {
+      window.scrollTo(0, 0);
+    };
+
+    handleScrollToTop();
+
+    return () => {
+      removeEventListener('scroll' , handleScrollToTop);
+    }
+
+  } , []);
+
+  useEffect(() => {
     dispatch(getQna());
   }, [dispatch]);
 

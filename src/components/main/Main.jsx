@@ -2,31 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Section } from '../../styles/RecycleStyles';
 import { Main_container } from '.';
 import MainImage from '../../assets/images/main_poster.png';
-import MainImage2 from '../../assets/images/main_poster2.png';
 import CameraImg from '../../assets/images/camera.png';
 import QuestionImg from '../../assets/images/question.png';
 
-
 const Main = () => {
-  const [mobileImg, setMobileImg] = useState(false);
-  console.log(mobileImg)
-
-  const resizeImg = useCallback(() => {
-    if (window.innerWidth <= 664) {
-      setMobileImg(true);
-    } else {
-      setMobileImg(false);
-    }
-  }, []);
-  
-
-  useEffect(() => {
-    resizeImg();
-    window.addEventListener('resize', resizeImg);
-
-    return () => window.removeEventListener('resize', resizeImg);
-  }, [resizeImg]);
-
   return (
     <Section>
       <Main_container>
@@ -48,21 +27,14 @@ const Main = () => {
           </div>
 
           <div className="question_img">
-          <img src={QuestionImg} alt="question.." />
+            <img src={QuestionImg} alt="question.." />
           </div>
           <div className="camera_img">
-          <img src={CameraImg} alt="camera.." />
+            <img src={CameraImg} alt="camera.." />
           </div>
-          
-          {mobileImg ? (
-            <div className="main_img">
+          <div className="main_img">
             <img src={MainImage} alt="Main-poster.." />
-            </div>
-            ) : (
-              <div className="main_img2">
-              <img src={MainImage2} alt="Main-poster.." />
-              </div>
-          )}
+          </div>
         </div>
       </Main_container>
     </Section>

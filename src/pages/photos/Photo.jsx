@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPhotos } from '../../store/reducers/photoSlice';
 import Loading from '../../components/common/Loading';
+import PhotoPoster from '../../assets/images/photoPoster.png';
 
 const Photo = () => {
   const user = useSelector((state) => state.login.user);
@@ -34,6 +35,19 @@ const Photo = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    const handleScrollToTop = () => {
+      window.scrollTo(0, 0);
+    };
+
+    handleScrollToTop();
+
+    return () => {
+      removeEventListener('scroll' , handleScrollToTop);
+    }
+
+  } , []);
+
+  useEffect(() => {
     const sortList = [...photoList].sort((a, b) => b.createdAt - a.createdAt);
     setNewPhotoList(sortList);
   }, [photoList]);
@@ -50,7 +64,7 @@ const Photo = () => {
             </button>
           </div>
           <div className="image">
-            <AiFillPicture />
+            <img src={PhotoPoster} alt="photo.." />
           </div>
         </div>
       </PhotoContainer>

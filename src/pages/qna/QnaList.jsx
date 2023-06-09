@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getQna } from '../../store/reducers/qnaSlice';
 import { QnaCard } from '.';
 import Loading from '../../components/common/Loading';
+import { Link } from 'react-router-dom';
 
 const QnaList = () => {
   const qnaList = useSelector((state) => state.qna.questions);
   const [activeItems, setActiveItems] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(5);
   const dispatch = useDispatch();
 
   const toggleActive = (itemId) => {
@@ -40,7 +42,7 @@ const QnaList = () => {
           <QnaCard>
             <div className="qna_contents">
               <ul className="list_item">
-                {qnaList.slice(0, 7).map((qna) => (
+                {qnaList.slice(0, visibleCount).map((qna) => (
                   <li
                     key={qna.id}
                     className={`qna_items ${
@@ -66,6 +68,13 @@ const QnaList = () => {
                   </li>
                 ))}
               </ul>
+              {visibleCount < qnaList.length ? (
+                <div className="view_more">
+                  <Link to="/qna">
+                    Qna
+                  </Link>
+                </div>
+              ) : null}
             </div>
           </QnaCard>
         ) : (

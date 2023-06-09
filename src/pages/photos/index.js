@@ -44,14 +44,9 @@ const PhotoContainer = styled.div`
     }
 
     .image {
-      padding: 20px;
+      padding: 16px;
       width: 100%;
-
-      svg {
-        width: 100%;
-        height: 100%;
-        color: #fefefe;
-      }
+      height: 100%;
     }
   }
 
@@ -234,7 +229,7 @@ const PhotoDetailPage = styled.div`
           button {
             width: 36px;
             height: 36px;
-            margin-right: 12px
+            margin-right: 12px;
             border-radius: 50%;
             position: relative;
             color: #181818;

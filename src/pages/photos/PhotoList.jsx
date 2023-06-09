@@ -11,6 +11,7 @@ const PhotoList = () => {
   const [filterPhotoList, setFilterPhotoList] = useState([]);
   const [visibleCount, setVisibleCount] = useState(4);
   const [collapsed, setCollapsed] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const dispatch = useDispatch();
 
   const handleLoadMore = () => {
@@ -18,25 +19,26 @@ const PhotoList = () => {
       setCollapsed(true);
     }
     setVisibleCount((prevCount) => prevCount + getIncrement());
+    window.scrollTo(0, scrollPosition);
   };
-  
+
   const handleCollapse = () => {
     if (window.innerWidth <= 768) {
       setVisibleCount(2);
-    } else if (window.innerWidth <= 564) {
-      setVisibleCount(1);
     } else {
       setVisibleCount(4);
     }
-    
+
     setCollapsed(false);
   };
 
+  const handleScroll = useCallback(() => {
+    setScrollPosition(window.pageYOffset);
+  }, []);
+
   const getIncrement = useCallback(() => {
     const browserWidth = window.innerWidth;
-    if(browserWidth <= 564) {
-      return 1;
-    } else if (browserWidth <= 768) {
+    if (browserWidth <= 768) {
       return 2;
     } else {
       return 4;
@@ -57,18 +59,24 @@ const PhotoList = () => {
   useEffect(() => {
     setVisibleCount(getIncrement());
   }, [getIncrement]);
-  
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
   useEffect(() => {
     const handleResize = () => {
       setVisibleCount(getIncrement());
     };
-  
-    window.addEventListener("resize", handleResize);
+
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [getIncrement]);
-  
 
   return (
     <Section>
@@ -81,7 +89,7 @@ const PhotoList = () => {
           {filterPhotoList.length > 0 ? (
             <>
               {filterPhotoList.slice(0, visibleCount).map((photo) => (
-                <Card key={photo.id}>
+                <Card key={photo.id} className='photo_card'>
                   <div className="top">
                     <Link to={`photo/details/${photo.id}`}>
                       <img src={photo.photo} alt="photo" />
@@ -109,7 +117,7 @@ const PhotoList = () => {
           <div className="visible">
             {collapsed ? (
               <button onClick={handleCollapse}>
-                <span className='closed'>
+                <span className="closed">
                   <AiOutlineArrowUp />
                 </span>
               </button>

@@ -14,6 +14,7 @@ const BoardContainer = styled.div`
     max-width: 768px;
     height: 100%;
     padding: 0 16px;
+    gap: 6px;
 
     .text {
       width: 100%;
@@ -44,12 +45,27 @@ const BoardContainer = styled.div`
     }
 
     .image {
+      position: relative;
       width: 100%;
+      height: 100%;
+      padding: 12px;
+      overflow: hidden;
+      &::after {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      left: 50%;
+      top: 50%;
 
-      svg {
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.12);
+    }
+      
+      img {
         width: 100%;
         height: 100%;
-        color: #fefefe;
+
       }
     }
   }
@@ -58,9 +74,6 @@ const BoardContainer = styled.div`
     height: 12rem;
 
     .contents {
-      .image {
-        width: 75%;
-      }
       .text {
       }
     }

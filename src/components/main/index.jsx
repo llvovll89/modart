@@ -78,11 +78,18 @@ export const Main_container = styled.main`
     font-weight: normal;
     font-style: normal;
   }
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 
   height: calc(100vh - 60px);
   position: relative;
-  background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
- background-blend-mode: screen;
+  background-image: radial-gradient(73% 147%, #eadfdf 59%, #ece2df 100%),
+    radial-gradient(
+      91% 146%,
+      rgba(255, 255, 255, 0.5) 47%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  background-blend-mode: screen;
+
   .contents {
     width: 100%;
     padding: 0 16px;
@@ -108,14 +115,16 @@ export const Main_container = styled.main`
 
         h1 {
           font-size: clamp(14px, 2.5vw, 30px);
-          font-weight: 500;
+          font-weight: 600;
+
           .indent {
             font-weight: 700;
             display: inline-block;
-            font-size: clamp(14px, 2.5vw, 32px);
+            font-size: clamp(16px, 2.5vw, 32px);
             font-style: italic;
             margin-right: 6px;
             color: #09f;
+            letter-spacing: 0.01rem;
             text-decoration: underline;
           }
         }
@@ -131,8 +140,8 @@ export const Main_container = styled.main`
     .question_img,
     .camera_img {
       position: absolute;
-      width: 70px;
-      height: 70px;
+      width: 56px;
+      height: 56px;
 
       img {
         width: 100%;
@@ -168,21 +177,6 @@ export const Main_container = styled.main`
       }
     }
 
-    .main_img2 {
-      position: absolute;
-      top: 45%;
-      right: 10%;
-      transform: translate(10%, -45%);
-      width: 300px;
-      height: 300px;
-      animation: ${move} 3s ease infinite;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-
     .continue_btn {
       margin-top: 20px;
       display: block;
@@ -197,10 +191,9 @@ export const Main_container = styled.main`
   }
 
   @media screen and (max-width: 664px) {
-    font-family: 'Chosunilbo_myungjo';
+    font-family: 'Noto Sans KR', sans-serif;
 
     .contents {
-
       .items {
         padding: 6px;
         top: 80%;
@@ -213,9 +206,15 @@ export const Main_container = styled.main`
             line-height: 2;
           }
 
+          h1 {
+            letter-spacing: -0.05rem;
+            font-weight: 700;
+          }
+
           .sub_text {
+            letter-spacing: -0.03rem;
             margin: 6px 0;
-            font-weight: 600;
+            font-weight: 700;
           }
         }
       }
@@ -239,8 +238,10 @@ export const Main_container = styled.main`
         animation: ${mobileQuestionMove} 3.5s linear infinite;
       }
 
-      .main_img,
-      .main_img2 {
+      .main_img {
+        width: 325px;
+        height: 325px;
+
         top: 75%;
         right: 50%;
         transform: translate(50%, -75%);
