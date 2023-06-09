@@ -49,7 +49,7 @@ const QnaWritePost = () => {
     <Section className='qna_write_section'>
       <QnaWriteForm>
         <div className="post_title">
-          <h1>{'<Question>'}</h1>
+          <h1>🐽궁금한 것을 물어보세요🐽</h1>
         </div>
         <div className="qna_write">
           <form encType="multipart/form-data" onSubmit={handleSubmit}>

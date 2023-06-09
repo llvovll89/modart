@@ -646,7 +646,7 @@ export const QnaCard = styled.div`
 export const QnaWriteForm = styled.div`
   margin: 0 auto;
   margin-top: 30px;
-  max-width: 964px;
+  max-width: 768px;
   background: #fff;
   padding: 12px 0px 0px 0px;
 
@@ -715,7 +715,7 @@ export const QnaWriteForm = styled.div`
             --text-opacity: 1;
             color: #b6becc;
             color: rgba(182, 190, 204, var(--text-opacity));
-            width: 57px;
+            min-width: 57px;
           }
         }
 

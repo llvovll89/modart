@@ -550,6 +550,117 @@ const CardForm = styled.div`
   justify-content: center;
   gap: 20px;
 
+  &.ootd {
+    justify-content: stretch;
+    padding-top: 50px;
+    max-width: 768px;
+
+    .ootd_form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 12px;
+      place-items: center;
+
+      .text_area {
+        display: flex;
+        flex-flow: column wrap;
+        gap: 6px;
+        width: 100%;
+
+        label {
+          font-size: clamp(12px, 1.5vw, 14px);
+          color: #908787;
+        }
+  
+        input[type="text"] {
+          &::placeholder {
+            color: #333;
+          } 
+          border: 1px solid #c4cbd2;
+          margin-bottom: 0;
+          width: 100%;
+        }
+
+        textarea {
+          &::placeholder {
+            color: #333;
+          }
+        }
+
+      }
+      .text_area:last-child {
+    grid-column: span 2;
+  }
+    }
+
+    .submit_btn {
+      display: flex;
+      width: 100%;
+      gap: 12px;
+      align-items: center;
+      
+      .file_label {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 56px;
+      justify-content: center;
+      cursor: pointer;
+      background: #181818;
+      color: #fff;
+      transition: 0.15s all linear;
+      opacity: 0.88;
+
+      p {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        font-size: clamp(12.5px, 1.5vw, 15px);
+
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: clamp(16px, 1.5vw, 18px);
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .label_text {
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+
+      button[type='submit'] {
+      width: 100%;
+      background: #181818;
+      height: 56px;
+      padding: 12px 20px;
+      color: #fefefe;
+      font-size: clamp(12.5px, 1.5vw, 15px);
+      transition: all 0.2s ease-in-out;
+
+      &:hover,
+      &:focus {
+        background: transparent;
+        color: #222;
+      }
+    }
+
+    }
+
+    
+  }
+
   .post_title {
     h1 {
       letter-spacing: -0.035rem;
@@ -575,6 +686,10 @@ const CardForm = styled.div`
         font-weight: 500;
         font-size: clamp(12px, 1.5vw, 14px);
       }
+    }
+
+    .text_area {
+      margin: 12px 0;
     }
 
     input,

@@ -48,59 +48,81 @@ const BoardWritePost = () => {
 
   return (
     <Section>
-      <CardForm>
+      <CardForm className='ootd'>
         <div className="post_title">
-          <h1>{'<OOTD>'}</h1>
+          <h1>DailyLook</h1>
         </div>
 
-        <form onSubmit={onSubmitHandler} encType="multipart/form-data">
-          <p className="nickname">
-            <span className="author">작성자</span>
+        <p className="nickname">
             {nickName}
           </p>
-          <input
-            ref={inputRef}
-            type="text"
-            onChange={onChangeHandler}
-            autoComplete="off"
-            name="title"
-            placeholder="글제목"
-          />
-          <input
-            type="text"
-            onChange={onChangeHandler}
-            autoComplete="off"
-            name="brand"
-            placeholder="브랜드명 ex) 나이키"
-          />
-          <input
-            type="text"
-            onChange={onChangeHandler}
-            autoComplete="off"
-            name="height"
-            placeholder="키"
-          />
-          <input
-            type="text"
-            onChange={onChangeHandler}
-            autoComplete="off"
-            name="weight"
-            placeholder="몸무게"
-          />
-          <textarea
-            type="text"
-            name="desc"
-            onChange={onChangeHandler}
-            placeholder="contents.."
-          />
-          <input
+        <form onSubmit={onSubmitHandler} encType="multipart/form-data" className='ootd_form'>
+          <div className="text_area">
+            <label htmlFor="title">제목</label>
+            <input
+              ref={inputRef}
+              type="text"
+              onChange={onChangeHandler}
+              autoComplete="off"
+              name="title"
+              id="title"
+              placeholder="글제목"
+            />
+          </div>
+          <div className="text_area">
+            <label htmlFor="brand">브랜드</label>
+            <input
+              type="text"
+              onChange={onChangeHandler}
+              autoComplete="off"
+              name="brand"
+              id="brand"
+              placeholder="브랜드명 ex) 나이키"
+            />
+          </div>
+          <div className="text_area">
+            <label htmlFor="height">신장</label>
+            <input
+              type="text"
+              id="height"
+              onChange={onChangeHandler}
+              autoComplete="off"
+              name="height"
+              placeholder="키"
+            />
+          </div>
+          <div className="text_area">
+            <label htmlFor="weight">몸무게</label>
+            <input
+              type="text"
+              onChange={onChangeHandler}
+              autoComplete="off"
+              name="weight"
+              placeholder="몸무게"
+              id="weight"
+            />
+          </div>
+          <div className="text_area">
+            <label htmlFor="desc">내용</label>
+            <textarea
+              type="text"
+              name="desc"
+              onChange={onChangeHandler}
+              placeholder="contents.."
+              id="desc"
+            />
+          </div>
+        </form>
+
+        <div className="submit_btn">
+        <input
             type="file"
             id="photo"
             style={{ display: 'none' }}
             name="photo"
             onChange={onChangeHandler}
           />
-          
+
           <label htmlFor="photo" className="file_label">
             <p>
               <span>
@@ -111,7 +133,7 @@ const BoardWritePost = () => {
           </label>
 
           <button type="submit">게시하기</button>
-        </form>
+        </div>
       </CardForm>
     </Section>
   );

@@ -125,6 +125,7 @@ const PhotoWritePost = () => {
           id="photo"
           style={{ display: 'none' }}
           name="photo"
+          accept='image/*, audio/*'
           onChange={onChangeHandler}
         />
 
