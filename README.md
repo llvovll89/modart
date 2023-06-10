@@ -21,13 +21,13 @@
 
 ### 3. 프로젝트 이미지
 1. 메인 페이지
-![메인페이지](assets/images/readme/main.png)
+![메인페이지](./src/assets/images/reademe/main.png)
 2. DailyLook
-![데일리룩](assets/images/readme/daily.png)
+![데일리룩](./src/assets/images/reademe/daily.png)
 3. Photo
-![사진](assets/images/readme/photo.png)
+![사진](./src/assets/images/reademe/photo.png)
 4. Account
-![계정관리](assets/images/readme/account.png)
+![계정관리](./src/assets/images/reademe/account.png)
 
 > 헤더에 navigation bar로 Home / DailyLook / Photo / TodayStory / Qna / 계정관리 로 구성되어있습니다.
 
