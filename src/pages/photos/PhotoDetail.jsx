@@ -278,7 +278,7 @@ const PhotoDetail = () => {
                               )}
                             </div>
 
-                            {user.nickname === comment.author ? (
+                            {user && user.nickname === comment.author ? (
                               <div className="comment_btn">
                                 <button
                                   className="edit_comment_btn"
