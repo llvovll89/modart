@@ -306,9 +306,17 @@ export const TodayDetailPage = styled.div`
         background: #181818;
         border-radius: 6px;
         color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         p {
           font-size: clamp(13px, 1.5vw, 14px);
+        }
+
+        button {
+          font-size: clamp(13px, 1.5vw, 14px);
+          color: #FFF;
         }
       }
 

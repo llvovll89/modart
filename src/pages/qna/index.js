@@ -177,20 +177,11 @@ export const QnaArticle = styled.article`
 
           &:nth-child(1) {
             background: #d472a3;
-            &:focus {
-              color: #333;
-            }
           }
           &:nth-child(2) {
             background: #5fcb5f;
-            &:focus {
-              color: #333;
-            }
           }
           &:nth-child(3) {
-            &:focus {
-              color: #333;
-            }
             background: #09f;
           }
 
@@ -491,7 +482,7 @@ export const QnaContents = styled.div`
         .like {
           cursor: pointer;
           min-width: 40px;
-          
+
           svg {
             color: #0c2d43;
           }
@@ -601,7 +592,6 @@ export const QnaCard = styled.div`
           }
         }
       }
-
     }
     .view_more {
       margin: 0 auto;

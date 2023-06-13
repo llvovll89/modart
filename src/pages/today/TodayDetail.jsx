@@ -16,6 +16,7 @@ import uuid from 'react-uuid';
 
 const TodayDetail = () => {
   const [commentText, setCommentText] = useState('');
+  const [isComment, setIsComment] = useState(true);
   const { id } = useParams();
   const user = useSelector((state) => state.login.user);
   const todays = useSelector((state) => state.today.todays);
@@ -25,13 +26,18 @@ const TodayDetail = () => {
   const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
   const handleRecommendClick = (todayId) => {
-    dispatch(recommendViews({ todayId }))
-      .then(() => {
-        dispatch(getTodays());
-      })
-      .catch((err) => {
-        console.error('추천을 할 수 없습니다.', err);
-      });
+    if (user) {
+      dispatch(recommendViews({ todayId }))
+        .then(() => {
+          dispatch(getTodays());
+        })
+        .catch((err) => {
+          console.error('추천을 할 수 없습니다.', err);
+        });
+    } else {
+      alert('로그인한 유저만 추천 가능합니다!');
+      return null;
+    }
   };
 
   const addCommentHandler = (todayId) => {
@@ -109,10 +115,9 @@ const TodayDetail = () => {
     handleScrollToTop();
 
     return () => {
-      removeEventListener('scroll' , handleScrollToTop);
-    }
-
-  } , []);
+      removeEventListener('scroll', handleScrollToTop);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getTodays());
@@ -162,39 +167,51 @@ const TodayDetail = () => {
                   댓글 {today.comments?.length > 0 ? today.comments.length : 0}{' '}
                   개
                 </p>
+                <button
+                  className="close_comment"
+                  onClick={() => setIsComment(!isComment)}
+                >
+                  {isComment ? '댓글닫기' : '댓글열기'}
+                </button>
               </header>
 
               <ul className="comment_list">
-                {today.comments &&
-                  Object.entries(today.comments).map(([commentId, comment]) => {
-                    return (
-                      <li className="comment_item" key={commentId}>
-                        <div className="top">
-                          <img src={comment.profileImg} alt="" />
-                          <span className="comment_name">{comment.author}</span>
-                          <span className="comment_date">
-                            {comment.createdAt}
-                          </span>
-                        </div>
-                        <div className="bt">
-                          <p className="comment_desc">{comment.text}</p>
-                        </div>
-                        {user && comment.author === user.nickname ? (
-                          <div className="btns">
-                            <button>수정하기</button>
-                            <button
-                              className="delete"
-                              onClick={() =>
-                                deleteCommentHandler(today.id, commentId)
-                              }
-                            >
-                              삭제하기
-                            </button>
-                          </div>
-                        ) : null}
-                      </li>
-                    );
-                  })}
+                {isComment ? (
+                  <>
+                    {today.comments &&
+                      Object.entries(today.comments).map(
+                        ([commentId, comment]) => (
+                          <li className="comment_item" key={commentId}>
+                            <div className="top">
+                              <img src={comment.profileImg} alt="" />
+                              <span className="comment_name">
+                                {comment.author}
+                              </span>
+                              <span className="comment_date">
+                                {comment.createdAt}
+                              </span>
+                            </div>
+                            <div className="bt">
+                              <p className="comment_desc">{comment.text}</p>
+                            </div>
+                            {user && comment.author === user.nickname ? (
+                              <div className="btns">
+                                <button>수정하기</button>
+                                <button
+                                  className="delete"
+                                  onClick={() =>
+                                    deleteCommentHandler(today.id, commentId)
+                                  }
+                                >
+                                  삭제하기
+                                </button>
+                              </div>
+                            ) : null}
+                          </li>
+                        )
+                      )}
+                  </>
+                ) : null}
 
                 <div className="comments">
                   <div className="profile">

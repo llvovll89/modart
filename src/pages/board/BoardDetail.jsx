@@ -133,7 +133,7 @@ const BoardDetail = () => {
                 </div>
               </div>
             </div>
-            {comment || board.comments ? (
+            {comment && board.comments ? (
               <div className="comment">
                 <div className="comment_form">
                   <div className="users">

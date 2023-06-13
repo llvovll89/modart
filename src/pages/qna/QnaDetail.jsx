@@ -37,13 +37,18 @@ const QnaDetail = () => {
   const comments = qna && Object.values(qna.comments);
 
   const likeButtonClick = (qnaId) => {
+    if(!user) {
+      window.alert('로그인한 유저만 가능합니다!')
+      return null;
+    }
+
     dispatch(recommendViews({ qnaId }))
-      .then(() => {
-        dispatch(getQna());
-      })
-      .catch((err) => {
-        console.error('좋아요를 클릭 할 수 없습니다!', err);
-      });
+    .then(() => {
+      dispatch(getQna());
+    })
+    .catch((err) => {
+      console.error('좋아요를 클릭 할 수 없습니다!', err);
+    });
   };
 
   const updatedWritePost = (e) => {
@@ -152,14 +157,23 @@ const QnaDetail = () => {
     handleScrollToTop();
 
     return () => {
-      removeEventListener('scroll' , handleScrollToTop);
-    }
-
-  } , []);
+      removeEventListener('scroll', handleScrollToTop);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getQna());
   }, [dispatch]);
+
+  const loginBtnStyles = {
+    fontSize: 'clamp(12px, 1.5vw, 14px)',
+    display: 'flex',
+    alignItems: 'center',
+    background: '#09f',
+    padding: '8px 12px',
+    color: '#FFF',
+    borderRadius: "4px",
+  }
 
   return (
     <Section>
@@ -248,7 +262,12 @@ const QnaDetail = () => {
                           <span>{user.nickname}</span>
                         </div>
                       ) : (
-                        <Link to="/account/login">로그인을 해주세요.</Link>
+                        <Link
+                          to="/account/login"
+                          style={loginBtnStyles}
+                        >
+                          로그인하기
+                        </Link>
                       )}
                       <button
                         className="submit"

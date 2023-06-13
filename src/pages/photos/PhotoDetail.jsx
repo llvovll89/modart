@@ -34,13 +34,18 @@ const PhotoDetail = () => {
   const photo = photoList.find((photo) => photo.id === id);
 
   const handleRecommendClick = (photoId) => {
-    dispatch(recommendViews({ photoId }))
-      .then(() => {
-        dispatch(getPhotos());
-      })
-      .catch((err) => {
-        console.error('추천을 할 수 없습니다.', err);
-      });
+    if (user) {
+      dispatch(recommendViews({ photoId }))
+        .then(() => {
+          dispatch(getPhotos());
+        })
+        .catch((err) => {
+          console.error('추천을 할 수 없습니다.', err);
+        });
+    } else {
+      alert('로그인한 유저만 좋아요를 할 수 있습니다.');
+      return null;
+    }
   };
 
   const addCommentClick = (photoId) => {
@@ -137,10 +142,9 @@ const PhotoDetail = () => {
     handleScrollToTop();
 
     return () => {
-      removeEventListener('scroll' , handleScrollToTop);
-    }
-
-  } , []);
+      removeEventListener('scroll', handleScrollToTop);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getPhotos());
@@ -186,7 +190,9 @@ const PhotoDetail = () => {
                   {/*
                   recommend
                 */}
-                  <span className="like_length">좋아요 {photo.recommend ? photo.recommend + "개" : "0개"}</span>
+                  <span className="like_length">
+                    좋아요 {photo.recommend ? photo.recommend + '개' : '0개'}
+                  </span>
                   <h1 className="title">
                     <span>{photo.nickname}</span> {photo.title}
                   </h1>

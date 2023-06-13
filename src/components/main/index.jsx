@@ -82,12 +82,6 @@ export const Main_container = styled.main`
 
   height: calc(100vh - 60px);
   position: relative;
-  background-image: radial-gradient(73% 147%, #eadfdf 59%, #ece2df 100%),
-    radial-gradient(
-      91% 146%,
-      rgba(255, 255, 255, 0.5) 47%,
-      rgba(0, 0, 0, 0.5) 100%
-    );
   background-blend-mode: screen;
 
   .contents {
