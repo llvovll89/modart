@@ -23,7 +23,7 @@ const HeaderContainer = styled.header`
 
     .logo {
       h1 {
-        font-size: clamp(21px, 2.5vw, 25px);
+        font-size: clamp(24px, 2.5vw, 32px);
         letter-spacing: -0.035rem;
         font-weight: 700;
         cursor: pointer;
@@ -33,7 +33,7 @@ const HeaderContainer = styled.header`
 
     .navbar {
       display: flex;
-      gap: 12px;
+      gap: 30px;
 
       .users {
         display: flex;
@@ -111,11 +111,12 @@ const HeaderContainer = styled.header`
         margin: 0 6px;
 
         .account {
-          padding: 12px 16px;
-          border: 1px solid #eee;
-          color: #000;
-          font-size: clamp(13.5px, 2vw, 14px);
-          font-weight: 700;
+          display: block;
+    width: 100%;
+    height: 100%;
+          padding: 0px 6px;
+          font-size: clamp(14px, 2vw, 16px);
+          font-weight: 600;
         }
       }
 
@@ -156,8 +157,8 @@ const HeaderContainer = styled.header`
             display: block;
             width: 100%;
             height: 100%;
-            font-size: clamp(12.5px, 1.5vw, 14px);
-            font-weight: 700;
+            font-size: clamp(14px, 1.5vw, 16px);
+            font-weight: 600;
             letter-spacing: 0.012rem;
             color: #333;
             padding: 0 6px;
@@ -169,11 +170,24 @@ const HeaderContainer = styled.header`
     .toggle {
       position: relative;
       display: none;
-      width: 24px;
-      height: 24px;
       cursor: pointer;
       overflow: hidden;
-      color: rgba(32, 33, 36, 0.88);
+      width: 30px;
+      height: 30px;
+      background: rgba(0,0,0,0.075);
+      border-radius: 3px;
+
+      .close_icon {
+        width: 19px;
+        height: 19px;
+        color: #09f;
+      }
+
+      .hamburger_icon {
+        color: #09f;
+        width: 24px;
+        height: 24px;
+      }
 
       svg {
         font-weight: 500;
@@ -236,7 +250,6 @@ const HeaderContainer = styled.header`
 
         .users {
           width: 100%;
-          padding: 12px 6px;
           border-bottom: 1px solid #ebebeb;
 
           &.sign {
@@ -244,9 +257,9 @@ const HeaderContainer = styled.header`
               display: block;
               width: 100%;
               text-align: center;
+              margin: 0;
 
               .account {
-                font-size: clamp(12px, 1.5vw, 13.5px);
                 display: block;
                 padding: 6px 16px;
                 letter-spacing: 0.78px;

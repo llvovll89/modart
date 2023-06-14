@@ -75,7 +75,7 @@ const Header = ({ toggle, toggleMenu }) => {
               className="account"
               onClick={() => handleLinkClick(null)}
             >
-              로그인/회원가입
+              SignIn
             </Link>
           </li>
         </div>
@@ -165,7 +165,7 @@ const Header = ({ toggle, toggleMenu }) => {
           onClick={(event) => toggleClick(event)}
           ref={toggleRef}
         >
-          {toggle ? <GrClose /> : <GiHamburgerMenu />}
+          {toggle ? <GrClose className='close_icon' /> : <GiHamburgerMenu className='hamburger_icon' />}
         </div>
       </div>
     </HeaderContainer>

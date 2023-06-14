@@ -104,17 +104,18 @@ export const Main_container = styled.main`
         width: 100%;
 
         .over {
-          font-size: clamp(13.5px, 2.5vw, 24px);
+          font-size: clamp(14.5px, 2.5vw, 24px);
         }
 
         h1 {
-          font-size: clamp(14px, 2.5vw, 30px);
+          font-size: clamp(16px, 2.5vw, 30px);
           font-weight: 600;
+          line-height: 1.5;
 
           .indent {
             font-weight: 700;
             display: inline-block;
-            font-size: clamp(16px, 2.5vw, 32px);
+            font-size: clamp(17px, 2.5vw, 32px);
             font-style: italic;
             margin-right: 6px;
             color: #09f;
@@ -125,8 +126,9 @@ export const Main_container = styled.main`
 
         .sub_text {
           margin: 6px 0;
+          line-height: 1.5;
           font-weight: 600;
-          font-size: clamp(14.5px, 2vw, 36px);
+          font-size: clamp(15.5px, 2vw, 36px);
         }
       }
     }
@@ -184,7 +186,7 @@ export const Main_container = styled.main`
     }
   }
 
-  @media screen and (max-width: 664px) {
+  @media screen and (max-width: 768px) {
     font-family: 'Noto Sans KR', sans-serif;
 
     .contents {

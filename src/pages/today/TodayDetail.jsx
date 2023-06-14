@@ -5,14 +5,11 @@ import { Section } from '../../styles/RecycleStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addComment,
-  editComment,
   deleteComment,
   getTodays,
-  incrementViews,
   recommendViews,
 } from '../../store/reducers/todaySlice';
 import { TodayDetailPage } from '.';
-import uuid from 'react-uuid';
 
 const TodayDetail = () => {
   const [commentText, setCommentText] = useState('');
