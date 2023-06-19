@@ -135,8 +135,7 @@ const PhotoDetailPage = styled.div`
   max-width: 1024px;
   min-height: calc(100vh - 60px);
   padding: 12px 20px;
-  display: flex;
-  gap: 12px;
+  position: relative;
 
   &.active {
     border-radius: 6px;
@@ -286,110 +285,150 @@ const PhotoDetailPage = styled.div`
 
   .comments {
     padding: 12px;
+    padding-top: 40px;
     width: 100%;
+    max-width: 768px;
     border-radius: 12px;
     background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
 
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #eee;
+    .comment_container {
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 60px;
+        border-bottom: 1px solid #eee;
+        justify-content: space-between;
 
-      img {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-
-      p {
-        font-weight: 700;
-        font-size: clamp(12px, 1.5vw, 14px);
-      }
-    }
-
-    .comment_list {
-      width: 100%;
-      padding: 12px;
-      height: calc(100vh - 180px);
-      overflow-y: scroll;
-
-      .comment_item {
-        margin-bottom: 20px;
-
-        .user_info {
+        div {
           display: flex;
-          justify-content: space-between;
-          margin-bottom: 12px;
           align-items: center;
+          gap: 9px;
 
-          .users {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-
-            img {
-              width: 36px;
-              height: 36px;
-              border-radius: 50%;
-              object-fit: cover;
-            }
-
-            .comment_name {
-              font-weight: 600;
-              font-size: clamp(11.5px, 1vw, 12.5px);
-            }
-
+          img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
           }
 
-          .comment_date {
-            color: #ccc;
-            font-size: clamp(11px, 1vw, 12px);
+          p {
+            font-weight: 700;
+            font-size: clamp(12px, 1.5vw, 14px);
           }
         }
 
-        .content {
-          .comment_desc {
-            padding: 6px 0;
-            font-size: clamp(12px, 1.5vw, 13px);
+        .close_btn {
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.07);
+          padding: 3px;
+          button {
+            font-size: clamp(12px, 1.5vw, 16px);
           }
+        }
+      }
 
-          .update_comment {
-            margin: 12px 0;
-            width: 100%;
+      .photo_desc {
+        width: 100%;
+        padding: 16px;
+
+        p {
+          font-size: clamp(12.5px, 1.5vw, 14px);
+        }
+
+        .photo_desc_info {
+          .photo_desc_nickname {
+            font-weight: 700;
+          }
+        }
+      }
+
+      .comment_list {
+        width: 100%;
+        padding: 12px;
+        overflow-y: scroll;
+
+        .comment_item {
+          margin-bottom: 20px;
+
+          .user_info {
             display: flex;
-            align-items: center;
-            gap: 6px;
             justify-content: space-between;
+            margin-bottom: 12px;
+            align-items: center;
 
-            .update_input {
-              width: 100%;
-              padding: 12px;
-              border: 1px solid #eee;
-              border-radius: 6px;
-              letter-spacing: -0.025rem;
-              font-size: clamp(12px, 1.5vw, 13.5px);
-            
-              &:focus ,
-              &:active {
-                border: 1.5px solid #333;
+            .users {
+              display: flex;
+              gap: 6px;
+              align-items: center;
+
+              img {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                object-fit: cover;
+              }
+
+              .comment_name {
+                font-weight: 600;
+                font-size: clamp(11.5px, 1vw, 12.5px);
               }
             }
 
-            .update_add_btn {
-              min-width: 42px;
-              height: 100%;
+            .comment_date {
+              color: #ccc;
+              font-size: clamp(11px, 1vw, 12px);
+            }
+          }
 
-              span {
-                font-size: clamp(16px, 1.5vw, 20px);
+          .content {
+            .comment_desc {
+              padding: 6px 0;
+              font-size: clamp(12px, 1.5vw, 13px);
+            }
+
+            .update_comment {
+              margin: 12px 0;
+              width: 100%;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              justify-content: space-between;
+
+              .update_input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #eee;
+                border-radius: 6px;
+                letter-spacing: -0.025rem;
+                font-size: clamp(12px, 1.5vw, 13.5px);
+
+                &:focus,
+                &:active {
+                  border: 1.5px solid #333;
+                }
+              }
+
+              .update_add_btn {
+                min-width: 42px;
+                height: 100%;
+
+                span {
+                  font-size: clamp(16px, 1.5vw, 20px);
+                }
               }
             }
           }
-        }
 
-        .comment_btn {
+          .comment_btn {
             width: 100%;
             display: flex;
             align-items: center;
@@ -397,9 +436,9 @@ const PhotoDetailPage = styled.div`
 
             button {
               padding: 6px 12px;
-              
+
               span {
-                font-size: clamp(14px, 1.5vw , 18px);
+                font-size: clamp(14px, 1.5vw, 18px);
               }
 
               /* &.edit_comment_btn {
@@ -410,11 +449,15 @@ const PhotoDetailPage = styled.div`
                 color: salmon;
               } */
             }
+          }
         }
       }
     }
 
     .comment_form {
+      width: 100%;
+      margin-top: 12px;
+
       .comment_user {
         display: flex;
         justify-content: space-between;
@@ -441,7 +484,7 @@ const PhotoDetailPage = styled.div`
           padding: 6px 12px;
           font-size: clamp(11px, 1.5vw, 13px);
           border-radius: 6px;
-          color: #FFF;
+          color: #fff;
           background: #333;
         }
       }

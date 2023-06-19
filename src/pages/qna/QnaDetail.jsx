@@ -34,21 +34,21 @@ const QnaDetail = () => {
   const NO_IMAGE_URL = 'https://via.placeholder.com/500x750.png?text=No+Image';
 
   const qna = qnaList.find((question) => question.id === id);
-  const comments = qna && Object.values(qna.comments);
+  // const comments = qna && Object.values(qna.comments);
 
   const likeButtonClick = (qnaId) => {
-    if(!user) {
-      window.alert('로그인한 유저만 가능합니다!')
+    if (!user) {
+      window.alert('로그인한 유저만 가능합니다!');
       return null;
     }
 
     dispatch(recommendViews({ qnaId }))
-    .then(() => {
-      dispatch(getQna());
-    })
-    .catch((err) => {
-      console.error('좋아요를 클릭 할 수 없습니다!', err);
-    });
+      .then(() => {
+        dispatch(getQna());
+      })
+      .catch((err) => {
+        console.error('좋아요를 클릭 할 수 없습니다!', err);
+      });
   };
 
   const updatedWritePost = (e) => {
@@ -133,6 +133,8 @@ const QnaDetail = () => {
       return;
     }
 
+    console.log(questionId, commentId);
+
     const comment = qna.comments[commentId];
 
     if (comment && comment.author !== user.nickname) {
@@ -172,8 +174,8 @@ const QnaDetail = () => {
     background: '#09f',
     padding: '8px 12px',
     color: '#FFF',
-    borderRadius: "4px",
-  }
+    borderRadius: '4px',
+  };
 
   return (
     <Section>
@@ -262,10 +264,7 @@ const QnaDetail = () => {
                           <span>{user.nickname}</span>
                         </div>
                       ) : (
-                        <Link
-                          to="/account/login"
-                          style={loginBtnStyles}
-                        >
+                        <Link to="/account/login" style={loginBtnStyles}>
                           로그인하기
                         </Link>
                       )}
@@ -286,72 +285,85 @@ const QnaDetail = () => {
                     </div>
                   </div>
 
-                  {comments &&
-                    comments.map((comment) => {
-                      const commentId = comment.id;
-                      const isEditing = editingCommentId === commentId;
+                  {qna.comments &&
+                  Array.isArray(qna.comments) &&
+                  qna.comments.length > 0
+                    ? Object.entries(qna.comments).map(
+                        ([commentId, comment]) => {
+                          const isEditing = editingCommentId === commentId;
 
-                      return (
-                        <div key={commentId} className="comment_item">
-                          <div className="profile">
-                            <div className="user">
-                              {user && user.profileImg ? (
-                                <img
-                                  src={user.profileImg}
-                                  alt={user.nickname}
-                                />
-                              ) : (
-                                <img src={NO_IMAGE_URL} alt={comment.author} />
-                              )}
-                              <span>{comment.author}</span>
+                          return (
+                            <div key={commentId} className="comment_item">
+                              <div className="profile">
+                                <div className="user">
+                                  {comment.profileImg ? (
+                                    <img
+                                      src={comment.profileImg}
+                                      alt={comment.nickname}
+                                    />
+                                  ) : (
+                                    <img
+                                      src={NO_IMAGE_URL}
+                                      alt={comment.author}
+                                    />
+                                  )}
+                                  <span>{comment.author}</span>
+                                </div>
+                                <span className="date">
+                                  {comment.createdAt}
+                                </span>
+                              </div>
+                              <div className="comment_desc">
+                                {isEditing ? (
+                                  <input
+                                    type="text"
+                                    // value={updatedCommentText}
+                                    onChange={(e) =>
+                                      setUpdatedCommentText(e.target.value)
+                                    }
+                                    className="edit_value"
+                                  />
+                                ) : (
+                                  <p>{comment.text}</p>
+                                )}
+                              </div>
+                              <div className="comment_btns">
+                                {user.nickname === comment.author ? (
+                                  <button
+                                    className="edit_btn"
+                                    onClick={() =>
+                                      setEditingCommentId(commentId)
+                                    }
+                                  >
+                                    수정
+                                  </button>
+                                ) : null}
+                                {user.nickname === comment.author ? (
+                                  <button
+                                    className="delete_btn"
+                                    onClick={() =>
+                                      deletedComment(qna.id, commentId)
+                                    }
+                                  >
+                                    삭제
+                                  </button>
+                                ) : null}
+                                {isEditing && (
+                                  <button
+                                    className="save_btn"
+                                    onClick={() =>
+                                      editComments(qna.id, commentId)
+                                    }
+                                  >
+                                    저장
+                                  </button>
+                                )}
+                              </div>
                             </div>
-                            <span className="date">{comment.createdAt}</span>
-                          </div>
-                          <div className="comment_desc">
-                            {isEditing ? (
-                              <input
-                                type="text"
-                                value={updatedCommentText}
-                                onChange={(e) =>
-                                  setUpdatedCommentText(e.target.value)
-                                }
-                                className="edit_value"
-                              />
-                            ) : (
-                              <p>{comment.text}</p>
-                            )}
-                          </div>
-                          <div className="comment_btns">
-                            {user && (
-                              <button
-                                className="edit_btn"
-                                onClick={() => setEditingCommentId(commentId)}
-                              >
-                                수정
-                              </button>
-                            )}
-                            {user && (
-                              <button
-                                className="delete_btn"
-                                onClick={() =>
-                                  deletedComment(qna.id, commentId)
-                                }
-                              >
-                                삭제
-                              </button>
-                            )}
-                            {isEditing && (
-                              <button
-                                className="save_btn"
-                                onClick={() => editComments(qna.id, commentId)}
-                              >
-                                저장
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+                          );
+                        }
+                      )
+                    : null}
                 </div>
               )}
             </footer>

@@ -66,8 +66,8 @@ export const addComment = createAsyncThunk(
     try {
       const { questionId, commentData } = payload;
       const qnaRef = doc(db, 'questions', questionId);
-
       const qnaDoc = await getDoc(qnaRef);
+
       if (!qnaDoc.exists()) {
         return rejectWithValue({
           errorMessage: '해당 질문이 존재하지 않습니다.',
@@ -93,20 +93,20 @@ export const editComment = createAsyncThunk(
   'question/editComment',
   async (payload, { rejectWithValue }) => {
     try {
-      const { questionId, commentId, updatedCommentData } = payload;
+      const { questionId, commentId, commentData } = payload;
 
       const currentUser = firebaseAuth.currentUser;
       const currentUserId = currentUser?.uid;
 
       if (!currentUser) {
-        return rejectWithValue('로그인 후에 댓글을 수정할 수 있습니다.');
+        return rejectWithValue('로그인 후 댓글을 수정할 수 있습니다.');
       }
 
       const qnaRef = doc(db, 'questions', questionId);
       const qnaDoc = await getDoc(qnaRef);
 
       if (!qnaDoc.exists()) {
-        return rejectWithValue('해당 질문이 존재하지 않습니다.');
+        return rejectWithValue('해당 댓글이 존재하지 않습니다.');
       }
 
       const comments = qnaDoc.data().comments || [];
@@ -114,7 +114,7 @@ export const editComment = createAsyncThunk(
         if (comment.id === commentId && comment.userId === currentUserId) {
           return {
             ...comment,
-            ...updatedCommentData,
+            ...commentData,
           };
         }
 
@@ -125,10 +125,10 @@ export const editComment = createAsyncThunk(
         comments: updatedComments,
       });
 
-      return { questionId, commentId, updatedCommentData };
+      return { questionId, commentId, commentData };
     } catch (error) {
       console.error(error);
-      return rejectWithValue('댓글을 수정할 수 없습니다.');
+      throw new Error('댓글을 수정할 수 없습니다.');
     }
   }
 );
@@ -148,7 +148,8 @@ export const deleteComment = createAsyncThunk(
       const qnaDoc = await getDoc(qnaRef);
 
       if (!qnaDoc.exists()) {
-        return rejectWithValue('해당 질문이 존재하지 않습니다.');
+        return rejectWithValue({
+          errorMessage: '해당 질문이 존재하지 않습니다.'});
       }
 
       const comments = qnaDoc.data().comments || [];
@@ -173,6 +174,7 @@ export const deleteComment = createAsyncThunk(
       await updateDoc(qnaRef, {
         comments: updatedComments,
       });
+
       return { questionId, commentId };
     } catch (error) {
       console.error(error);
@@ -216,15 +218,11 @@ export const createData = createAsyncThunk(
   }
 );
 
-// export const updatedData = createAsyncThunk('question/updated' , async (payload, {rejectWithValue}) => {
-//   cosnt {  }
-// })
-
 export const getQna = createAsyncThunk('question/get', async () => {
   moment.locale('ko');
 
   const querySnapshot = await getDocs(collection(db, 'questions'));
-  const photoData = querySnapshot.docs.map((doc, index) => {
+  const qnaData = querySnapshot.docs.map((doc, index) => {
     const data = doc.data();
     const { createdAt, ...dataWithoutCreatedAt } = data;
     let formattedTime;
@@ -241,12 +239,11 @@ export const getQna = createAsyncThunk('question/get', async () => {
       id: doc.id,
       number: index + 1,
       createdAt: formattedTime,
-      comments: data.comments || {},
       ...dataWithoutCreatedAt,
     };
   });
 
-  return photoData;
+  return qnaData;
 });
 
 const qnaSlice = createSlice({
@@ -266,7 +263,7 @@ const qnaSlice = createSlice({
       .addCase(getQna.fulfilled, (state, action) => {
         return {
           ...state,
-          questions: action.payload,
+          questions: action.payload,  
           postCount: action.payload.length,
         };
       })
@@ -339,11 +336,11 @@ const qnaSlice = createSlice({
 
         const updatedQuestions = state.questions.map((qna) => {
           if (qna.id === questionId) {
-            const comments = qna.comments || [];
+            const updatedComments = [...qna.comments, commentData];
 
             return {
               ...qna,
-              comments: [...qna.comments, commentData],
+              comments: updatedComments,
             };
           }
           return qna;
@@ -362,7 +359,7 @@ const qnaSlice = createSlice({
         };
       })
       .addCase(editComment.fulfilled, (state, action) => {
-        const { questionId, commentId, updatedCommentData } = action.payload;
+        const { questionId, commentId, commentData } = action.payload;
 
         const updatedQuestions = state.questions.map((qna) => {
           if (qna.id === questionId) {
@@ -370,7 +367,7 @@ const qnaSlice = createSlice({
               if (comment.id === commentId) {
                 return {
                   ...comment,
-                  ...updatedCommentData,
+                  ...commentData,
                 };
               }
               return comment;
@@ -388,12 +385,6 @@ const qnaSlice = createSlice({
           ...state,
           questions: updatedQuestions,
           loading: false,
-        };
-      })
-      .addCase(deleteComment.pending, (state, action) => {
-        return {
-          ...state,
-          loading: true,
         };
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
@@ -415,7 +406,6 @@ const qnaSlice = createSlice({
         return {
           ...state,
           questions: updatedQuestions,
-          loading: false,
         };
       });
   },

@@ -10,7 +10,7 @@ import {
   increment,
   updateDoc,
 } from 'firebase/firestore';
-import { auth, db, storage } from '../../firebase/firebase';
+import { auth, db, firebaseAuth, storage } from '../../firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const storageRef = ref(storage, 'photos_png');
@@ -89,20 +89,22 @@ export const getPhotos = createAsyncThunk('photos/get', async () => {
   return photoData;
 });
 
-export const recommendViews = createAsyncThunk('photos/recommendViews', async (payload, {rejectWithValue}) => {
-  try {
-    const { photoId } = payload;
-    const photoRef = doc(db, 'photos', photoId);
+export const recommendViews = createAsyncThunk(
+  'photos/recommendViews',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { photoId } = payload;
+      const photoRef = doc(db, 'photos', photoId);
 
-    await updateDoc(photoRef, {
-      recommend: increment(1),
-    })
-
-  } catch (error) {
-    console.error(error);
-    return rejectWithValue('추천을 할 수 없습니다.');
+      await updateDoc(photoRef, {
+        recommend: increment(1),
+      });
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue('추천을 할 수 없습니다.');
+    }
   }
-})
+);
 
 // comment (댓글)
 export const addComment = createAsyncThunk(
@@ -113,6 +115,7 @@ export const addComment = createAsyncThunk(
       const photoRef = doc(db, 'photos', photoId);
       const photoDoc = await getDoc(photoRef);
 
+      console.log(payload);
       // exists 는 photoDoc가 존재하는지 여부에따라 true false 반환
       if (!photoDoc.exists()) {
         return rejectWithValue({
@@ -137,35 +140,68 @@ export const addComment = createAsyncThunk(
   }
 );
 
-export const updatedComment = createAsyncThunk('photos/updatedComment' , async (payload, {rejectWithValue}) => {
-  try {
-    const { photoId, updateCommentData } = payload;
-    const photoRef = doc(db, 'photos', photoId);
+export const updatedComment = createAsyncThunk(
+  'photos/updatedComment',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { photoId, commentId, updateCommentData } = payload;
+      const currentUser = firebaseAuth.currentUser;
+      const currentUserId = currentUser?.uid;
 
+      if (!currentUser) {
+        return rejectWithValue('로그인 후 댓글을 수정할 수 있습니다.');
+      }
 
-  } catch (error) {
-    
+      const photoRef = doc(db, 'photos', photoId);
+      const photoDoc = await getDoc(photoRef);
+
+      if (!photoDoc.exists()) {
+        return rejectWithValue('해당 댓글이 존재하지 않습니다.');
+      }
+
+      const comments = photoDoc.data().comments || [];
+      const updatedComments = comments.map((comment) => {
+        console.log(comment.id, parseInt(commentId))
+        if (comment.userId === currentUserId && comment.id === parseInt(commentId)) {
+          return {
+            ...comment,
+            ...updateCommentData,
+          };
+        }
+
+        return comment;
+      });
+
+      await updateDoc(photoRef, {
+        comments: updatedComments,
+      });
+
+      return { photoId, commentId, updateCommentData };
+    } catch (error) {
+      console.error(error);
+      throw new Error('댓글을 수정할 수 없습니다.');
+    }
   }
-})
+);
 
 export const deleteComment = createAsyncThunk(
   'photos/deleteComment',
   async (payload, { rejectWithValue }) => {
     try {
-      const { photoId, commentId } = payload
+      const { photoId, commentId } = payload;
       const currentUser = auth.currentUser;
 
       if (!currentUser) {
         return rejectWithValue('로그인 후에 댓글을 삭제할 수 있습니다.');
-      }      
+      }
 
       const photoRef = doc(db, 'photos', photoId);
       const photoDoc = await getDoc(photoRef);
 
-      if(!photoDoc.exists()){
+      if (!photoDoc.exists()) {
         return rejectWithValue({
           errorMessage: '해당 질문이 존재하지 않습니다.',
-        })
+        });
       }
 
       const comments = photoDoc.data().comments || [];
@@ -173,12 +209,15 @@ export const deleteComment = createAsyncThunk(
       const parseData = JSON.parse(userData);
 
       const updatedComments = comments.filter((comment, index) => {
-        if(index === parseInt(commentId) && comment.author === parseData.nickname) {
+        if (
+          index === parseInt(commentId) &&
+          comment.author === parseData.nickname
+        ) {
           return false;
         }
 
         return true;
-      })
+      });
 
       if (updatedComments.length === comments.length) {
         return rejectWithValue('다른 사용자의 댓글은 삭제할 수 없습니다.');
@@ -187,7 +226,6 @@ export const deleteComment = createAsyncThunk(
       await updateDoc(photoRef, {
         comments: updatedComments,
       });
-      
 
       return { photoId, commentId };
     } catch (error) {
@@ -284,6 +322,35 @@ const photoSlice = createSlice({
         return {
           ...state,
           photos: updatePhotos,
+        };
+      })
+      .addCase(updatedComment.fulfilled, (state, action) => {
+        const { photoId, commentId, updateCommentData } = action.payload;
+        const updatedPhotos = state.photos.map((photo) => {
+          if (photo.id === photoId) {
+            const updatedCommentsItem = photo.comments.map((comment) => {
+              if (comment.id === commentId) {
+                return {
+                  ...comment,
+                  ...updateCommentData,
+                };
+              }
+
+              return comment;
+            });
+
+            return {
+              ...photo,
+              comments: updatedCommentsItem,
+            };
+          }
+
+          return photo;
+        });
+
+        return {
+          ...state,
+          photos: updatedPhotos,
         };
       });
   },

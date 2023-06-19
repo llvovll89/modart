@@ -6,6 +6,7 @@ import {
   deleteComment,
   getPhotos,
   recommendViews,
+  updatedComment,
 } from '../../store/reducers/photoSlice';
 import { PhotoDetailPage } from '.';
 import { Section } from '../../styles/RecycleStyles';
@@ -17,6 +18,7 @@ import {
   AiOutlineComment,
 } from 'react-icons/ai';
 import moment from 'moment';
+import { firebaseAuth } from '../../firebase/firebase';
 
 const PhotoDetail = () => {
   const { id } = useParams();
@@ -49,6 +51,9 @@ const PhotoDetail = () => {
   };
 
   const addCommentClick = (photoId) => {
+    const currentUser = firebaseAuth.currentUser;
+    const currentUserId = currentUser ? currentUser.uid : null;
+
     if (!user) {
       window.alert('로그인 하셔야 등록할 수 있습니다.');
       return;
@@ -60,7 +65,11 @@ const PhotoDetail = () => {
     }
 
     const commentData = {
-      id: Date.now(),
+      userId: currentUserId,
+      id:
+        photo.comments.length > 0
+          ? photo.comments[photo.comments.length - 1].id + 1
+          : 0,
       text: commentText,
       author: user.nickname,
       profileImg: user.profileImg ? user.profileImg : '',
@@ -87,7 +96,10 @@ const PhotoDetail = () => {
     }
   };
 
-  const editCommentHandler = (photoId) => {
+  const editCommentHandler = (photoId, commentId) => {
+    const currentUser = firebaseAuth.currentUser;
+    const currentUserId = currentUser ? currentUser.uid : null;
+
     if (!user) {
       window.alert('로그인 후 이용해주세요.');
       return;
@@ -98,20 +110,29 @@ const PhotoDetail = () => {
       return;
     }
 
+    const comment = photo.comments[commentId];
+
     const updateCommentData = {
-      id: Date.now(),
+      userId: currentUserId,
       text: updateCommentText,
-      author: user.nickname,
-      profileImg: user.profileImg ? user.profileImg : '',
+      author: comment.author,
+      profileImg: comment.profileImg ? user.profileImg : '',
       createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
 
-    // dispatch 후 성공시 아래 코드 넣기
-    // setUpdateCommentId('');
-    // setUpdateCommentText('');
+    dispatch(updatedComment({ photoId, commentId, updateCommentData })).then(
+      () => {
+        dispatch(getPhotos());
+        setUpdateCommentId(null);
+        setUpdateCommentText('');
+      }
+    );
   };
 
   const deleteCommentHandler = (photoId, commentId) => {
+    alert('현재 삭제 이벤트 수정중!')
+    return null;
+
     if (!user) {
       window.alert('로그인 후 이용해주세요.');
       return;
@@ -158,7 +179,10 @@ const PhotoDetail = () => {
             <div className={`contents ${commentToggle ? 'active' : ''}`}>
               <div className="photo_users">
                 <div className="user_img">
-                  <img src={photo.profileImg} alt={photo.nickname} />
+                  <img
+                    src={photo.profileImg ? photo.profileImg : NO_IMAGE_URL}
+                    alt={photo.nickname}
+                  />
                 </div>
                 <div className="user">
                   <p>{photo.nickname}</p>
@@ -214,108 +238,119 @@ const PhotoDetail = () => {
             </div>
             {commentToggle && (
               <div className="comments">
-                <div className="profile">
-                  {user ? (
-                    <>
-                      {user.profileImg ? (
-                        <img src={user.profileImg} alt={photo.nickname} />
+                <div className="comment_container">
+                  <div className="profile">
+                    <div>
+                      {photo.profileImg ? (
+                        <img src={photo.profileImg} alt={photo.nickname} />
                       ) : (
                         <img src={NO_IMAGE_URL} alt={photo.nickname} />
                       )}
-                      <p>{user.nickname}</p>
-                    </>
-                  ) : (
-                    <>
-                      <img src={NO_IMAGE_URL} alt="..." />
-                      <p>Default Nickname</p>
-                    </>
-                  )}
-                </div>
+                      <p>{photo.nickname}</p>
+                    </div>
+                    <div className="close_btn">
+                      <button onClick={() => setCommentToggle(!commentToggle)}>
+                        ❌
+                      </button>
+                    </div>
+                  </div>
 
-                <ul className="comment_list">
-                  {photo.comments &&
-                  Array.isArray(photo.comments) &&
-                  photo.comments.length > 0
-                    ? Object.entries(photo.comments).map(
-                        ([commentId, comment]) => (
-                          <li className="comment_item" key={commentId}>
-                            <div className="user_info">
-                              <div className="users">
-                                {comment.profileImg ? (
-                                  <img
-                                    src={comment.profileImg}
-                                    alt={comment.author}
-                                  />
-                                ) : (
-                                  <img src={NO_IMAGE_URL} alt="default_name" />
-                                )}
-                                <span className="comment_name">
-                                  {comment.author}
+                  <div className="photo_desc">
+                    <p className="photo_desc_info">
+                      <span className='photo_desc_nickname'>{photo.nickname}</span> {photo.title}
+                    </p>
+                    <p className="photo_desc_desc">{photo.desc}</p>
+                  </div>
+
+                  <ul className="comment_list">
+                    {photo.comments &&
+                    Array.isArray(photo.comments) &&
+                    photo.comments.length > 0
+                      ? Object.entries(photo.comments).map(
+                          ([commentId, comment]) => (
+                            <li className="comment_item" key={commentId}>
+                              <div className="user_info">
+                                <div className="users">
+                                  {comment.profileImg ? (
+                                    <img
+                                      src={comment.profileImg}
+                                      alt={comment.author}
+                                    />
+                                  ) : (
+                                    <img
+                                      src={NO_IMAGE_URL}
+                                      alt="default_name"
+                                    />
+                                  )}
+                                  <span className="comment_name">
+                                    {comment.author}
+                                  </span>
+                                </div>
+                                <span className="comment_date">
+                                  {comment.createdAt}
                                 </span>
                               </div>
-                              <span className="comment_date">
-                                {comment.createdAt}
-                              </span>
-                            </div>
-                            <div className="content">
-                              {updateCommentId === comment.id ? (
-                                <div className="update_comment">
-                                  <input
-                                    type="text"
-                                    placeholder={comment.text}
-                                    autoComplete="off"
-                                    className="update_input"
-                                    onChange={(e) =>
-                                      setUpdateCommentText(e.target.value)
-                                    }
-                                  />
+                              <div className="content">
+                                {updateCommentId === comment.id ? (
+                                  <div className="update_comment">
+                                    <input
+                                      type="text"
+                                      autoComplete="off"
+                                      className="update_input"
+                                      onChange={(e) =>
+                                        setUpdateCommentText(e.target.value)
+                                      }
+                                    />
+                                    <button
+                                      type="submit"
+                                      className="update_add_btn"
+                                      onClick={() =>
+                                        editCommentHandler(photo.id, commentId)
+                                      }
+                                    >
+                                      <span>
+                                        <AiOutlineFileAdd />
+                                      </span>
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <p className="comment_desc">{comment.text}</p>
+                                )}
+                              </div>
+
+                              {user && user.nickname === comment.author ? (
+                                <div className="comment_btn">
                                   <button
-                                    type="submit"
-                                    className="update_add_btn"
-                                    onClick={() => editCommentHandler(photo.id)}
+                                    className="edit_comment_btn"
+                                    onClick={() =>
+                                      toggleUpdateComment(
+                                        comment.id,
+                                        comment.text
+                                      )
+                                    }
                                   >
                                     <span>
-                                      <AiOutlineFileAdd />
+                                      <AiOutlineEdit />
+                                    </span>
+                                  </button>
+                                  <button
+                                    className="delete_comment_btn"
+                                    onClick={() =>
+                                      deleteCommentHandler(photo.id, commentId)
+                                    }
+                                  >
+                                    <span>
+                                      <AiOutlineDelete />
                                     </span>
                                   </button>
                                 </div>
-                              ) : (
-                                <p className="comment_desc">{comment.text}</p>
-                              )}
-                            </div>
-
-                            {user && user.nickname === comment.author ? (
-                              <div className="comment_btn">
-                                <button
-                                  className="edit_comment_btn"
-                                  onClick={() =>
-                                    toggleUpdateComment(
-                                      comment.id,
-                                      comment.text
-                                    )
-                                  }
-                                >
-                                  <span>
-                                    <AiOutlineEdit />
-                                  </span>
-                                </button>
-                                <button
-                                  className="delete_comment_btn"
-                                  onClick={() =>
-                                    deleteCommentHandler(photo.id, commentId)
-                                  }
-                                >
-                                  <span>
-                                    <AiOutlineDelete />
-                                  </span>
-                                </button>
-                              </div>
-                            ) : null}
-                          </li>
+                              ) : null}
+                            </li>
+                          )
                         )
-                      )
-                    : null}
-                </ul>
+                      : null}
+                  </ul>
+                </div>
 
                 <div className="comment_form">
                   <div className="comment_user">
