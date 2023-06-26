@@ -5,15 +5,12 @@ import { useSelector } from 'react-redux';
 
 const BoardEdit = () => {
   const user = useSelector((state) => state.login.user);
-  const { id } = useParams();
-
-  // const filterInfo = user.fliter()
 
   return (
     <Section>
       <CardForm>
         <form>
-          <p className='nickname'></p>
+          <p className='nickname'>{user.nickname}</p>
         </form>
       </CardForm>
     </Section>

@@ -30,6 +30,12 @@
 ![계정관리](./src/assets/images/reademe/account.png)
 
 > 헤더에 navigation bar로 Home / DailyLook / Photo / TodayStory / Qna / 계정관리 로 구성되어있습니다.
+``` 추가해야할 사항
+> 1. 각 게시글마다 user 인증 후 게시글 수정 및 삭제 기능
+> 2. 계정관리 (Acoount 섹션)에서 유저의 게시글 및 댓글 갯수 볼 수 있게 추가
+> 3. 각 섹션마다 size조절 필수
+> 4. main section 이미지 및 UI수정하기
+```
 
 
 <모드아트 링크>

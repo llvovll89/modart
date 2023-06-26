@@ -50,11 +50,12 @@ const Account = () => {
                   <h1>고객센터</h1>
                   <span>(궁금한 것을 물어보세요)</span>
                 </div>
+                .
               </div>
               <div className="customer_contents">
                 <div className="items">
                   <h2>게시판관련 질문</h2>
-                  
+
                   <div className="item_container">
                     <div className="item">
                       <p>DailyLook</p>
@@ -72,6 +73,9 @@ const Account = () => {
                 </div>
                 <div className="account_questions">
                   <p>계정관련 질문</p>
+                </div>
+                <div className="account_qna">
+                  <p>자주묻는 질문</p>
                 </div>
               </div>
             </div>

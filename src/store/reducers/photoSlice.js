@@ -114,8 +114,6 @@ export const addComment = createAsyncThunk(
       const { photoId, commentData } = payload;
       const photoRef = doc(db, 'photos', photoId);
       const photoDoc = await getDoc(photoRef);
-
-      console.log(payload);
       // exists 는 photoDoc가 존재하는지 여부에따라 true false 반환
       if (!photoDoc.exists()) {
         return rejectWithValue({

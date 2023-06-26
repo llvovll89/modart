@@ -53,7 +53,7 @@ const PhotoWritePost = () => {
     <Section>
       <CardForm>
         <div className="post_title">
-          <h1>{'<Photos>'}</h1>
+          <h1>Photos</h1>
         </div>
 
         <form encType="multipart/form-data" onSubmit={handleSubmit}>

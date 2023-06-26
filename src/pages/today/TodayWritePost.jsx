@@ -44,7 +44,7 @@ const TodayWritePost = () => {
     <Section>
       <CardForm>
         <div className="post_title">
-          <h1>{'<Todays Story>'}</h1>
+          <h1>TodayStory</h1>
         </div>
 
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -102,7 +102,7 @@ const TodayWritePost = () => {
             </p>
           </label>
 
-          <button type="submit">게시하기</button>
+          <button type="submit" >게시하기</button>
         </form>
       </CardForm>
     </Section>

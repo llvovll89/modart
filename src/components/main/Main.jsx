@@ -26,12 +26,16 @@ const Main = () => {
             </div>
           </div>
 
+          {/* 
+          이미지가 안예쁨
           <div className="question_img">
             <img src={QuestionImg} alt="question.." />
           </div>
           <div className="camera_img">
             <img src={CameraImg} alt="camera.." />
-          </div>
+          </div> 
+        */}
+
           <div className="main_img">
             <img src={MainImage} alt="Main-poster.." />
           </div>

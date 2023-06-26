@@ -548,7 +548,7 @@ const CardForm = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 36px;
 
   &.ootd {
     justify-content: stretch;
