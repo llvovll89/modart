@@ -26,10 +26,6 @@ function App() {
         };
     }, []);
 
-    const isNotRenderFooter =
-        window.location.pathname.includes(LOGIN) ||
-        window.location.pathname.includes(SIGN_UP);
-
     return (
         <Wrap
             className={toggle ? " active" : ""}
@@ -50,7 +46,7 @@ function App() {
                         />
                     ))}
                 </Routes>
-                {!isNotRenderFooter && <Footer />}
+                <Footer />
             </Router>
         </Wrap>
     );

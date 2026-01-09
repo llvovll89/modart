@@ -24,7 +24,7 @@ export const ModalContainer = styled.div`
 
 const Section = styled.section`
     width: 100%;
-    padding-top: 60px;
+    padding-top: 52px;
     min-height: 100vh;
     background: #ffffff;
 
