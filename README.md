@@ -1,42 +1,21 @@
-# MODART
-## <일상을 공유하는 웹 (게시판)사이트>
+# ModArt
 
-### 1.프로젝트 소개
-> 모드아트는 프랑스어로 "모드"는 유행 및 패션을 지칭하고, "아트"는 영어직역 그대로 예술을 의미합니다. 모드아트는 유행과 패션에 민감한 현대인들에게 본인의 예술감각(사진, 패션)을 뽐낼 수 있고, 하루를 쉬어 갈 수 있는 페이지를 제공하고자 만들었습니다.
+**모드아트**는 프랑스어로 **모드**는 유행 및 패션을 지칭하고, **아트**는 영어직역 그대로 예술을 의미합니다.  
+유행과 패션에 민감한 현대인들에게 본인의 예술감각(사진, 패션)을 뽐낼 수 있고, 하루를 쉬어 갈 수 있는 페이지를 제공하고자 만들었습니다.
 
-------
+## 🛠 Tech Stack
 
-### 2. 프로젝트 구조
-> 사용 기술 : react(vite) / styled-components / firebase / redux-toolkit
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white)  
+![FireBase](https://img.shields.io/badge/Firebase-09f?style=flat&logo=Firebase&logoColor=white)
+![Styled-Components](https://img.shields.io/badge/StyledComponents-00?style=flat&logo=StyledComponents&logoColor=white)
 
-- 폴더 구조는 src 폴더 안에 assets , components, styles, store, firebase로 구성되어있고
-- assets > 이미지,데이터
-- components > 자주사용될 컴포넌트
-- styles > styled-componets 라이브러리를 이용함으로써 글로벌 스타일 / 리셋 스타일 / 자주 사용될 스타일들을 담고있습니다.
-- store > 리덕스 툴킷의 스토어 폴더고 하위폴더로 reducer가 있습니다.
-- firebase > 서버 및 데이터베이스용 firebase 기본 설정이 있습니다. 
+---
 
+## ✨ 2026 New Version
 
------------
+2026년 버전으로 UI 리뉴얼 및 기능 개선을 진행 중입니다.
 
-### 3. 프로젝트 이미지
-1. 메인 페이지
-![메인페이지](./src/assets/images/reademe/main.png)
-2. DailyLook
-![데일리룩](./src/assets/images/reademe/daily.png)
-3. Photo
-![사진](./src/assets/images/reademe/photo.png)
-4. Account
-![계정관리](./src/assets/images/reademe/account.png)
-
-> 헤더에 navigation bar로 Home / DailyLook / Photo / TodayStory / Qna / 계정관리 로 구성되어있습니다.
-``` 추가해야할 사항
-> 1. 각 게시글마다 user 인증 후 게시글 수정 및 삭제 기능
-> 2. 계정관리 (Acoount 섹션)에서 유저의 게시글 및 댓글 갯수 볼 수 있게 추가
-> 3. 각 섹션마다 size조절 필수
-> 4. main section 이미지 및 UI수정하기
-```
-
-
-<모드아트 링크>
-[모드아트](https://llvovll89.github.io/modart/)
+-   데모: [모드아트](https://llvovll89.github.io/modart/)
