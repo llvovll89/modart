@@ -155,24 +155,4 @@ export const QnaCard = styled.div`
             }
         }
     }
-
-    @media screen and (max-width: 768px) {
-        padding: 16px 9px;
-
-        .qna_contents {
-            .list_item {
-                .qna_items {
-                    padding: 12px;
-
-                    .qna_answer {
-                        padding: 12px 0px 6px 0px;
-                        .qna_desc {
-                            left: 6px;
-                            word-break: break-all;
-                        }
-                    }
-                }
-            }
-        }
-    }
 `;

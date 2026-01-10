@@ -59,6 +59,32 @@ export const Main_container = styled.main`
                 }
             }
         }
+
+        @media (max-width: 564px) {
+            padding: 3rem 1rem;
+            height: 100%;
+            justify-content: flex-end;
+            color: #fff;
+            backdrop-filter: blur(5px);
+
+            .items {
+                padding-bottom: 4rem;
+
+                .overview {
+                    h1 {
+                        font-size: clamp(2rem, 2.5vw, 3rem);
+
+                        .indent {
+                            font-size: clamp(2.5rem, 3vw, 3.5rem);
+                        }
+                    }
+
+                    .sub_text {
+                        font-size: clamp(1.5rem, 2.5vw, 3rem);
+                    }
+                }
+            }
+        }
     }
 
     .continue {
@@ -99,5 +125,16 @@ export const Main_container = styled.main`
         font-size: clamp(0.7rem, 1.5vw, 0.85rem);
         font-weight: 500;
         user-select: none;
+    }
+
+    @media (max-width: 564px) {
+        .main_bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 `;

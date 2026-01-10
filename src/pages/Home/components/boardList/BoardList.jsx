@@ -8,6 +8,7 @@ import {useResizeLayout} from "../../../../hooks/useResizeLayout";
 import {useState} from "react";
 import {Container, Section, Card} from "../../../../styles/RecycleStyles";
 import {BoardListContainer, BoardListWrap} from "./styles/BoardList.css";
+import {useCheckedDesktop} from "../../../../hooks/useCheckedDesktop";
 
 const BoardList = () => {
     const [selectedBoard, setSelectedBoard] = useState(null);
@@ -16,6 +17,7 @@ const BoardList = () => {
         itemList: boardList,
         getItems: getBoards,
     });
+    const isDesktop = useCheckedDesktop();
 
     return (
         <BoardListWrap id="daily_look_list">
@@ -57,52 +59,60 @@ const BoardList = () => {
                             }}
                             extensions={{AutoScroll}}
                         >
-                            {boardList.map((board) => (
-                                <SplideSlide key={board.id}>
-                                    <Card
-                                        onMouseOver={() =>
-                                            setSelectedBoard(board.id)
-                                        }
-                                        onMouseOut={() =>
-                                            setSelectedBoard(null)
-                                        }
-                                        className="board_card"
-                                    >
-                                        <div className="top">
+                            {boardList.map((board) => {
+                                const showBottom =
+                                    !isDesktop || selectedBoard === board.id;
+
+                                return (
+                                    <SplideSlide key={board.id}>
+                                        <Card
+                                            onMouseOver={() =>
+                                                isDesktop
+                                                    ? setSelectedBoard(board.id)
+                                                    : null
+                                            }
+                                            onMouseOut={() =>
+                                                isDesktop
+                                                    ? setSelectedBoard(null)
+                                                    : null
+                                            }
+                                            className="board_card"
+                                        >
                                             <Link
                                                 to={`board/details/${board.id}`}
-                                            >
+                                            />
+                                            <div className="top">
                                                 <img
                                                     src={board.photo}
                                                     alt="board"
                                                 />
-                                            </Link>
-                                        </div>
-
-                                        {selectedBoard === board.id && (
-                                            <div className="bottom">
-                                                <div className="board_info_top">
-                                                    <span className="board_nickname">
-                                                        {board.nickname}
-                                                    </span>
-                                                </div>
-
-                                                <div className="board_info_bottom">
-                                                    <p className="board_title">
-                                                        {board.title}
-                                                    </p>
-                                                    <p
-                                                        title={board.desc}
-                                                        className="board_desc"
-                                                    >
-                                                        {board.desc}
-                                                    </p>
-                                                </div>
                                             </div>
-                                        )}
-                                    </Card>
-                                </SplideSlide>
-                            ))}
+
+                                            {showBottom && (
+                                                <div className="bottom">
+                                                    <div className="board_info_top">
+                                                        <span className="board_nickname">
+                                                            {board.nickname}
+                                                        </span>
+                                                    </div>
+
+                                                    <div className="board_info_bottom">
+                                                        <p className="board_title">
+                                                            {board.title}
+                                                        </p>
+                                                        <p
+                                                            title={board.desc}
+                                                            className="board_desc"
+                                                        >
+                                                            {board.desc}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </Card>
+                                    </SplideSlide>
+                                );
+                            })}
                         </Splide>
                     )}
                 </div>

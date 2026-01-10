@@ -334,26 +334,23 @@ const AuthForm = styled.div`
 `;
 
 const Card = styled.div`
-    min-width: 240px;
     transition: all 0.15s linear;
     position: relative;
+    width: 100%;
 
-    &.board_card {
-        min-width: 250px;
-
-        @media screen and (max-width: 564px) {
-            min-width: 270px;
-
-            .top {
-                width: 100%;
-            }
-        }
+    a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 2;
     }
 
     .top {
         position: relative;
         width: 100%;
-        height: 300px;
+        height: 280px;
         overflow: hidden;
 
         .not_found_img {
@@ -444,31 +441,6 @@ const Card = styled.div`
 
         .photo_title {
             margin-bottom: 3px;
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        min-width: 90%;
-
-        .top {
-            height: 260px;
-        }
-    }
-
-    @media screen and (max-width: 564px) {
-        .top {
-            height: 240px;
-            width: 200px;
-        }
-
-        &.photo_card,
-        &.today_card {
-            height: 300px;
-
-            .top {
-                width: 100%;
-                height: 160px;
-            }
         }
     }
 `;

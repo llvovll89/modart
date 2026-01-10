@@ -22,13 +22,9 @@ export const useResizeLayout = ({itemList, getItems}) => {
             setPerPage(3);
             setGap("12px");
             setFocus("left");
-        } else if (innerWidth >= 564) {
-            setPerPage(2);
-            setGap("16px");
-            setFocus("left");
         } else {
-            setPerPage(1);
-            setGap("10px");
+            setPerPage(2);
+            setGap("8px");
             setFocus("center");
         }
     }, []);

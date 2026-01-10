@@ -46,16 +46,16 @@ const PhotoList = () => {
                                 .slice(0, visibleCount)
                                 .map((photo) => (
                                     <Card key={photo.id} className="photo_card">
+                                        <Link
+                                            to={`photo/details/${photo.id}`}
+                                        />
+
                                         <div className="top">
-                                            <Link
-                                                to={`photo/details/${photo.id}`}
-                                            >
-                                                <img
-                                                    src={photo.photo}
-                                                    alt="photo"
-                                                    loading="lazy"
-                                                />
-                                            </Link>
+                                            <img
+                                                src={photo.photo}
+                                                alt="photo"
+                                                loading="lazy"
+                                            />
                                         </div>
                                         <div className="bottom">
                                             <div className="board_info_top">

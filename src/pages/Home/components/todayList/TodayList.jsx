@@ -44,16 +44,15 @@ const TodayList = () => {
                                 .slice(0, visibleCount)
                                 .map((today) => (
                                     <Card key={today.id} className="today_card">
+                                        <Link
+                                            to={`today/details/${today.id}`}
+                                        />
                                         <div className="top">
                                             {today.photo ? (
-                                                <Link
-                                                    to={`today/details/${today.id}`}
-                                                >
-                                                    <img
-                                                        src={today.photo}
-                                                        alt="today"
-                                                    />
-                                                </Link>
+                                                <img
+                                                    src={today.photo}
+                                                    alt="today"
+                                                />
                                             ) : (
                                                 <div className="not_found_img">
                                                     <span className="title">

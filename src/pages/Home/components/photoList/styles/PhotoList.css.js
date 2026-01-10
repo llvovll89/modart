@@ -83,6 +83,7 @@ export const PhotoListContainer = styled.div`
         .contents {
             grid-template-columns: repeat(2, 1fr);
             place-items: center;
+            gap: 4px;
         }
     }
 `;
