@@ -1,21 +1,19 @@
-import React from 'react';
-import BoardList from '../board/BoardList';
-import QnaList from '../qna/QnaList';
-import PhotoList from '../photos/PhotoList';
-import Main from '../../components/main/Main';
-import TodayList from '../today/TodayList';
-// <Main />
+import QnaList from "./components/qnaList/QnaList";
+import TodayList from "./components/todayList/TodayList";
+import BoardList from "./components/boardList/BoardList";
+import PhotoList from "./components/photoList/PhotoList";
+import Main from "./components/main/Main";
 
 const Home = () => {
-  return (
-    <>
-      <Main />
-      <BoardList />
-      <TodayList />
-      <PhotoList />
-      <QnaList />
-    </>
-  );
+    return (
+        <>
+            <Main />
+            <BoardList />
+            <PhotoList />
+            <TodayList />
+            <QnaList />
+        </>
+    );
 };
 
 export default Home;

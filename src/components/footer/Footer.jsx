@@ -7,23 +7,14 @@ const Footer = () => {
 
     return (
         <FooterContainer>
-            <div className="inner">
-                <div className="footer_status">
-                    <div className="top">
-                        <span>@Copyright llvovll89@github.com</span>
-                        <span>
-                            모든 코드는 llvovll89@github.com 에서 볼 수
-                            있습니다.
-                        </span>
-                    </div>
+            <div className="top">
+                <span>© {2026} ModArt All rights reserved.</span>
+                <span>만든이: 김건호 | E-mail 문의: svvvs5579@naver.com</span>
+            </div>
 
-                    <div className="bottom">
-                        <span>
-                            현 웹 사이트를 chrome에 최적화 되어 있습니다.
-                        </span>
-                        <span>responsive를 적용한 웹 사이트 입니다.</span>
-                    </div>
-                </div>
+            <div className="bottom">
+                <span>본 웹사이트는 Chrome에 최적화되어 있습니다.</span>
+                <span>반응형(Responsive) 웹사이트입니다.</span>
             </div>
         </FooterContainer>
     );

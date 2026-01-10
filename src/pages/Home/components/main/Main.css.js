@@ -1,5 +1,5 @@
 import styled, {keyframes} from "styled-components";
-import {fadeDown, fadeIn, fadeUp} from "../../styles/animation";
+import {fadeDown, fadeIn, fadeUp} from "../../../../styles/animation";
 
 export const Main_container = styled.main`
     height: calc(100vh - 52px);

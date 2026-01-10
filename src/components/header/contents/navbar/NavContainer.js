@@ -15,6 +15,7 @@ export const NavContainer = styled.nav`
         display: flex;
         align-items: center;
         gap: 12px;
+        text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
 
         .item {
             min-width: 76px;

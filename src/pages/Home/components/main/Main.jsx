@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useRef, useState} from "react";
-import {Section} from "../../styles/RecycleStyles";
-import {Main_container} from "./Main.css";
+import {Section} from "../../../../styles/RecycleStyles";
 import {intervalTitle} from "./mock/title";
+import {Main_container} from "./Main.css";
 
 const Main = () => {
     const [idx, setIdx] = useState(0);
@@ -76,7 +76,7 @@ const Main = () => {
                     <span>Modart, adding art to your daily life</span>
                 </div>
 
-                <a className="continue" href="#today_list">
+                <a className="continue" href="#daily_look_list">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

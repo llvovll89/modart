@@ -2,15 +2,13 @@ import styled from "styled-components";
 import {fadeIn} from "../../styles/animation";
 
 const HeaderContainer = styled.header`
-    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
-    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap");
-
     background-color: #ffffff;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
+    transition: 0.3s opacity ease-in-out;
 
     .contents {
         margin: 0 auto;

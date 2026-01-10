@@ -33,11 +33,6 @@ const Section = styled.section`
     &.photo_detail_section {
         background: #fafafa;
     }
-
-    @media screen and (max-width: 768px) {
-        /* padding-left: 16px;
-    padding-right: 16px; */
-    }
 `;
 
 const Container = styled.div`
@@ -93,7 +88,8 @@ const Container = styled.div`
     }
 
     .title {
-        padding: 0 16px;
+        user-select: none;
+
         h1 {
             font-size: clamp(16px, 1.5vw, 18px);
         }
@@ -104,6 +100,7 @@ const Container = styled.div`
 
     .contents {
         margin-top: 20px;
+        gap: 2px;
 
         .no-photos,
         .no-boards {
@@ -338,11 +335,8 @@ const AuthForm = styled.div`
 
 const Card = styled.div`
     min-width: 240px;
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-    gap: 6px;
     transition: all 0.15s linear;
+    position: relative;
 
     &.board_card {
         min-width: 250px;
@@ -361,39 +355,73 @@ const Card = styled.div`
         width: 100%;
         height: 300px;
         overflow: hidden;
-        border-radius: 8px;
+
+        .not_found_img {
+            width: 100%;
+            height: 100%;
+            background: #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                font-size: clamp(12px, 1.5vw, 14px);
+                font-weight: 600;
+                color: #fff;
+            }
+        }
 
         img {
             width: 100%;
             height: 100%;
-            vertical-align: top;
-            /* object-fit: fill; */
+            background: #000;
         }
     }
 
     .bottom {
-        padding-top: 6px;
-        text-overflow: ellipsis;
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        color: #fff;
+        padding: 0.3rem 0.5rem;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
 
         .photo_category,
         .today_category {
             vertical-align: middle;
             overflow: hidden;
-            color: #222;
+            color: #fff;
             font-weight: 700;
-            font-size: clamp(11px, 1.5vw, 13px);
+            font-size: clamp(10px, 1vw, 11px);
+        }
+
+        .board_info_top {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .board_views {
+                font-size: clamp(11px, 1.5vw, 12px);
+                font-weight: 500;
+            }
         }
 
         .board_nickname,
         .photo_nickname,
         .today_nickname {
-            vertical-align: top;
-            display: inline-block;
-            overflow: hidden;
-            padding-bottom: 2px;
             font-size: clamp(12px, 1.5vw, 13px);
             font-weight: 700;
-            color: #222;
+            color: #fff;
             text-overflow: ellipsis;
             width: fit-content;
             white-space: nowrap;
@@ -405,11 +433,13 @@ const Card = styled.div`
         .photo_desc,
         .today_desc,
         .today_title {
-            max-height: 44px;
-            line-height: 16px;
-            font-size: clamp(11px, 1.5vw, 14px);
+            font-size: clamp(11px, 1.5vw, 0.8rem);
             white-space: normal;
             word-break: break-all;
+            max-width: 242px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .photo_title {

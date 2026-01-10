@@ -14,7 +14,7 @@ export const NavRoutes = [
         path: TODAY,
     },
     {
-        label: "QnA",
+        label: "질문 게시판",
         path: QNA,
     },
 ];

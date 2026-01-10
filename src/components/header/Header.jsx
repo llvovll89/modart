@@ -48,7 +48,10 @@ const Header = ({toggle, toggleMenu}) => {
 
     return (
         <HeaderContainer
-            style={{borderBottom: scroll ? "1px solid #f7f2f2" : ""}}
+            style={{
+                borderBottom: scroll ? "1px solid #f7f2f2" : "",
+                opacity: scroll ? 0.8 : 1,
+            }}
         >
             <div className="contents">
                 <div className="logo">
