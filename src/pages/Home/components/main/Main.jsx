@@ -8,7 +8,6 @@ const Main = () => {
     const [idx, setIdx] = useState(0);
     const current = useMemo(() => intervalTitle[idx], [idx]);
     const textWrapRef = useRef(null);
-    const isDesktop = useCheckedDesktop();
 
     useEffect(() => {
         const id = window.setInterval(() => {
@@ -60,13 +59,11 @@ const Main = () => {
     return (
         <Section>
             <Main_container>
-                {!isDesktop && (
-                    <img
-                        src="/images/main/main.jpg"
-                        alt="main img"
-                        className="main_bg"
-                    />
-                )}
+                <img
+                    src="/images/main/main.jpg"
+                    alt="main img"
+                    className="main_bg"
+                />
 
                 <div className="contents">
                     <div className="items">

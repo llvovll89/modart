@@ -127,14 +127,20 @@ export const Main_container = styled.main`
         user-select: none;
     }
 
+    .main_bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: bottom;
+        opacity: 0.1;
+    }
+
     @media (max-width: 564px) {
         .main_bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            opacity: 0.5;
         }
     }
 `;
