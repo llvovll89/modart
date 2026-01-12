@@ -2,7 +2,7 @@ import styled, {keyframes} from "styled-components";
 import {fadeDown, fadeIn, fadeUp} from "../../../../styles/animation";
 
 export const Main_container = styled.main`
-    height: calc(100vh - 52px);
+    height: calc(100dvh - 52px);
     position: relative;
     background-blend-mode: screen;
     margin: 0 auto;
@@ -18,6 +18,10 @@ export const Main_container = styled.main`
 
     .mobile_subItems {
         display: none;
+
+        strong {
+            color: #09f;
+        }
     }
 
     .contents {
@@ -68,7 +72,7 @@ export const Main_container = styled.main`
             backdrop-filter: blur(5px);
 
             .items {
-                padding-bottom: 4rem;
+                padding-bottom: 5rem;
 
                 .overview {
                     h1 {
@@ -133,8 +137,8 @@ export const Main_container = styled.main`
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center;
+        // object-fit: cover;
+        // object-position: center;
         opacity: 0.25;
         display: none;
     }
@@ -143,6 +147,14 @@ export const Main_container = styled.main`
         .main_bg {
             display: block;
             opacity: 0.5;
+        }
+
+        .continue {
+            color: #fff;
+
+            .page_down_icon {
+                filter: invert(1);
+            }
         }
     }
 `;

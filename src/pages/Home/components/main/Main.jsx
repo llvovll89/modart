@@ -59,13 +59,13 @@ const Main = () => {
     return (
         <Section>
             <Main_container>
-                <img
+                {/* <img
                     src={`${
                         import.meta.env.VITE_PUBLIC_URL
                     }/images/main/main.jpg`}
                     alt="main img"
                     className="main_bg"
-                />
+                /> */}
 
                 <div className="contents">
                     <div className="items">

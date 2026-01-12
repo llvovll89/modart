@@ -88,7 +88,7 @@ const BoardInfoContainer = styled.div`
     }
 
     @media screen and (max-width: 768px) {
-        padding: 2rem;
+        padding: 1.5rem;
     }
 `;
 
@@ -96,7 +96,7 @@ const BoardContents = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 0 1rem;
+    padding: 0 1rem 1rem 1rem;
     max-width: 1280px;
     margin: 0 auto;
     width: 100%;
