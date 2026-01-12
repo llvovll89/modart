@@ -4,12 +4,7 @@ import {fadeDown, fadeIn} from "../../../../../styles/animation";
 export const QnaListWarp = styled.section`
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(
-        135deg,
-        rgb(192, 252, 250) 24%,
-        rgb(209, 255, 255) 55%,
-        rgb(222, 242, 246) 89%
-    );
+    background-color: #f9fdfa;
     padding: 2rem 3rem;
 
     @media screen and (max-width: 768px) {
@@ -23,7 +18,7 @@ export const QnaListContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    justify-content: space-between;
+    justify-content: space-evenly;
     user-select: none;
 
     .title {
@@ -58,7 +53,7 @@ export const QnaCard = styled.div`
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1.25rem;
 
         .list_item {
             display: flex;

@@ -3,12 +3,7 @@ import styled from "styled-components";
 export const TodayListWrap = styled.section`
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(
-        135deg,
-        rgb(218, 254, 255) 19%,
-        rgb(196, 255, 255) 60%,
-        rgb(224, 242, 246) 89%
-    );
+    background-color: #f9fdfa;
     padding: 1rem 3rem;
 
     @media screen and (max-width: 768px) {

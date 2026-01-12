@@ -134,12 +134,14 @@ export const Main_container = styled.main`
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: bottom;
-        opacity: 0.1;
+        object-position: center;
+        opacity: 0.25;
+        display: none;
     }
 
     @media (max-width: 564px) {
         .main_bg {
+            display: block;
             opacity: 0.5;
         }
     }

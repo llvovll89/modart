@@ -14,7 +14,7 @@ export const Overlay = styled.div`
 
 export const ResetPassWordForm = styled.article`
     width: 100%;
-    max-width: 400px;
+    max-width: 364px;
     padding: 2.5rem 2rem;
     background: #fff;
     border-radius: 0.5rem;
@@ -57,6 +57,10 @@ export const ResetPassWordForm = styled.article`
             border-color: #09f;
             box-shadow: 0 0 0 2px #09f;
         }
+    }
+
+    @media (max-width: 464px) {
+        padding: 1.5rem;
     }
 `;
 

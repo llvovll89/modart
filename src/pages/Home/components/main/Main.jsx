@@ -60,7 +60,9 @@ const Main = () => {
         <Section>
             <Main_container>
                 <img
-                    src="/images/main/main.jpg"
+                    src={`${
+                        import.meta.env.VITE_PUBLIC_URL
+                    }/images/main/main.jpg`}
                     alt="main img"
                     className="main_bg"
                 />

@@ -3,7 +3,7 @@ import SignUp from "../../pages/auth/sign/SignUp";
 import Account from "../../pages/auth/users/Account";
 import AccountEdit from "../../pages/auth/users/AccountEdit";
 import Board from "../../pages/board/Board";
-import BoardDetail from "../../pages/board/BoardDetail";
+import BoardDetail from "../../pages/board/contents/detail/BoardDetail";
 import BoardEdit from "../../pages/board/BoardEdit";
 import BoardWritePost from "../../pages/board/BoardWritePost";
 import Home from "../../pages/Home/Home";
