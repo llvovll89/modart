@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import moment from "moment";
 import {Section} from "../../styles/RecycleStyles";
-import {QnaArticle} from "./index";
+import {QnaArticle} from "./styles/index";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from "react-router-dom";
 import {

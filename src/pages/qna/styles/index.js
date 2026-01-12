@@ -1,65 +1,94 @@
 import styled from "styled-components";
 
-export const QnaContainer = styled.div`
-    margin: auto;
+export const QnaWrap = styled.section`
     width: 100%;
-    height: 16rem;
-    background: #dda0aa;
-    overflow: hidden;
+    min-height: calc(100vh - 52px);
+    background-color: #f9fdfa;
+    padding: 52px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
 
-    .contents {
-        margin: auto;
-        color: #181818;
+    @media screen and (max-width: 768px) {
+        gap: 1rem;
+    }
+`;
+
+export const QnaInfoContainer = styled.div`
+    width: 100%;
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        rgb(231, 154, 241) 15%,
+        rgb(251, 214, 251) 36%,
+        rgb(210, 208, 234) 82%
+    );
+    user-select: none;
+
+    .info {
         display: flex;
-        max-width: 768px;
-        height: 100%;
-        padding: 0 16px;
+        flex-direction: column;
+        gap: 1rem;
 
-        .text {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 6px;
-
-            p {
-                color: #fefefe;
-                word-break: break-all;
-                line-height: 1.25;
-                font-size: clamp(16px, 2vw, 26px);
+        title {
+            h1 {
+                text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
+                font-weight: 700;
+                font-size: clamp(1.25rem, 3vw, 2rem);
             }
 
             span {
-                line-height: 1.25;
-                color: #fefefe;
-                font-weight: 600;
-                font-size: clamp(16px, 2vw, 20px);
-            }
-
-            .link-btn {
-                margin-top: 20px;
-                background: #181818;
-                border-radius: 4px;
-                color: #fefefe;
-                padding: 12px 20px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+                font-size: clamp(0.75rem, 1.5vw, 1rem);
             }
         }
 
-        .image {
-            width: 100%;
-            padding: 20px;
+        .desc {
+            font-weight: 500;
+            text-shadow: rgba(0, 0, 0, 0.15) 2px 5px 4px;
+            display: flex;
+            flex-direction: column;
+            font-size: clamp(0.75rem, 1.5vw, 1.5rem);
+        }
 
-            svg {
-                width: 100%;
-                height: 100%;
-                color: #fefefe;
+        .contents {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            transition: 0.15s all linear;
+            gap: 2px;
+
+            no-photos,
+            .no-boards {
+                padding-left: 20px;
+            }
+        }
+
+        .visible {
+            text-align: center;
+
+            button {
+                span {
+                    display: inline-flex;
+                    width: 26px;
+                    height: 26px;
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                        color: #333;
+                        &:hover {
+                            color: #09f;
+                        }
+                    }
+                }
             }
         }
     }
 
     @media screen and (max-width: 768px) {
-        height: 13rem;
+        padding: 1.5rem;
     }
 `;
 
@@ -420,114 +449,52 @@ export const QnaArticle = styled.article`
 `;
 
 export const QnaContents = styled.div`
-    max-width: 1024px;
-    margin: 12px auto 0px auto;
-    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem 1rem 1rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
 
-    .qna_list {
-        padding: 1px 3px 0 1px;
-        /* font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', arial,
-      sans-serif; */
+    .form_top {
         width: 100%;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        .qna_card {
+        ul {
             display: flex;
-            min-height: 40px;
-            align-items: center;
-            background: #ffffff;
-            width: 100%;
-            margin-bottom: 3.5px;
-            word-break: break-all;
-            padding: 12px 12px 20px 12px;
-            flex-direction: column;
-            align-items: flex-start;
-            min-height: 26px;
-            gap: 6px;
-            border-bottom: 1px solid #eee;
+            gap: 1rem;
+            font-size: clamp(12px, 1.2vw, 14px);
+            color: #666;
 
-            p {
-                padding-left: 6px;
-                display: block;
-                font-size: clamp(12px, 1vw, 13px);
-            }
-
-            .number {
-                text-align: center;
-            }
-            .title {
-                font-weight: 700;
-                margin: 6px 0;
-                text-overflow: ellipsis;
-                color: #0c2d43;
+            li {
                 cursor: pointer;
-                color: #333;
-                font-size: clamp(13.5px, 1.5vw, 16px);
-
+                user-select: none;
                 &:hover {
-                    color: #770088;
-                    text-decoration: underline 0.5px;
-                }
-            }
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            .sub_contents {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-
-                .views,
-                .like {
-                    cursor: pointer;
-                    min-width: 40px;
-
-                    svg {
-                        color: #0c2d43;
-                    }
-                }
-            }
-
-            .qna_img {
-                img {
-                    width: 60px;
-                    height: 50px;
-                    vertical-align: top;
+                    color: #09f;
                 }
             }
         }
     }
 
-    @media screen and (max-width: 768px) {
-        .qna_list {
-            margin: 20px 0;
-            .qna_card {
-                .number {
-                    text-align: center;
-                }
-                .title {
-                    &:hover {
-                        color: #770088;
-                        text-decoration: underline 0.5px;
-                    }
-                }
+    .write_btn {
+        padding: 8px 16px;
+        font-size: clamp(12px, 1.2vw, 14px);
+        background-color: #09f;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.15s linear;
+        display: flex;
+        align-items: center;
+        gap: 6px;
 
-                .sub_contents {
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    justify-content: center;
-                }
-
-                .qna_img {
-                    img {
-                        width: 60px;
-                        height: 50px;
-                        vertical-align: top;
-                    }
-                }
-            }
+        &:hover {
+            background-color: #0077cc;
         }
     }
 `;

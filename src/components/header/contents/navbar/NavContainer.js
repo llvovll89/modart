@@ -144,11 +144,11 @@ export const NavContainer = styled.nav`
         top: 0;
         margin-top: 52px;
         right: -50%;
-        height: 100vh;
+        height: 100dvh;
         z-index: 1500;
         background: #fefefe;
         width: 50%;
-        transition: all 0.3s linear;
+        transition: all 0.1s linear;
 
         &.mobile {
             right: 0;

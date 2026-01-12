@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-const PhotoListContainer = styled.article`
-    display: flex;
+export const TodayListContainer = styled.ul`
+display: flex;
     flex-direction: column;
     gap: 0.25rem;
 
@@ -15,13 +15,29 @@ const PhotoListContainer = styled.article`
         &:hover {
             background-color: #f0f8ff;
         }
+
+        .today_type {
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                font-size: clamp(10px, 1.5vw, 13px);
+            }
+        }
+
         .img_box {
-            img {
+            img, .no_image {
                 width: 85px;
                 height: 85px;
                 object-fit: cover;
                 vertical-align: top;
                 cursor: pointer;
+                background-color: #f0f0f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -31,7 +47,7 @@ const PhotoListContainer = styled.article`
             flex-flow: column wrap;
             justify-content: space-between;
 
-            .photo_title {
+            .today_title {
                 color: #333;
                 font-size: clamp(13px, 2vw, 16px);
                 cursor: pointer;
@@ -69,5 +85,3 @@ const PhotoListContainer = styled.article`
             }
         }
 `;
-
-export {PhotoListContainer};

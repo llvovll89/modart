@@ -33,16 +33,14 @@ export const PhotoList = ({sortType, sortOrder}) => {
     const {currentData, currentPage, totalPages, goToPage, getPageNumbers} =
         usePageNation(filteredPhotos, 8);
 
-    console.log(sortOrder, sortType);
-
     return (
         <>
             <PhotoListContainer>
                 {currentData.length > 0 &&
                     currentData.map((photo) => (
-                        <li className="photo_card" key={photo.id}>
+                        <li className="card" key={photo.id}>
                             <div
-                                className="photo_img"
+                                className="img_box"
                                 onClick={() => detailClick(photo)}
                             >
                                 {photo.photo ? (
