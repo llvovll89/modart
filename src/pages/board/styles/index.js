@@ -104,7 +104,6 @@ const BoardContents = styled.div`
     .form_top {
         width: 100%;
         height: 2.5rem;
-        padding: 0 1.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -140,12 +139,6 @@ const BoardContents = styled.div`
 
         &:hover {
             background-color: #0077cc;
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        .form_top {
-            padding: 0;
         }
     }
 `;

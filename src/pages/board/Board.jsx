@@ -5,14 +5,15 @@ import {BoardContents, BoardInfoContainer, BoardWrap} from "./styles/index";
 import {AiFillSkin, AiOutlineLike} from "react-icons/ai";
 import {getBoards, incrementViews} from "../../store/reducers/boardSlice";
 import {BoardList} from "./contents/list/BoardList";
+import {useFilterState} from "../../hooks/useFilterState";
+import {useScrollToTop} from "../../hooks/useScrllToTop";
 
 const Board = () => {
-    const [sortType, setSortType] = useState("recent");
-    const [sortOrder, setSortOrder] = useState("desc");
-
     const user = useSelector((state) => state.login.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const {sortType, sortOrder, handleSortClick} = useFilterState();
 
     const handleWriteClick = () => {
         if (user) {
@@ -23,26 +24,7 @@ const Board = () => {
         }
     };
 
-    const handleSortClick = (type) => {
-        if (sortType === type) {
-            setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"));
-        } else {
-            setSortType(type);
-            setSortOrder("desc");
-        }
-    };
-
-    useEffect(() => {
-        const handleScrollToTop = () => {
-            window.scrollTo(0, 0);
-        };
-
-        handleScrollToTop();
-
-        return () => {
-            removeEventListener("scroll", handleScrollToTop);
-        };
-    }, []);
+    useScrollToTop();
 
     useEffect(() => {
         dispatch(getBoards());

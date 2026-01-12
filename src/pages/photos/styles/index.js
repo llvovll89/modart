@@ -1,131 +1,144 @@
 import styled from "styled-components";
 
-const PhotoContainer = styled.div`
-    margin: auto;
+export const PhotoWrap = styled.section`
     width: 100%;
-    height: 16rem;
-    background: #3cdd7d;
-    overflow: hidden;
+    min-height: calc(100vh - 52px);
+    background-color: #f9fdfa;
+    padding: 52px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
 
-    .contents {
-        margin: auto;
-        color: #181818;
+    @media screen and (max-width: 768px) {
+        gap: 1rem;
+    }
+`;
+
+const PhotoInfoContainer = styled.div`
+    width: 100%;
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        rgb(207, 228, 192) 15%,
+        rgb(242, 251, 235) 36%,
+        rgb(198, 208, 234) 82%
+    );
+    user-select: none;
+
+    .info {
         display: flex;
-        max-width: 768px;
-        height: 100%;
-        padding: 0 16px;
+        flex-direction: column;
+        gap: 1rem;
 
-        .text {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 6px;
-
-            p {
-                color: #fefefe;
-                font-size: clamp(16px, 2.5vw, 26px);
+        title {
+            h1 {
+                text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
+                font-weight: 700;
+                font-size: clamp(1.25rem, 3vw, 2rem);
             }
 
             span {
-                color: #fefefe;
-                font-weight: 600;
-                font-size: clamp(15px, 2vw, 20px);
-            }
-
-            .link-btn {
-                margin-top: 20px;
-                background: #181818;
-                border-radius: 4px;
-                color: #fefefe;
-                padding: 12px 20px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+                font-size: clamp(0.75rem, 1.5vw, 1rem);
             }
         }
 
-        .image {
-            padding: 16px;
-            width: 100%;
-            height: 100%;
+        .desc {
+            font-weight: 500;
+            text-shadow: rgba(0, 0, 0, 0.15) 2px 5px 4px;
+            display: flex;
+            flex-direction: column;
+            font-size: clamp(0.75rem, 1.5vw, 1.5rem);
+        }
+
+        .contents {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            transition: 0.15s all linear;
+            gap: 2px;
+
+            no-photos,
+            .no-boards {
+                padding-left: 20px;
+            }
+        }
+
+        .visible {
+            text-align: center;
+
+            button {
+                span {
+                    display: inline-flex;
+                    width: 26px;
+                    height: 26px;
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                        color: #333;
+                        &:hover {
+                            color: #09f;
+                        }
+                    }
+                }
+            }
         }
     }
 
     @media screen and (max-width: 768px) {
-        height: 13rem;
+        padding: 1.5rem;
     }
 `;
 
 const PhotoContents = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem 1rem 1rem;
     max-width: 1280px;
-    background: #ffffff;
     margin: 0 auto;
+    width: 100%;
 
-    .photo_list {
-        max-width: 1280px;
-        margin: 12px auto 6px auto;
-        padding: 6px 3px;
-        font-family: "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", arial,
-            sans-serif;
+    .form_top {
+        width: 100%;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        .photo_card {
+        ul {
             display: flex;
-            min-height: 57px;
-            max-height: 70px;
-            margin-bottom: 6px;
-            border-bottom: 1px solid #fff;
-            gap: 12px;
+            gap: 1rem;
+            font-size: clamp(12px, 1.2vw, 14px);
+            color: #666;
 
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            .photo_img {
+            li {
                 cursor: pointer;
-                img {
-                    width: 70px;
-                    height: 100%;
-                    vertical-align: top;
-                }
-            }
-
-            .items {
-                padding: 3px 0px;
-                .photo_title {
-                    color: #333;
-                    font-size: clamp(14.5px, 2vw, 16px);
-                    cursor: pointer;
-                    transition: all 0.15s linear;
-
-                    &:hover,
-                    &:focus {
-                        color: #08f;
-                        text-decoration: underline 0.5px;
-                    }
-                }
-
-                .item_contents {
-                    .item_category {
-                        display: inline-block;
-                        color: #686868;
-                        font-size: clamp(11px, 1vw, 12px);
-                        line-height: 1.5;
-                        margin-bottom: 2px;
-                    }
-
-                    .sub_items {
-                        display: flex;
-                        gap: 6px;
-
-                        font-size: clamp(11px, 1.2vw, 13px);
-                    }
+                user-select: none;
+                &:hover {
+                    color: #09f;
                 }
             }
         }
     }
 
-    @media screen and (max-width: 1280px) {
-        .photo_card {
-            padding: 0 6px;
+    .write_btn {
+        padding: 8px 16px;
+        font-size: clamp(12px, 1.2vw, 14px);
+        background-color: #09f;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.15s linear;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        &:hover {
+            background-color: #0077cc;
         }
     }
 `;
@@ -522,4 +535,4 @@ const PhotoDetailPage = styled.div`
     }
 `;
 
-export {PhotoContainer, PhotoContents, PhotoDetailPage};
+export {PhotoInfoContainer, PhotoContents, PhotoDetailPage};
