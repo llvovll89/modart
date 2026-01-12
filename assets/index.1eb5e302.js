@@ -540,7 +540,7 @@ Error generating stack: `+s.message+`
 `;const Nn=ye.section`
     width: 100%;
     padding-top: 52px;
-    min-height: 100vh;
+    min-height: 100dvh;
     background: #ffffff;
 
     &.today_detail_section,
@@ -5402,13 +5402,13 @@ Content-Type: `+c.contentType+`\r
     }
 
     @media screen and (max-width: 768px) {
-        padding: 2rem;
+        padding: 1.5rem;
     }
 `,RG=ye.div`
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 0 1rem;
+    padding: 0 1rem 1rem 1rem;
     max-width: 1280px;
     margin: 0 auto;
     width: 100%;
@@ -6211,7 +6211,7 @@ var r=n.defineLocale("ko",{months:"1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6
         }
     }
 `,tee=()=>{const t=nt(a=>a.photo.photos),e=Yt(),{handleCollapse:n,handleLoadMore:r,collapsed:i,visibleCount:s,filteredList:o}=J8({elementId:"photo_list",list:t});return B.exports.useEffect(()=>{e(Uo())},[e]),m(ZZ,{id:"photo_list",children:T(eee,{children:[T("div",{className:"title",children:[m("h1",{children:"\uD3EC\uD1A0\uD1A1"}),m("span",{children:"(Photo Talk)"})]}),T("div",{className:"desc",children:[m("p",{children:"\u{1F525} \uC0AC\uC9C4\uC73C\uB85C \uC18C\uD1B5\uD558\uB294 \uACF5\uAC04\uC785\uB2C8\uB2E4"}),m("p",{children:"\u{1F4F8} \uB098\uB9CC\uC758 \uAC10\uAC01\uC801\uC778 \uC0AC\uC9C4\uC744 \uACF5\uC720\uD574\uBCF4\uC138\uC694."}),m("p",{children:"\u{1F31F} \uB2E4\uC591\uD55C \uC8FC\uC81C\uC758 \uC0AC\uC9C4\uC744 \uAC10\uC0C1\uD558\uACE0, \uB313\uAE00\uB85C \uC18C\uD1B5\uD574\uBCF4\uC138\uC694."})]}),m("div",{className:"contents",children:o.length>0&&m(hn,{children:o.slice(0,s).map(a=>T(iw,{className:"photo_card",children:[m(br,{to:`photo/details/${a.id}`}),m("div",{className:"top",children:m("img",{src:a.photo,alt:"photo",loading:"lazy"})}),T("div",{className:"bottom",children:[T("div",{className:"board_info_top",children:[m("p",{className:"photo_nickname",children:a.nickname}),m("p",{className:"photo_category",children:`${a.category}`})]}),T("div",{className:"board_info_bottom",children:[m("p",{className:"photo_title",children:a.title}),m("p",{className:"photo_desc",children:a.desc})]})]})]},a.id))})}),o.length>4&&m("div",{className:"visible",children:i?m("button",{onClick:n,children:m("span",{className:"closed",children:m(z5,{})})}):m("button",{onClick:r,children:m("span",{children:m(V5,{})})})})]})})},nS=[{title:"\uBAA8\uB4DC\uC544\uD2B8\uB294 \uD558\uB8E8\uC758 \uC2A4\uD2B8\uB808\uC2A4\uB97C \uD574\uC18C\uD558\uB294 \uACF5\uAC04\uC744 \uC81C\uACF5\uD569\uB2C8\uB2E4.",subText:"\uB2E4\uC591\uD55C \uC0AC\uB78C\uB4E4\uACFC\uC758 \uC18C\uD1B5\uC744 \uD1B5\uD574 \uD558\uB8E8\uB97C \uB9C8\uBB34\uB9AC \uD574\uBCF4\uC138\uC694."},{title:"Modart provides a space to relieve the stress of the day.",subText:"End your day by communicating with various people."},{title:"\uBAA8\uB4DC\uC544\uD2B8\uC640 \uD568\uAED8 \uB2F9\uC2E0\uC758 \uC77C\uC0C1\uC744 \uAE30\uB85D\uD574\uBCF4\uC138\uC694.",subText:"\uC0AC\uC9C4\uACFC \uAE00\uB85C \uB2F9\uC2E0\uC758 \uD2B9\uBCC4\uD55C \uC21C\uAC04\uC744 \uACF5\uC720\uD558\uC138\uC694."},{title:"Record your daily life with Modart.",subText:"Share your special moments with photos and writings."},{title:"\uBAA8\uB4DC\uC544\uD2B8\uC5D0\uC11C \uC0C8\uB85C\uC6B4 \uCE5C\uAD6C\uB4E4\uC744 \uB9CC\uB098\uBCF4\uC138\uC694.",subText:"\uACF5\uD1B5 \uAD00\uC2EC\uC0AC\uB97C \uAC00\uC9C4 \uC0AC\uB78C\uB4E4\uACFC \uC27D\uAC8C \uC5F0\uACB0\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4."},{title:"Meet new friends on Modart.",subText:"Easily connect with people who share common interests."}],nee=ye.main`
-    height: calc(100vh - 52px);
+    height: calc(100dvh - 52px);
     position: relative;
     background-blend-mode: screen;
     margin: 0 auto;
@@ -6227,6 +6227,10 @@ var r=n.defineLocale("ko",{months:"1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6
 
     .mobile_subItems {
         display: none;
+
+        strong {
+            color: #09f;
+        }
     }
 
     .contents {
@@ -6277,7 +6281,7 @@ var r=n.defineLocale("ko",{months:"1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6
             backdrop-filter: blur(5px);
 
             .items {
-                padding-bottom: 4rem;
+                padding-bottom: 5rem;
 
                 .overview {
                     h1 {
@@ -6342,8 +6346,8 @@ var r=n.defineLocale("ko",{months:"1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center;
+        // object-fit: cover;
+        // object-position: center;
         opacity: 0.25;
         display: none;
     }
@@ -6353,8 +6357,16 @@ var r=n.defineLocale("ko",{months:"1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6
             display: block;
             opacity: 0.5;
         }
+
+        .continue {
+            color: #fff;
+
+            .page_down_icon {
+                filter: invert(1);
+            }
+        }
     }
-`,ree=()=>{const[t,e]=B.exports.useState(0),n=B.exports.useMemo(()=>nS[t],[t]),r=B.exports.useRef(null);return B.exports.useEffect(()=>{const s=window.setInterval(()=>{e(o=>(o+1)%nS.length)},2e3);return()=>window.clearInterval(s)},[]),B.exports.useEffect(()=>{var a,l;const s=r.current;!s||((l=(a=window.matchMedia)==null?void 0:a.call(window,"(prefers-reduced-motion: reduce)"))==null?void 0:l.matches)||s.animate([{opacity:0,transform:"translateY(10px)"},{opacity:1,transform:"translateY(0px)"}],{duration:450,easing:"ease-out",fill:"both"})},[t]),m(Nn,{children:T(nee,{children:[m("img",{src:"/modart//images/main/main.jpg",alt:"main img",className:"main_bg"}),m("div",{className:"contents",children:m("div",{className:"items",children:m("div",{className:"overview",children:T("div",{ref:r,children:[m("h1",{children:(s=>s.startsWith("\uBAA8\uB4DC\uC544\uD2B8")?T(hn,{children:[m("span",{className:"indent",children:"\uBAA8\uB4DC\uC544\uD2B8"}),s.slice(4)]}):s.startsWith("Modart")?T(hn,{children:[m("span",{className:"indent",children:"Modart"}),s.slice(6)]}):s)(n.title)}),m("p",{className:"sub_text",children:n.subText})]})})})}),T("div",{className:"mobile_subItems",children:[T("span",{children:["\uC77C\uC0C1\uC5D0 \uC608\uC220\uC744 \uB354\uD558\uB2E4, ",m("strong",{children:"\uBAA8\uB4DC\uC544\uD2B8"})]}),m("span",{children:"Modart, adding art to your daily life"})]}),T("a",{className:"continue",href:"#daily_look_list",children:[m("svg",{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 30 94",className:"page_down_icon",children:m("path",{stroke:"#000",d:"m4 79 11 11 11-11M15 90V4"})}),T("div",{className:"desc",children:["Click or Scroll ",m("span",{children:"to continue"})]})]})]})})},iee=()=>T(hn,{children:[m(ree,{}),m(GZ,{}),m(tee,{}),m(lJ,{}),m(eJ,{})]}),see=ye.div`
+`,ree=()=>{const[t,e]=B.exports.useState(0),n=B.exports.useMemo(()=>nS[t],[t]),r=B.exports.useRef(null);return B.exports.useEffect(()=>{const s=window.setInterval(()=>{e(o=>(o+1)%nS.length)},2e3);return()=>window.clearInterval(s)},[]),B.exports.useEffect(()=>{var a,l;const s=r.current;!s||((l=(a=window.matchMedia)==null?void 0:a.call(window,"(prefers-reduced-motion: reduce)"))==null?void 0:l.matches)||s.animate([{opacity:0,transform:"translateY(10px)"},{opacity:1,transform:"translateY(0px)"}],{duration:450,easing:"ease-out",fill:"both"})},[t]),m(Nn,{children:T(nee,{children:[m("div",{className:"contents",children:m("div",{className:"items",children:m("div",{className:"overview",children:T("div",{ref:r,children:[m("h1",{children:(s=>s.startsWith("\uBAA8\uB4DC\uC544\uD2B8")?T(hn,{children:[m("span",{className:"indent",children:"\uBAA8\uB4DC\uC544\uD2B8"}),s.slice(4)]}):s.startsWith("Modart")?T(hn,{children:[m("span",{className:"indent",children:"Modart"}),s.slice(6)]}):s)(n.title)}),m("p",{className:"sub_text",children:n.subText})]})})})}),T("div",{className:"mobile_subItems",children:[T("span",{children:["\uC77C\uC0C1\uC5D0 \uC608\uC220\uC744 \uB354\uD558\uB2E4, ",m("strong",{children:"\uBAA8\uB4DC\uC544\uD2B8"})]}),m("span",{children:"Modart, adding art to your daily life"})]}),T("a",{className:"continue",href:"#daily_look_list",children:[m("svg",{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 30 94",className:"page_down_icon",children:m("path",{stroke:"#000",d:"m4 79 11 11 11-11M15 90V4"})}),T("div",{className:"desc",children:["Click or Scroll ",m("span",{children:"to continue"})]})]})]})})},iee=()=>T(hn,{children:[m(ree,{}),m(GZ,{}),m(tee,{}),m(lJ,{}),m(eJ,{})]}),see=ye.div`
     margin: auto;
     width: 100%;
     height: 16rem;
