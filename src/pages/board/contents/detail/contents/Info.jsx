@@ -72,7 +72,11 @@ export const Info = ({board, commentClick}) => {
                     </div>
                     <span>/</span>
                     <div className="comments">
-                        댓글 <strong>{board.comments.length}</strong>개
+                        댓글{" "}
+                        <strong>
+                            {board.comments ? board.comments.length : 0}
+                        </strong>
+                        개
                     </div>
                 </div>
 

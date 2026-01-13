@@ -1,9 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import {IoIosArrowBack} from "react-icons/io";
+import styled from "styled-components";
 
 const BackHistoryContainer = styled.button`
-    position: fixed;
-    top: 1rem;
+    position: absolute;
+    bottom: 1rem;
     left: 1rem;
     z-index: 1000;
     width: 2rem;

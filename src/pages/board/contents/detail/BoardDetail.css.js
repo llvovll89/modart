@@ -8,6 +8,7 @@ export const BoardDetailWrap = styled.section`
     flex-direction: column;
     min-height: calc(100dvh - 52px);
     padding-top: 52px;
+    position: relative;
 `;
 
 export const BoardDetailContainer = styled.div`
