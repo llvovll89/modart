@@ -7,6 +7,8 @@ import {getBoards, incrementViews} from "../../store/reducers/boardSlice";
 import {BoardList} from "./contents/list/BoardList";
 import {useFilterState} from "../../hooks/useFilterState";
 import {useScrollToTop} from "../../hooks/useScrllToTop";
+import {useModalState} from "../../hooks/useModalState";
+import {Modal} from "../../components/common/Modal";
 
 const Board = () => {
     const user = useSelector((state) => state.login.user);
@@ -14,12 +16,13 @@ const Board = () => {
     const dispatch = useDispatch();
 
     const {sortType, sortOrder, handleSortClick} = useFilterState();
+    const {isOpen, handleOpen, handleClose, toggleModal} = useModalState();
 
     const handleWriteClick = () => {
         if (user) {
             return navigate("/board/write");
         } else {
-            window.alert("로그인한 유저만 작성이 가능합니다.");
+            handleOpen();
             return null;
         }
     };
@@ -76,6 +79,17 @@ const Board = () => {
 
                 <BoardList sortType={sortType} sortOrder={sortOrder} />
             </BoardContents>
+
+            {isOpen && (
+                <Modal
+                    type="경고"
+                    title="로그인 필요"
+                    description="데일리룩 작성은 로그인 후에 가능합니다."
+                    isCancel={true}
+                    isConfirm={true}
+                    handleClose={handleClose}
+                />
+            )}
         </BoardWrap>
     );
 };

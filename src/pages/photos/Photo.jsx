@@ -6,17 +6,20 @@ import {useFilterState} from "../../hooks/useFilterState";
 import {AiFillCamera} from "react-icons/ai";
 import {useScrollToTop} from "../../hooks/useScrllToTop";
 import {PhotoList} from "./contents/list/PhotoList";
+import {useModalState} from "../../hooks/useModalState";
+import {Modal} from "../../components/common/Modal";
 
 const Photo = () => {
     const user = useSelector((state) => state.login.user);
     const dispatch = useDispatch();
     const {sortType, sortOrder, handleSortClick} = useFilterState();
+    const {isOpen, handleOpen, handleClose} = useModalState();
 
     const handleWriteClick = () => {
         if (user) {
             return navigate("/photo/write");
         } else {
-            window.alert("로그인한 유저만 작성이 가능합니다.");
+            handleOpen();
             return null;
         }
     };
@@ -64,6 +67,17 @@ const Photo = () => {
 
                 <PhotoList sortType={sortType} sortOrder={sortOrder} />
             </PhotoContents>
+
+            {isOpen && (
+                <Modal
+                    type="경고"
+                    title="로그인 필요"
+                    description="포토 작성은 로그인 후에 가능합니다."
+                    isCancel={true}
+                    isConfirm={true}
+                    handleClose={handleClose}
+                />
+            )}
         </PhotoWrap>
     );
 };

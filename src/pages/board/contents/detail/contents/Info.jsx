@@ -7,13 +7,13 @@ import {
     recommendViews,
 } from "../../../../../store/reducers/boardSlice";
 
-export const Info = ({board, commentClick}) => {
+export const Info = ({board, commentClick, handleOpen}) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.login.user);
 
     const likeBtnClick = (boardId) => {
         if (!user) {
-            window.alert("로그인 후 이용해 주시기 바랍니다.");
+            handleOpen();
             return;
         }
 

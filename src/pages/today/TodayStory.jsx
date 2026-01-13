@@ -10,18 +10,21 @@ import {getTodays} from "../../store/reducers/todaySlice";
 import {TodayStoryList} from "./contents/list/TodayStoryList";
 import {useFilterState} from "../../hooks/useFilterState";
 import {AiFillDashboard} from "react-icons/ai";
+import {useModalState} from "../../hooks/useModalState";
+import {Modal} from "../../components/common/Modal";
 
 const TodayStory = () => {
     const user = useSelector((state) => state.login.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {sortType, sortOrder, handleSortClick} = useFilterState();
+    const {isOpen, handleOpen, handleClose, toggleModal} = useModalState();
 
     const handleWriteClick = () => {
         if (user) {
             return navigate("/today/write");
         } else {
-            window.alert("로그인한 유저만 작성이 가능합니다.");
+            handleOpen();
             return null;
         }
     };
@@ -77,6 +80,17 @@ const TodayStory = () => {
 
                 <TodayStoryList sortType={sortType} sortOrder={sortOrder} />
             </TodayContents>
+
+            {isOpen && (
+                <Modal
+                    type="경고"
+                    title="로그인 필요"
+                    description="스토리 작성은 로그인 후에 가능합니다."
+                    isCancel={true}
+                    isConfirm={true}
+                    handleClose={handleClose}
+                />
+            )}
         </TodayStoryWrap>
     );
 };

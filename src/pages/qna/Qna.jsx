@@ -6,10 +6,13 @@ import {getQna} from "../../store/reducers/qnaSlice";
 import {useFilterState} from "../../hooks/useFilterState";
 import {AiFillQuestionCircle} from "react-icons/ai";
 import {QnaList} from "./contents/list/QnaList";
+import {useModalState} from "../../hooks/useModalState";
+import {Modal} from "../../components/common/Modal";
 
 const Qna = () => {
     const user = useSelector((state) => state.login.user);
     const {sortType, sortOrder, handleSortClick} = useFilterState();
+    const {isOpen, handleOpen, handleClose, toggleModal} = useModalState();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,7 +21,7 @@ const Qna = () => {
         if (user) {
             return navigate("/qna/write");
         } else {
-            window.alert("로그인한 유저만 작성이 가능합니다.");
+            handleOpen();
             return null;
         }
     };
@@ -78,6 +81,17 @@ const Qna = () => {
 
                 <QnaList sortType={sortType} sortOrder={sortOrder} />
             </QnaContents>
+
+            {isOpen && (
+                <Modal
+                    type="경고"
+                    title="로그인 필요"
+                    description="QnA 작성은 로그인 후에 가능합니다."
+                    isCancel={true}
+                    isConfirm={true}
+                    handleClose={handleClose}
+                />
+            )}
         </QnaWrap>
     );
 };
