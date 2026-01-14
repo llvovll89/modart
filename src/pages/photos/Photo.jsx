@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getPhotos} from "../../store/reducers/photoSlice";
 import {useFilterState} from "../../hooks/useFilterState";
 import {AiFillCamera} from "react-icons/ai";
-import {useScrollToTop} from "../../hooks/useScrllToTop";
+import {useScrollToTop} from "../../hooks/useScrollToTop";
 import {PhotoList} from "./contents/list/PhotoList";
 import {useModalState} from "../../hooks/useModalState";
 import {Modal} from "../../components/common/Modal";

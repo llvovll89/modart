@@ -6,7 +6,7 @@ import {AiFillSkin, AiOutlineLike} from "react-icons/ai";
 import {getBoards, incrementViews} from "../../store/reducers/boardSlice";
 import {BoardList} from "./contents/list/BoardList";
 import {useFilterState} from "../../hooks/useFilterState";
-import {useScrollToTop} from "../../hooks/useScrllToTop";
+import {useScrollToTop} from "../../hooks/useScrollToTop";
 import {useModalState} from "../../hooks/useModalState";
 import {Modal} from "../../components/common/Modal";
 

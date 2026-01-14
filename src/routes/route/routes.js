@@ -8,7 +8,7 @@ import BoardEdit from "../../pages/board/BoardEdit";
 import BoardWritePost from "../../pages/board/BoardWritePost";
 import Home from "../../pages/Home/Home";
 import Photo from "../../pages/photos/Photo";
-import PhotoDetail from "../../pages/photos/PhotoDetail";
+import PhotoDetail from "../../pages/photos/contents/detail/PhotoDetail";
 import PhotoEdit from "../../pages/photos/PhotoEdit";
 import PhotoWritePost from "../../pages/photos/PhotoWritePost";
 import Qna from "../../pages/qna/Qna";

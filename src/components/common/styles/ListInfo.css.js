@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const InfoContainer = styled.article`
+export const ListInfoContainer = styled.article`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -47,15 +47,31 @@ export const InfoContainer = styled.article`
             }
         }
 
-        .boardImg {
+        .imgBox {
             width: 100%;
             height: 600px;
             position: relative;
+            padding: 1rem;
+
+            &:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 95%;
+                height: 95%;
+                transform: translate(-50%, -50%);
+                background-color: #ffffff;
+                pointer-events: none;
+            }
 
             img {
+                position: relative;
                 width: 100%;
                 height: 100%;
-                object-fit: fill;
+                object-fit: cover;
+                aspect-ratio: 16/9;
+                z-index: 1;
             }
 
             .body_spec {

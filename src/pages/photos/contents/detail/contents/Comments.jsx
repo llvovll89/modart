@@ -1,13 +1,12 @@
+import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     CommentContainer,
     CommentList,
 } from "../../../../../components/common/styles/Comments.css";
-import moment from "moment";
-import {addComment, getBoards} from "../../../../../store/reducers/boardSlice";
-import {useState} from "react";
+import {addComment, getPhotos} from "../../../../../store/reducers/photoSlice";
 
-export const Comments = ({comments, board, handleOpen}) => {
+export const Comments = ({comments, currentPhoto, handleOpen}) => {
     const [commentText, setCommentText] = useState("");
     const dispatch = useDispatch();
 
@@ -29,7 +28,7 @@ export const Comments = ({comments, board, handleOpen}) => {
 
         dispatch(addComment({boardId, commentData})).then(() => {
             setCommentText("");
-            dispatch(getBoards());
+            dispatch(getPhotos());
         });
     };
 
@@ -46,7 +45,7 @@ export const Comments = ({comments, board, handleOpen}) => {
                     <button
                         className="submit_btn"
                         type="submit"
-                        onClick={() => addCommentHandler(board.id)}
+                        onClick={() => addCommentHandler(currentPhoto.id)}
                     >
                         댓글등록
                     </button>

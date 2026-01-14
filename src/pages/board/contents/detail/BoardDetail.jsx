@@ -5,7 +5,7 @@ import {getBoards} from "../../../../store/reducers/boardSlice";
 import {BoardDetailContainer, BoardDetailWrap} from "./BoardDetail.css";
 import {Info} from "./contents/Info";
 import {Comments} from "./contents/Comments";
-import {useScrollToTop} from "../../../../hooks/useScrllToTop";
+import {useScrollToTop} from "../../../../hooks/useScrollToTop";
 import {useModalState} from "../../../../hooks/useModalState";
 import {Modal} from "../../../../components/common/Modal";
 
@@ -45,7 +45,7 @@ const BoardDetail = () => {
                             handleOpen={handleOpen}
                         />
                         {comment && board.comments && (
-                            <Comments comments={board.comments} />
+                            <Comments comments={board.comments} board={board} />
                         )}
                     </div>
                 )}

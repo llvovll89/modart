@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {PhotoListContainer} from "./PhotoList.css";
 import PageNation from "../../../../components/common/PageNation";
@@ -38,11 +38,12 @@ export const PhotoList = ({sortType, sortOrder}) => {
             <PhotoListContainer>
                 {currentData.length > 0 &&
                     currentData.map((photo) => (
-                        <li className="card" key={photo.id}>
-                            <div
-                                className="img_box"
-                                onClick={() => detailClick(photo)}
-                            >
+                        <li
+                            onClick={() => detailClick(photo)}
+                            className="card"
+                            key={photo.id}
+                        >
+                            <div className="img_box">
                                 {photo.photo ? (
                                     <img src={photo.photo} alt={photo.title} />
                                 ) : (
@@ -53,10 +54,7 @@ export const PhotoList = ({sortType, sortOrder}) => {
                                 )}
                             </div>
                             <div className="items">
-                                <h3
-                                    className="photo_title"
-                                    onClick={() => detailClick(photo)}
-                                >
+                                <h3 className="photo_title">
                                     {photo.title.length > 30
                                         ? photo.title.substring(0, 30) +
                                           "..." +

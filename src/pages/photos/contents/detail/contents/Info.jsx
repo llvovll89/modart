@@ -1,24 +1,24 @@
+import {useDispatch, useSelector} from "react-redux";
+import {ListInfoContainer} from "../../../../../components/common/styles/ListInfo.css";
 import {IoIosPerson} from "react-icons/io";
 import {CiHeart, CiChat1} from "react-icons/ci";
-import {useDispatch, useSelector} from "react-redux";
 import {
-    getBoards,
+    getPhotos,
     recommendViews,
-} from "../../../../../store/reducers/boardSlice";
-import {ListInfoContainer} from "../../../../../components/common/styles/ListInfo.css";
+} from "../../../../../store/reducers/photoSlice";
 
-export const Info = ({board, commentClick, handleOpen}) => {
+export const Info = ({currentPhoto, handleOpen, commentClick}) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.login.user);
 
-    const likeBtnClick = (boardId) => {
+    const likeBtnClick = (photoId) => {
         if (!user) {
             handleOpen();
             return;
         }
 
-        dispatch(recommendViews({boardId})).then(() => {
-            getBoards();
+        dispatch(recommendViews({photoId})).then(() => {
+            getPhotos();
         });
     };
 
@@ -27,29 +27,22 @@ export const Info = ({board, commentClick, handleOpen}) => {
             <div className="top">
                 <div className="user">
                     <div className="user_img">
-                        {board.profileImg ? (
-                            <img src={board.profileImg} alt={board.nickname} />
+                        {currentPhoto.profileImg ? (
+                            <img
+                                src={currentPhoto.profileImg}
+                                alt={currentPhoto.nickname}
+                            />
                         ) : (
                             <div className="not_user_img">
                                 <IoIosPerson size={24} color="#fff" />
                             </div>
                         )}
                     </div>
-                    <p>{board.nickname}</p>
+                    <p>{currentPhoto.nickname}</p>
                 </div>
 
                 <div className="imgBox">
-                    <div className="body_spec">
-                        {board.height}cm / {board.weight}kg
-                    </div>
-
-                    <img src={board.photo} alt={board.nickname} />
-                </div>
-            </div>
-
-            <div className="brand_area">
-                <div className="brand">
-                    <p>{board.brand}</p>
+                    <img src={currentPhoto.photo} alt={currentPhoto.nickname} />
                 </div>
             </div>
 
@@ -57,7 +50,7 @@ export const Info = ({board, commentClick, handleOpen}) => {
                 <div className="btnbox">
                     <button
                         className="like"
-                        onClick={() => likeBtnClick(board.id)}
+                        onClick={() => likeBtnClick(currentPhoto.id)}
                     >
                         <CiHeart size={22} fill="#FFFFFF" />
                     </button>
@@ -68,20 +61,22 @@ export const Info = ({board, commentClick, handleOpen}) => {
 
                 <div className="like_comments">
                     <div className="like">
-                        좋아요 <strong> {board.views}</strong>개
+                        좋아요 <strong> {currentPhoto.views}</strong>개
                     </div>
                     <span>/</span>
                     <div className="comments">
                         댓글
                         <strong>
-                            {board.comments ? board.comments.length : 0}
+                            {currentPhoto.comments
+                                ? currentPhoto.comments.length
+                                : 0}
                         </strong>
                         개
                     </div>
                 </div>
 
-                <p className="desc">{board.desc}</p>
-                <p className="date">{board.createdAt}</p>
+                <p className="desc">{currentPhoto.desc}</p>
+                <p className="date">{currentPhoto.createdAt}</p>
             </div>
         </ListInfoContainer>
     );
