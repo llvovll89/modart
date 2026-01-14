@@ -28,6 +28,7 @@ export const PageNationContainer = styled.div`
     .total_btn {
         pointer-events: none;
         font-size: clamp(10px, 1.2vw, 14px);
+        background-color: #fff;
     }
 `;
 

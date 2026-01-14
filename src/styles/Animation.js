@@ -30,3 +30,12 @@ export const fadeIn = keyframes`
     opacity: 1;
     }
 `;
+
+export const fadeBlur = keyframes`
+    from {
+    filter: blur(3px);
+    }
+    to {
+    filter: blur(0px);
+    }
+`;

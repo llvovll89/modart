@@ -36,7 +36,6 @@ export const QnaListContainer = styled.div`
 
     .desc {
         font-weight: 500;
-        text-shadow: rgba(0, 0, 0, 0.15) 2px 5px 4px;
         display: flex;
         flex-direction: column;
         gap: 0.25rem;

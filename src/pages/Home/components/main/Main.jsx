@@ -2,7 +2,6 @@ import {useEffect, useMemo, useRef, useState} from "react";
 import {Section} from "../../../../styles/RecycleStyles";
 import {intervalTitle} from "./mock/title";
 import {Main_container} from "./Main.css";
-import {useCheckedDesktop} from "../../../../hooks/useCheckedDesktop";
 
 const Main = () => {
     const [idx, setIdx] = useState(0);
@@ -40,7 +39,7 @@ const Main = () => {
         if (title.startsWith("모드아트")) {
             return (
                 <>
-                    <span className="indent">모드아트</span>
+                    {/* <span className="indent">모드아트</span> */}
                     {title.slice("모드아트".length)}
                 </>
             );
@@ -59,30 +58,41 @@ const Main = () => {
     return (
         <Section>
             <Main_container>
-                {/* <img
-                    src={`${
-                        import.meta.env.VITE_PUBLIC_URL
-                    }/images/main/main.jpg`}
-                    alt="main img"
-                    className="main_bg"
-                /> */}
-
-                <div className="contents">
-                    <div className="items">
-                        <div className="overview">
-                            <div ref={textWrapRef}>
-                                <h1>{renderTitle(current.title)}</h1>
-                                <p className="sub_text">{current.subText}</p>
-                            </div>
-                        </div>
-                    </div>
+                <div className="blur">
+                    <video
+                        className="main_video"
+                        src={`${
+                            import.meta.env.VITE_PUBLIC_URL
+                        }images/main/video/main_bg_video.mp4`}
+                        autoPlay
+                        muted
+                        loop
+                    ></video>
                 </div>
 
-                <div className="mobile_subItems">
-                    <span>
-                        일상에 예술을 더하다, <strong>모드아트</strong>
-                    </span>
-                    <span>Modart, adding art to your daily life</span>
+                <img
+                    src={`${
+                        import.meta.env.VITE_PUBLIC_URL
+                    }images/main/modart_main_text.svg`}
+                    alt="main img"
+                    className="modart_text_img left"
+                />
+
+                <img
+                    src={`${
+                        import.meta.env.VITE_PUBLIC_URL
+                    }images/main/modart_main_text.svg`}
+                    alt="main img"
+                    className="modart_text_img right"
+                />
+
+                <div className="contents">
+                    <div className="overview">
+                        <div className="inner" ref={textWrapRef}>
+                            <h1>{renderTitle(current.title)}</h1>
+                            <p className="sub_text">{current.subText}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <a className="continue" href="#daily_look_list">
@@ -93,13 +103,16 @@ const Main = () => {
                         className="page_down_icon"
                     >
                         <path
-                            stroke="#000"
+                            stroke="#FFFFFF"
                             d="m4 79 11 11 11-11M15 90V4"
                         ></path>
                     </svg>
 
                     <div className="desc">
-                        Click or Scroll <span>to continue</span>
+                        <span>
+                            일상에 예술을 더하다, <strong>모드아트</strong>
+                        </span>
+                        <span>Modart, adding art to your daily life</span>
                     </div>
                 </a>
             </Main_container>

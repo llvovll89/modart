@@ -21,10 +21,8 @@ const HeaderContainer = styled.header`
 
         .logo {
             h1 {
-                color: rgb(29, 161, 255);
-                text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
                 font-size: clamp(24px, 3vw, 30px);
-                letter-spacing: 0.15rem;
+                letter-spacing: 0.05rem;
                 font-weight: 700;
                 cursor: pointer;
                 animation: ${fadeIn} 0.5s ease;

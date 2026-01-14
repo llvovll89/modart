@@ -116,6 +116,12 @@ const BoardList = () => {
                         </Splide>
                     )}
                 </div>
+
+                <div className="view_more">
+                    <Link to="/board">
+                        <span>데일리룩 보러가기 →</span>
+                    </Link>
+                </div>
             </BoardListContainer>
         </BoardListWrap>
     );

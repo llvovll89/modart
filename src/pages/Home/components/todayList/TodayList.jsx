@@ -104,6 +104,12 @@ const TodayList = () => {
                         )}
                     </div>
                 )}
+
+                <div className="view_more">
+                    <Link to="/today">
+                        <span>투데이스토리 보러가기 →</span>
+                    </Link>
+                </div>
             </TodayListContainer>
         </TodayListWrap>
     );

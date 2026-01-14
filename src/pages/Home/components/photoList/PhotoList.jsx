@@ -97,6 +97,12 @@ const PhotoList = () => {
                         )}
                     </div>
                 )}
+
+                <div className="view_more">
+                    <Link to="/photo">
+                        <span>포토톡 보러가기 →</span>
+                    </Link>
+                </div>
             </PhotoListContainer>
         </PhotoListWrap>
     );

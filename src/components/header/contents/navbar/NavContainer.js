@@ -7,15 +7,14 @@ export const NavContainer = styled.nav`
     a,
     span {
         font-size: clamp(0.75rem, 1vw, 0.85rem);
-        font-weight: bold;
         transition: all 0.2s ease-in-out;
+        font-weight: 600;
     }
 
     .users {
         display: flex;
         align-items: center;
         gap: 12px;
-        text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
 
         .item {
             min-width: 76px;
@@ -52,7 +51,6 @@ export const NavContainer = styled.nav`
 
             a,
             span {
-                font-weight: 600;
                 letter-spacing: 0.012rem;
                 color: #333;
                 display: block;
@@ -129,11 +127,9 @@ export const NavContainer = styled.nav`
                 display: block;
                 width: 100%;
                 height: 100%;
-                font-weight: bold;
                 letter-spacing: 0.012rem;
                 color: #333;
                 padding: 0 6px;
-                text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
             }
         }
     }
@@ -163,7 +159,6 @@ export const NavContainer = styled.nav`
                     background-color: rgba(40, 41, 44, 0.04);
 
                     a {
-                        font-weight: 600;
                         color: #000;
                         text-decoration: underline 0.5px;
                         text-underline-offset: 3px;
@@ -175,7 +170,6 @@ export const NavContainer = styled.nav`
                     display: block;
                     padding: 6px 16px;
                     letter-spacing: -0.15px;
-                    font-weight: 700;
                     text-align: left;
                     text-indent: 6px;
 

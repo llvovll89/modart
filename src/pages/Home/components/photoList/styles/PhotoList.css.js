@@ -34,7 +34,6 @@ export const PhotoListContainer = styled.div`
 
     .desc {
         font-weight: 500;
-        text-shadow: rgba(0, 0, 0, 0.15) 2px 5px 4px;
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
@@ -71,6 +70,28 @@ export const PhotoListContainer = styled.div`
                     }
                 }
             }
+        }
+    }
+
+    .view_more {
+        margin: 0 auto;
+        text-align: center;
+
+        a {
+            width: 100%;
+            border-radius: 6px;
+            display: inline-block;
+            padding: 12px;
+            background: #09f;
+            color: #fff;
+            font-weight: 600;
+            transition: all 0.2s linear;
+
+            &:hover {
+                background: #0077cc;
+            }
+
+            font-size: clamp(12px, 1.5vw, 14px);
         }
     }
 

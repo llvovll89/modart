@@ -1,12 +1,11 @@
-import {useEffect, useState} from "react";
 import styled from "styled-components";
-import {useModalState} from "../../hooks/useModalState";
 import {
     CiWarning,
     CiCircleInfo,
     CiCircleCheck,
     CiNoWaitingSign,
 } from "react-icons/ci";
+import {fadeIn} from "../../styles/animation";
 
 const ModalContainer = styled.article`
     position: fixed;
@@ -31,6 +30,7 @@ const ModalContainer = styled.article`
         flex-direction: column;
         justify-content: space-between;
         gap: 1rem;
+        animation: ${fadeIn} 0.3s ease-in-out;
 
         .top {
             width: 100%;
@@ -77,7 +77,6 @@ const ModalContainer = styled.article`
 
             p {
                 font-size: clamp(0.7rem, 2vw, 0.85rem);
-                text-shadow: rgba(0, 0, 0, 0.22) 1px 1px 1px;
             }
         }
 
@@ -168,7 +167,12 @@ export const Modal = ({
                         {type}
                     </h2>
                     <button onClick={handleClose} className="close_modal">
-                        <img src="/images/icons/dark/d_close.svg" />
+                        <img
+                            src={
+                                import.meta.env.VITE_PUBLIC_URL +
+                                "/images/icons/dark/d_close.svg"
+                            }
+                        />
                     </button>
                 </div>
 
