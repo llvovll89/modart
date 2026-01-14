@@ -2,6 +2,7 @@ import {useEffect, useMemo, useRef, useState} from "react";
 import {Section} from "../../../../styles/RecycleStyles";
 import {intervalTitle} from "./mock/title";
 import {Main_container} from "./Main.css";
+import {ModArtText} from "../../../../components/common/ModArtText";
 
 const Main = () => {
     const [idx, setIdx] = useState(0);
@@ -67,24 +68,13 @@ const Main = () => {
                         autoPlay
                         muted
                         loop
+                        playsInline
+                        preload="auto"
                     ></video>
                 </div>
 
-                <img
-                    src={`${
-                        import.meta.env.VITE_PUBLIC_URL
-                    }images/main/modart_main_text.svg`}
-                    alt="main img"
-                    className="modart_text_img left"
-                />
-
-                <img
-                    src={`${
-                        import.meta.env.VITE_PUBLIC_URL
-                    }images/main/modart_main_text.svg`}
-                    alt="main img"
-                    className="modart_text_img right"
-                />
+                <ModArtText className={"left"} />
+                <ModArtText className={"right"} />
 
                 <div className="contents">
                     <div className="overview">

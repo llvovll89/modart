@@ -166,40 +166,4 @@ export const Main_container = styled.main`
             }
         }
     }
-
-    .modart_text_img {
-        position: absolute;
-        width: clamp(25rem, 35vw, 40rem);
-        height: clamp(25rem, 35vw, 40rem);
-        z-index: 0;
-        pointer-events: none;
-        aspect-ratio: 1 / 1;
-
-        &.right {
-            right: -15%;
-            transform: rotateZ(300deg);
-        }
-
-        &.left {
-            left: -15%;
-            transform: rotateZ(120deg);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .modart_text_img {
-            width: 60vw;
-            height: 60vw;
-
-            &.left {
-                top: 30%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotateZ(0deg);
-            }
-
-            &.right {
-                display: none;
-            }
-        }
-    }
 `;
