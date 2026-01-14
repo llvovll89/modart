@@ -15,7 +15,7 @@ import Qna from "../../pages/qna/Qna";
 import QnaDetail from "../../pages/qna/QnaDetail";
 import QnaEdit from "../../pages/qna/QnaEdit";
 import QnaWritePost from "../../pages/qna/QnaWritePost";
-import TodayDetail from "../../pages/today/TodayDetail";
+import TodayStoryDetail from "../../pages/today/contents/detail/TodayStoryDetail";
 import TodayEdit from "../../pages/today/TodayEdit";
 import TodayStory from "../../pages/today/TodayStory";
 import TodayWritePost from "../../pages/today/TodayWritePost";
@@ -61,7 +61,7 @@ export const routes = [
     {path: QNA, element: Qna},
     {path: QNA_WRITE, element: QnaWritePost},
     {path: QNA_EDIT, element: QnaEdit},
-    {path: TODAY_DETAIL, element: TodayDetail},
+    {path: TODAY_DETAIL, element: TodayStoryDetail},
     {path: BOARD_DETAIL, element: BoardDetail},
     {path: PHOTO_DETAIL, element: PhotoDetail},
     {path: QNA_DETAIL, element: QnaDetail},
