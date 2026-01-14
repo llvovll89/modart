@@ -137,6 +137,7 @@ export const Main_container = styled.main`
         align-items: center;
         right: 4%;
         color: #ffffff;
+        z-index: 10;
 
         .page_down_icon {
             width: auto;
