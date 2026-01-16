@@ -1,4 +1,4 @@
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {InfoContainer} from "./Info.css";
 import {
     getTodays,
@@ -7,6 +7,7 @@ import {
 import {CiHeart, CiRead, CiChat1} from "react-icons/ci";
 
 export const Info = ({currentToday, handleOpen}) => {
+    const user = useSelector((state) => state.login.user);
     const dispatch = useDispatch();
 
     const handleRecommendClick = (todayId) => {
@@ -23,8 +24,6 @@ export const Info = ({currentToday, handleOpen}) => {
             return null;
         }
     };
-
-    console.log(currentToday);
 
     return (
         <InfoContainer>
@@ -45,25 +44,8 @@ export const Info = ({currentToday, handleOpen}) => {
                 </div>
                 <ul className="items">
                     <li>
-                        <CiChat1 size={22} />
-                        <span>
-                            {currentToday.comments &&
-                            currentToday.comments.length > 0
-                                ? currentToday.comments.length
-                                : 0}
-                        </span>
-                    </li>
-                    <li>
                         <CiRead size={22} />
                         <span>{currentToday.views}</span>
-                    </li>
-                    <li>
-                        <CiHeart size={22} />
-                        <span>
-                            {currentToday.recommend > 0
-                                ? currentToday.recommend
-                                : 0}
-                        </span>
                     </li>
                 </ul>
             </div>
