@@ -4,6 +4,7 @@ import {
     getTodays,
     recommendViews,
 } from "../../../../../../store/reducers/todaySlice";
+import {CiHeart, CiRead, CiChat1} from "react-icons/ci";
 
 export const Info = ({currentToday, handleOpen}) => {
     const dispatch = useDispatch();
@@ -32,27 +33,39 @@ export const Info = ({currentToday, handleOpen}) => {
                     <span className="today_type">{`(${currentToday.type})`}</span>
                     {currentToday.title}
                 </h2>
-                <p className="today_date">{currentToday.createdAt}</p>
             </header>
 
             <div className="user_info">
-                <p className="user_nickname">{currentToday.nickname}</p>
-                <div className="items">
-                    <span>
-                        댓글
-                        {currentToday.comments &&
-                        currentToday.comments.length > 0
-                            ? currentToday.comments.length
-                            : null}
-                    </span>
-                    <span>조회수 {currentToday.views}</span>
-                    <span>
-                        추천
-                        {currentToday.recommend > 0
-                            ? currentToday.recommend
-                            : 0}
-                    </span>
+                <div className="left">
+                    <div className="author">
+                        <div className="user_img"></div>
+                        <p className="user_nickname">{currentToday.nickname}</p>
+                    </div>
+                    <p className="today_date">{currentToday.createdAt}</p>
                 </div>
+                <ul className="items">
+                    <li>
+                        <CiChat1 size={22} />
+                        <span>
+                            {currentToday.comments &&
+                            currentToday.comments.length > 0
+                                ? currentToday.comments.length
+                                : 0}
+                        </span>
+                    </li>
+                    <li>
+                        <CiRead size={22} />
+                        <span>{currentToday.views}</span>
+                    </li>
+                    <li>
+                        <CiHeart size={22} />
+                        <span>
+                            {currentToday.recommend > 0
+                                ? currentToday.recommend
+                                : 0}
+                        </span>
+                    </li>
+                </ul>
             </div>
 
             <div className="today_desc">

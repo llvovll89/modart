@@ -12,6 +12,10 @@ export const TodayStoryDetailWrap = styled.section`
 export const TodayStoryDetailContainer = styled.article`
     max-width: 768px;
     width: 100%;
+    margin: 2rem 0;
+    border: 1px solid rgb(238, 238, 238);
+    padding: 1rem;
+    border-radius: 5px;
 
     .contents {
         background-color: #f5f5f5;
