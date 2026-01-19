@@ -23,6 +23,7 @@ const ModalContainer = styled.article`
     .modal {
         background-color: #fff;
         padding: 1rem;
+        min-height: 200px;
         border-radius: 8px;
         width: 325px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -74,9 +75,10 @@ const ModalContainer = styled.article`
             padding: 0.5rem 0.25rem;
             max-height: 150x;
             overflow-y: auto;
+            gap: 0.25rem;
 
             p {
-                font-size: clamp(0.7rem, 2vw, 0.85rem);
+                font-size: clamp(0.85rem, 2vw, 1rem);
             }
         }
 
