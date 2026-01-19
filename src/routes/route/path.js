@@ -1,5 +1,4 @@
 export const MAIN = "/";
-export const ACCOUNT = "/account";
 export const ACCOUNT_EDIT = "/account/:id";
 export const SIGN_UP = "/account/signup";
 export const LOGIN = "/account/login";

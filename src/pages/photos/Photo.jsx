@@ -8,10 +8,12 @@ import {useScrollToTop} from "../../hooks/useScrollToTop";
 import {PhotoList} from "./contents/list/PhotoList";
 import {useModalState} from "../../hooks/useModalState";
 import {Modal} from "../../components/common/Modal";
+import {useNavigate} from "react-router-dom";
 
 const Photo = () => {
     const user = useSelector((state) => state.login.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {sortType, sortOrder, handleSortClick} = useFilterState();
     const {isOpen, handleOpen, handleClose} = useModalState();
 

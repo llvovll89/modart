@@ -46,52 +46,64 @@ const AccountForm = ({text, link}) => {
         }
     };
 
+    const handleSignUp = async (authValue, isValidPhoto) => {
+        const {email, password, nickname} = authValue;
+
+        try {
+            await dispatch(
+                signUp({email, password, nickname, photo: isValidPhoto})
+            ).unwrap();
+
+            // 회원가입 직후: 이메일 인증 안내
+            setAlertText(
+                "회원가입 성공! 이메일 인증 메일을 발송했습니다.\n메일함(스팸함 포함)에서 인증 후 로그인해주세요."
+            );
+            setIsAlertVisible(true);
+
+            setTimeout(() => {
+                navigate("/account/login");
+            }, 1200);
+        } catch (error) {
+            setAlertText("회원가입에 실패하였습니다. 다시 시도해주세요.");
+            setIsAlertVisible(true);
+            console.log(error);
+
+            setTimeout(() => {
+                setIsAlertVisible(false);
+            }, 2000);
+        }
+    };
+
+    const handleLogin = async () => {
+        try {
+            const user = await dispatch(signIn(authValue)).unwrap();
+
+            if (user) {
+                setTimeout(() => {
+                    navigate("/");
+                }, 1200);
+            }
+        } catch (error) {
+            setAlertText(error);
+            setIsAlertVisible(true);
+            setTimeout(() => {
+                setIsAlertVisible(false);
+            }, 2000);
+        }
+    };
+
     const submitHandler = async (e) => {
         e.preventDefault();
         const {email, password, nickname, photo, isValidEmail} = authValue;
-        const photoVal = photo ? photo : "";
+        const isValidPhoto = photo ? photo : "";
         const isFormValid =
             email !== "" && password !== "" && nickname !== "" && isValidEmail;
 
         if (isFormValid) {
             if (text === "회원가입") {
-                try {
-                    await dispatch(
-                        signUp({email, password, nickname, photo: photoVal})
-                    ).unwrap();
-                    setAlertText("회원가입에 성공하였습니다.");
-                    setIsAlertVisible(true);
-                    navigate("/account/login");
-                } catch (error) {
-                    setAlertText(
-                        "회원가입에 실패하였습니다. 다시 시도해주세요."
-                    );
-                    setIsAlertVisible(true);
-                    console.log(error);
-
-                    setTimeout(() => {
-                        setIsAlertVisible(false);
-                    }, 2000);
-                }
+                await handleSignUp(authValue, isValidPhoto);
             } else if (text === "로그인") {
-                try {
-                    const user = await dispatch(signIn(authValue)).unwrap();
-                    if (!user) {
-                        setAlertText("회원가입을 하지 않은 유저입니다.");
-                        setIsAlertVisible(true);
-                        setTimeout(() => {
-                            setIsAlertVisible(false);
-                        }, 2000);
-                        return;
-                    }
-                    navigate("/");
-                } catch (error) {
-                    setAlertText("이메일 또는 비밀번호가 올바르지 않습니다.");
-                    setIsAlertVisible(true);
-                    setTimeout(() => {
-                        setIsAlertVisible(false);
-                    }, 2000);
-                }
+                await handleLogin();
             }
         } else {
             if (email === "") {
@@ -134,7 +146,9 @@ const AccountForm = ({text, link}) => {
     return (
         <AuthForm className={resetBtn ? "active" : ""}>
             <h1 className="logo">MODART</h1>
+
             {isAlertVisible && <Alert text={alertText} />}
+
             <div className="container">
                 <form onSubmit={submitHandler}>
                     {text === "회원가입" ? (
@@ -184,6 +198,12 @@ const AccountForm = ({text, link}) => {
                                     </span>
                                     <p>Profile Image</p>
                                 </label>
+
+                                {authValue.photo && (
+                                    <span className="file_name">
+                                        ProfileImage: {authValue.photo.name}
+                                    </span>
+                                )}
                             </div>
                             <Button type="submit">{text}</Button>
                         </>

@@ -1,14 +1,15 @@
-import {AiOutlineLogout} from "react-icons/ai";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
+import Account from "../../../pages/auth/users/Account";
+import {useEffect, useRef, useState} from "react";
 
 export const User = ({setActiveItem, toggleClick}) => {
+    const [isVisibleAccount, setIsVisibleAccount] = useState(false);
     const user = useSelector((state) => state.login.user);
     const nickName = user?.nickname;
     const profileImg = user?.profileImg;
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const accountRef = useRef();
+    const userRef = useRef();
 
     const handleLinkClick = (index) => {
         setActiveItem(index);
@@ -19,33 +20,48 @@ export const User = ({setActiveItem, toggleClick}) => {
         window.scrollTo({top: 0});
     };
 
-    const logOutHandler = () => {
-        const alertLogout = confirm("정말 로그아웃 하시겠습니까?");
-
-        if (alertLogout) {
-            dispatch(signOuterUer());
-            navigate("/");
-        }
-        return;
+    const handleUserToggle = (e) => {
+        e?.stopPropagation?.();
+        setActiveItem(null);
+        setIsVisibleAccount((prev) => !prev);
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                accountRef.current &&
+                !accountRef.current.contains(event.target) &&
+                userRef.current &&
+                !userRef.current.contains(event.target)
+            ) {
+                setIsVisibleAccount(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     if (user) {
         return (
-            <div className="users">
-                <li className="item user_nickname">
+            <button
+                onClick={handleUserToggle}
+                className="user_link"
+                ref={userRef}
+            >
+                <div className="profileIImg">
                     {profileImg ? (
                         <img src={profileImg} alt={nickName} />
                     ) : null}
-                    <Link to="/account" onClick={() => handleLinkClick(null)}>
-                        {nickName}
-                    </Link>
-                </li>
-                <li className="item logOut" onClick={logOutHandler}>
-                    <span>
-                        <AiOutlineLogout />
-                    </span>
-                </li>
-            </div>
+                </div>
+
+                <span className="nickname">{nickName}</span>
+
+                {isVisibleAccount && <Account accountRef={accountRef} />}
+            </button>
         );
     } else {
         return (

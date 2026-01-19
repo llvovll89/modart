@@ -160,6 +160,7 @@ const AuthForm = styled.div`
             .area {
                 position: relative;
                 width: 100%;
+                user-select: none;
 
                 &.file {
                     margin-bottom: 16px;
@@ -196,6 +197,13 @@ const AuthForm = styled.div`
                                 height: 100%;
                             }
                         }
+                    }
+
+                    .file_name {
+                        display: block;
+                        margin-top: 8px;
+                        font-size: clamp(12px, 1.2vw, 14px);
+                        color: #333;
                     }
                 }
 

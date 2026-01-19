@@ -1,6 +1,6 @@
 import React from "react";
 import AccountForm from "../../../components/account/AccountForm";
-import {AccountContainer} from "..";
+import {AccountContainer} from "../styles/index";
 
 const SignUp = () => {
     return (

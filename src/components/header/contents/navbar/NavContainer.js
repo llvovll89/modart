@@ -11,72 +11,27 @@ export const NavContainer = styled.nav`
         font-weight: 600;
     }
 
-    .users {
+    .user_link {
+        position: relative;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 0.25rem;
+        min-width: 76px;
+        padding: 0 6px;
 
-        .item {
-            min-width: 76px;
-            padding: 0 6px;
-            text-align: center;
-
-            &.active {
-                background-color: rgba(40, 41, 44, 0.04);
-
-                a {
-                    color: #000;
-                    text-decoration: underline 0.5px;
-                    text-underline-offset: 3px;
-                }
-            }
-
-            &.user_nickname {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 6px;
-                width: 100%;
-
-                img {
-                    width: 36px;
-                    height: 36px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                }
-                a {
-                    position: relative;
-                }
-            }
-
-            a,
-            span {
-                letter-spacing: 0.012rem;
-                color: #333;
-                display: block;
-                width: 100%;
-                height: 100%;
-            }
+        .profileIImg {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f5f7f8;
+            flex-shrink: 0;
         }
 
-        .logOut {
-            cursor: pointer;
-
-            span {
-                position: relative;
-                display: block;
-                width: 100%;
-                height: 100%;
-
-                svg {
-                    width: 20px;
-                    height: 20px;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
-            }
+        @media screen and (max-width: 564px) {
+            width: 100%;
+            padding: 6px 16px;
+            height: 65px;
         }
     }
 

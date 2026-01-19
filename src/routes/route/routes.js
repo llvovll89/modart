@@ -1,6 +1,5 @@
 import Login from "../../pages/auth/login/Login";
 import SignUp from "../../pages/auth/sign/SignUp";
-import Account from "../../pages/auth/users/Account";
 import AccountEdit from "../../pages/auth/users/AccountEdit";
 import Board from "../../pages/board/Board";
 import BoardDetail from "../../pages/board/contents/detail/BoardDetail";
@@ -21,7 +20,6 @@ import TodayStory from "../../pages/today/TodayStory";
 import TodayWritePost from "../../pages/today/TodayWritePost";
 import {
     MAIN,
-    ACCOUNT,
     ACCOUNT_EDIT,
     SIGN_UP,
     LOGIN,
@@ -45,7 +43,6 @@ import {
 
 export const routes = [
     {path: MAIN, element: Home},
-    {path: ACCOUNT, element: Account},
     {path: ACCOUNT_EDIT, element: AccountEdit},
     {path: SIGN_UP, element: SignUp},
     {path: LOGIN, element: Login},

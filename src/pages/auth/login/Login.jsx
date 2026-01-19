@@ -1,5 +1,5 @@
 import AccountForm from "../../../components/account/AccountForm";
-import {AccountContainer} from "..";
+import {AccountContainer} from "../styles/index";
 
 const Login = () => {
     return (

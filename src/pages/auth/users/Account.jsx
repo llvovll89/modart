@@ -1,91 +1,42 @@
-import React from 'react';
-import { Section } from '../../../styles/RecycleStyles';
-import { AccountContainer } from './index';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import NoUserImg from '../../../assets/images/user.png';
-import Loading from '../../../components/common/Loading';
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {AccountWrap, AccountContainer} from "./styles/Account.css";
+import {signOutUser} from "../../../store/reducers/loginSlice";
+import {CiEdit, CiLogout} from "react-icons/ci";
 
-const Account = () => {
-  const user = useSelector((state) => state.login.user);
-  console.log(user);
+const Account = ({accountRef}) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  return (
-    <Section>
-      <AccountContainer>
-        {user ? (
-          <div className="contents">
-            <div className="users">
-              <div className="user_detail">
-                <div className="user_thumb">
-                  <img
-                    src={user.profileImg ? user.profileImg : NoUserImg}
-                    alt=""
-                    style={{ maxWidth: '100px', maxHeight: '100px' }}
-                  />
-                </div>
-                <div className="user_info">
-                  <div className="info_box">
-                    <strong className="name">{user.nickname}</strong>
-                    {user.intro ? <p className="intro">{user.intro}</p> : null}
-                    <p className="email">{user.email}</p>
-                    <Link to="/account/edit">프로필 수정</Link>
-                  </div>
-                </div>
-              </div>
-              <div className="board_detail">
-                <Link to="/" className="board_item">
-                  <strong className="info">게시글</strong>
-                  <p className="title">(기능)추가중..</p>
-                </Link>
-                <Link to="/" className="board_item">
-                  <strong className="info">(기능)추가중..</strong>
-                  <p className="title">포인트</p>
-                </Link>
-              </div>
-            </div>
-            <div className="customer_service">
-              <div className="customer_info">
-                <div className="customer_title">
-                  <h1>고객센터</h1>
-                  <span>(궁금한 것을 물어보세요)</span>
-                </div>
-                .
-              </div>
-              <div className="customer_contents">
-                <div className="items">
-                  <h2>게시판관련 질문</h2>
+    const logOutHandler = () => {
+        const alertLogout = confirm("정말 로그아웃 하시겠습니까?");
 
-                  <div className="item_container">
-                    <div className="item">
-                      <p>DailyLook</p>
-                    </div>
-                    <div className="item">
-                      <p>Photo</p>
-                    </div>
-                    <div className="item">
-                      <p>TodayStory</p>
-                    </div>
-                    <div className="item">
-                      <p>QnA</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="account_questions">
-                  <p>계정관련 질문</p>
-                </div>
-                <div className="account_qna">
-                  <p>자주묻는 질문</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <Loading />
-        )}
-      </AccountContainer>
-    </Section>
-  );
+        if (alertLogout) {
+            dispatch(signOutUser());
+            navigate("/");
+        }
+        return;
+    };
+
+    const handleEditProfile = () => {
+        navigate("/account/edit");
+    };
+
+    return (
+        <AccountWrap ref={accountRef}>
+            <AccountContainer>
+                <li onClick={handleEditProfile}>
+                    <CiEdit />
+                    <span>프로필 수정</span>
+                </li>
+
+                <li onClick={logOutHandler}>
+                    <CiLogout />
+                    <span>로그아웃</span>
+                </li>
+            </AccountContainer>
+        </AccountWrap>
+    );
 };
 
 export default Account;
