@@ -34,11 +34,6 @@ export const googleLogin = createAsyncThunk(
                 prompt: "select_account consent",
             });
 
-            if (import.meta.env.PROD) {
-                await signInWithRedirect(auth, provider);
-                return null; // redirect라 여기서 사용자 데이터 못 받음
-            }
-
             // Firebase 세션 정리(선택)
             await signOut(auth);
 
