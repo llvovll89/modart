@@ -290,6 +290,7 @@ export const Info = ({ board, commentClick, handleOpen }) => {
                         type="button"
                         className="icon_btn"
                         onClick={commentClick}
+                        disabled={!board.comments}
                         aria-label="댓글"
                     >
                         <CiChat1 size={22} color="#FFFFFF" />

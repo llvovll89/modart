@@ -20,6 +20,7 @@ const BoardDetail = () => {
     const { isOpen, handleOpen, handleClose, toggleModal } = useModalState();
 
     const commentClick = () => {
+        if (!board.comments) return;
         setComment(!comment);
     };
 
@@ -40,7 +41,7 @@ const BoardDetail = () => {
                             handleOpen={handleOpen}
                         />
 
-                        {comment && (
+                        {comment && board.comments && (
                             <Comments
                                 comments={board.comments}
                                 board={board}
