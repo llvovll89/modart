@@ -1,6 +1,6 @@
-import styled, {keyframes} from "styled-components";
-import {InputStyles, ButtonStyles, FormStyles} from "./Styled-css";
-import {fadeIn} from "./animation";
+import styled, { keyframes } from "styled-components";
+import { InputStyles, ButtonStyles, FormStyles } from "./Styled-css";
+import { fadeIn } from "./animation";
 
 // animation
 const loading = keyframes`
@@ -381,6 +381,37 @@ const Card = styled.div`
             width: 100%;
             height: 100%;
             background: #000;
+        }
+
+        .meta_left {
+            position: absolute;
+            left: 0.5rem;
+            top: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .item_brand {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 6px 10px;
+            border-radius: 999px;
+            color: rgba(255, 255, 255, 0.86);
+            background: rgba(0, 0, 0, 0.52);
+            border: 1px solid rgba(99, 102, 241, 0.22);
+            white-space: nowrap;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item_brand.more {
+            opacity: 0.75;
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.14);
         }
     }
 

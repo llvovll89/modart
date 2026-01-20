@@ -1,14 +1,14 @@
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {getQna} from "../../../../store/reducers/qnaSlice";
-import {usePageNation} from "../../../../hooks/usePageNation";
-import {QnaListContainer} from "./QnaList.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getQna } from "../../../../store/reducers/qnaSlice";
+import { usePageNation } from "../../../../hooks/usePageNation";
+import { QnaListContainer } from "./QnaList.css";
 import PageNation from "../../../../components/common/PageNation";
-import {useMemo} from "react";
-import {AiOutlineEye, AiOutlineLike} from "react-icons/ai";
-import {HiOutlineChatBubbleOvalLeft} from "react-icons/hi2";
+import { useMemo } from "react";
+import { AiOutlineEye, AiOutlineLike } from "react-icons/ai";
+import { HiOutlineChatBubbleOvalLeft } from "react-icons/hi2";
 
-export const QnaList = ({sortType, sortOrder}) => {
+export const QnaList = ({ sortType, sortOrder }) => {
     const qnaList = useSelector((state) => state.qna.questions);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const QnaList = ({sortType, sortOrder}) => {
     };
 
     const handleQuestionClick = (questionId) => {
-        dispatch(incrementViews({questionId}))
+        dispatch(incrementViews({ questionId }))
             .then(() => {
                 dispatch(getQna());
             })
@@ -49,7 +49,7 @@ export const QnaList = ({sortType, sortOrder}) => {
         return copied;
     }, [qnaList, sortType, sortOrder]);
 
-    const {currentData, currentPage, totalPages, goToPage, getPageNumbers} =
+    const { currentData, currentPage, totalPages, goToPage, getPageNumbers } =
         usePageNation(filteredQnAs, 8);
 
     console.log(currentData);

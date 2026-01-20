@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-export const useResizeLayout = ({itemList, getItems}) => {
+export const useResizeLayout = ({ itemList, getItems }) => {
     const [perPage, setPerPage] = useState(itemList.length);
     const [gap, setGap] = useState("16px");
     const [focus, setFocus] = useState("left");
@@ -11,7 +11,7 @@ export const useResizeLayout = ({itemList, getItems}) => {
     const handleResize = useCallback(() => {
         const innerWidth = window.innerWidth;
 
-        if (window.innerWidth >= 1280) {
+        if (innerWidth >= 1280) {
             setPerPage(5);
             setFocus("left");
         } else if (innerWidth >= 964) {

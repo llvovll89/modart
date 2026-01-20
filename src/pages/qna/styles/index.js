@@ -2,93 +2,16 @@ import styled from "styled-components";
 
 export const QnaWrap = styled.section`
     width: 100%;
-    min-height: calc(100vh - 52px);
+    min-height: calc(100dvh - 52px);
     background-color: #f9fdfa;
-    padding: 52px 0 0 0;
+    padding: 68px 1rem;
     display: flex;
     flex-direction: column;
     gap: 1.75rem;
+    justify-content: center;
 
     @media screen and (max-width: 768px) {
         gap: 1rem;
-    }
-`;
-
-export const QnaInfoContainer = styled.div`
-    width: 100%;
-    padding: 2rem 4rem;
-    display: flex;
-    align-items: center;
-
-    background: linear-gradient(
-        135deg,
-        rgb(231, 154, 241) 15%,
-        rgb(251, 214, 251) 36%,
-        rgb(210, 208, 234) 82%
-    );
-    user-select: none;
-
-    .info {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-
-        title {
-            h1 {
-                text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 4px;
-                font-weight: 700;
-                font-size: clamp(1.25rem, 3vw, 2rem);
-            }
-
-            span {
-                font-size: clamp(0.75rem, 1.5vw, 1rem);
-            }
-        }
-
-        .desc {
-            font-weight: 500;
-            text-shadow: rgba(0, 0, 0, 0.15) 2px 5px 4px;
-            display: flex;
-            flex-direction: column;
-            font-size: clamp(0.75rem, 1.5vw, 1.5rem);
-        }
-
-        .contents {
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            transition: 0.15s all linear;
-            gap: 2px;
-
-            no-photos,
-            .no-boards {
-                padding-left: 20px;
-            }
-        }
-
-        .visible {
-            text-align: center;
-
-            button {
-                span {
-                    display: inline-flex;
-                    width: 26px;
-                    height: 26px;
-                    svg {
-                        width: 100%;
-                        height: 100%;
-                        color: #333;
-                        &:hover {
-                            color: #09f;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        padding: 1.5rem;
     }
 `;
 

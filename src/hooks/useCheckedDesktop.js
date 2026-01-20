@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export const useCheckedDesktop = () => {
     const [isDesktop, setIsDesktop] = useState(false);

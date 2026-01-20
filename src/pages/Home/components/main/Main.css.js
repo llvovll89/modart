@@ -1,9 +1,7 @@
-import styled, {keyframes} from "styled-components";
-import {fadeBlur, fadeDown, fadeIn, fadeUp} from "../../../../styles/animation";
+import styled from "styled-components";
+import { fadeDown, fadeIn } from "../../../../styles/animation";
 
 export const Main_container = styled.main`
-    // @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
-
     height: calc(100dvh - 52px);
     position: relative;
     background-blend-mode: screen;
@@ -29,8 +27,8 @@ export const Main_container = styled.main`
     }
 
     .blur {
-        width: 100vw;
-        height: 100dvh;
+        width: 100%;
+        height: calc(100dvh - 52px);
         object-fit: cover;
         position: absolute;
         top: 0;

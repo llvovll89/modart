@@ -6,7 +6,7 @@ const HeaderContainer = styled.header`
     --b: #0b0b0c;
 
     --bg-home: rgba(255, 255, 255, 0.72);
-    --bg-dark: rgba(11, 11, 12, 0.62);
+    --bg-dark: rgba(11, 11, 12, 0.88);
 
     --text-home: var(--b);
     --text-dark: var(--w);
@@ -120,8 +120,9 @@ const HeaderContainer = styled.header`
             }
         }
 
-        @media screen and (max-width: 646px) {
+        @media screen and (max-width: 546px) {
             padding: 0 1rem;
+            height: 50px;
 
             .toggle {
                 display: flex;
@@ -158,7 +159,6 @@ const HeaderContainer = styled.header`
         transform-origin: left center;
         will-change: transform;
 
-        /* minimal luxury + tech: subtle gradient + glow */
         background: ${(props) =>
         props.$isHome
             ? "linear-gradient(90deg, #0b0b0c 0%, rgba(11,11,12,0.55) 100%)"

@@ -49,7 +49,6 @@ export const NavContainer = styled.nav`
             }
 
             &.active a {
-                /* luxury: clean invert + controlled shadow */
                 background: var(--ink);
                 color: var(--surface);
                 box-shadow: 0 10px 26px rgba(0,0,0,0.18);
@@ -118,15 +117,15 @@ export const NavContainer = styled.nav`
         }
     }
 
-    @media screen and (max-width: 646px) {
+    @media screen and (max-width: 546px) {
         position: fixed;
         top: 0;
-        margin-top: 60px; /* match header height */
-        right: -74%;
-        height: calc(100dvh - 60px);
+        margin-top: 50px; /* match header height */
+        right: -50%;
+        height: calc(100dvh - 50px);
         z-index: 1500;
 
-        width: 74%;
+        width: 50%;
 
         background: ${(props) => (props.$isHome ? "rgba(255,255,255,0.92)" : "rgba(11,11,12,0.82)")};
         color: var(--ink);
@@ -143,11 +142,14 @@ export const NavContainer = styled.nav`
         }
 
         .list {
-            display: block;
             padding: 10px;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
 
             .item {
                 border-bottom: 1px solid var(--hairline);
+                width: 100%;
 
                 a {
                     width: 100%;

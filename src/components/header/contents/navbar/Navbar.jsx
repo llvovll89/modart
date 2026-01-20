@@ -39,13 +39,13 @@ export const Navbar = ({
                         </Link>
                     </li>
                 ))}
-            </div>
 
-            <User
-                setActiveItem={setActiveItem}
-                toggleClick={toggleClick}
-                isHome={isHome}
-            />
+                <User
+                    setActiveItem={setActiveItem}
+                    toggleClick={toggleClick}
+                    isHome={isHome}
+                />
+            </div>
         </NavContainer>
     );
 };

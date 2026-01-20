@@ -1,18 +1,18 @@
-import React, {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {QnaInfoContainer, QnaContents, QnaWrap} from "./styles/index";
-import {getQna} from "../../store/reducers/qnaSlice";
-import {useFilterState} from "../../hooks/useFilterState";
-import {AiFillQuestionCircle} from "react-icons/ai";
-import {QnaList} from "./contents/list/QnaList";
-import {useModalState} from "../../hooks/useModalState";
-import {Modal} from "../../components/common/Modal";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { QnaContents, QnaWrap } from "./styles/index";
+import { getQna } from "../../store/reducers/qnaSlice";
+import { useFilterState } from "../../hooks/useFilterState";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import { QnaList } from "./contents/list/QnaList";
+import { useModalState } from "../../hooks/useModalState";
+import { Modal } from "../../components/common/Modal";
 
 const Qna = () => {
     const user = useSelector((state) => state.login.user);
-    const {sortType, sortOrder, handleSortClick} = useFilterState();
-    const {isOpen, handleOpen, handleClose, toggleModal} = useModalState();
+    const { sortType, sortOrder, handleSortClick } = useFilterState();
+    const { isOpen, handleOpen, handleClose, toggleModal } = useModalState();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -44,20 +44,6 @@ const Qna = () => {
 
     return (
         <QnaWrap>
-            <QnaInfoContainer>
-                <div className="info">
-                    <div className="title">
-                        <h1>질문 게시판</h1>
-                        <span>(Questions and Answers)</span>
-                    </div>
-
-                    <div className="desc">
-                        <p>🔥 궁금한 점이 있다면 소통해보세요. </p>
-                        <p>❓ 다양한 질문과 답변이 기다리고 있습니다.</p>
-                        <p>💡 유용한 정보와 팁을 얻어가세요.</p>
-                    </div>
-                </div>
-            </QnaInfoContainer>
             <QnaContents>
                 <div className="form_top">
                     <ul>

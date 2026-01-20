@@ -57,16 +57,14 @@ export const User = ({ setActiveItem, toggleClick, isHome }) => {
     }
 
     return (
-        <div className="users sign">
-            <li className="item_account">
-                <Link
-                    to="account/login"
-                    className="account"
-                    onClick={() => handleLinkClick(null)}
-                >
-                    로그인
-                </Link>
-            </li>
-        </div>
+        <li className="item">
+            <Link
+                to="account/login"
+                className="account"
+                onClick={() => handleLinkClick(null)}
+            >
+                로그인
+            </Link>
+        </li>
     );
 };

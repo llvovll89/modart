@@ -1,23 +1,21 @@
-import {useSelector} from "react-redux";
-import {Splide, SplideSlide} from "@splidejs/react-splide";
+import { useSelector } from "react-redux";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import {Link} from "react-router-dom";
-import {getBoards} from "../../../../store/reducers/boardSlice";
-import {AutoScroll} from "@splidejs/splide-extension-auto-scroll";
-import {useResizeLayout} from "../../../../hooks/useResizeLayout";
-import {useState} from "react";
-import {Container, Section, Card} from "../../../../styles/RecycleStyles";
-import {BoardListContainer, BoardListWrap} from "./styles/BoardList.css";
-import {useCheckedDesktop} from "../../../../hooks/useCheckedDesktop";
+import { Link } from "react-router-dom";
+import { getBoards } from "../../../../store/reducers/boardSlice";
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+import { useResizeLayout } from "../../../../hooks/useResizeLayout";
+import { Card } from "../../../../styles/RecycleStyles";
+import { BoardListContainer, BoardListWrap } from "./styles/BoardList.css";
 
 const BoardList = () => {
-    const [selectedBoard, setSelectedBoard] = useState(null);
     const boardList = useSelector((state) => state.board.boards);
-    const {perPage, gap, focus} = useResizeLayout({
+    const { perPage, gap, focus } = useResizeLayout({
         itemList: boardList,
         getItems: getBoards,
     });
-    const isDesktop = useCheckedDesktop();
+
+    console.log(boardList);
 
     return (
         <BoardListWrap id="daily_look_list">
@@ -57,58 +55,81 @@ const BoardList = () => {
                                     speed: -1,
                                 },
                             }}
-                            extensions={{AutoScroll}}
+                            extensions={{ AutoScroll }}
                         >
                             {boardList.map((board) => {
-                                const showBottom =
-                                    !isDesktop || selectedBoard === board.id;
-
                                 return (
                                     <SplideSlide key={board.id}>
                                         <Card
-                                            onMouseOver={() =>
-                                                isDesktop
-                                                    ? setSelectedBoard(board.id)
-                                                    : null
-                                            }
-                                            onMouseOut={() =>
-                                                isDesktop
-                                                    ? setSelectedBoard(null)
-                                                    : null
-                                            }
                                             className="board_card"
                                         >
                                             <Link
                                                 to={`board/details/${board.id}`}
                                             />
+
                                             <div className="top">
                                                 <img
                                                     src={board.photo}
                                                     alt="board"
                                                 />
+
+                                                {(() => {
+                                                    const brands = Array.isArray(board.brand)
+                                                        ? board.brand.filter(Boolean)
+                                                        : String(board.brand || "")
+                                                            .split(",")
+                                                            .map((s) => s.trim())
+                                                            .filter(Boolean);
+
+                                                    const visible = brands.slice(0, 2);
+                                                    const hasMore = brands.length > 2;
+
+                                                    return (
+                                                        <div
+                                                            className="meta_left"
+                                                            title={brands.join(", ")}
+                                                        >
+                                                            {visible.map((item, index) => (
+                                                                <div
+                                                                    key={`${board.id}-brand-${index}-${item}`}
+                                                                    className="item_brand"
+                                                                >
+                                                                    {item}
+                                                                </div>
+                                                            ))}
+
+                                                            {hasMore && (
+                                                                <div
+                                                                    className="item_brand more"
+                                                                    aria-label="추가 브랜드 있음"
+                                                                >
+                                                                    ...
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })()}
                                             </div>
 
-                                            {showBottom && (
-                                                <div className="bottom">
-                                                    <div className="board_info_top">
-                                                        <span className="board_nickname">
-                                                            {board.nickname}
-                                                        </span>
-                                                    </div>
-
-                                                    <div className="board_info_bottom">
-                                                        <p className="board_title">
-                                                            {board.title}
-                                                        </p>
-                                                        <p
-                                                            title={board.desc}
-                                                            className="board_desc"
-                                                        >
-                                                            {board.desc}
-                                                        </p>
-                                                    </div>
+                                            <div className="bottom">
+                                                <div className="board_info_top">
+                                                    <span className="board_nickname">
+                                                        {board.nickname}
+                                                    </span>
                                                 </div>
-                                            )}
+
+                                                <div className="board_info_bottom">
+                                                    <p className="board_title">
+                                                        {board.title}
+                                                    </p>
+                                                    <p
+                                                        title={board.desc}
+                                                        className="board_desc"
+                                                    >
+                                                        {board.desc}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </Card>
                                     </SplideSlide>
                                 );
