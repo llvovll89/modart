@@ -44,6 +44,9 @@ export const NavContainer = styled.nav`
             width: 100%;
             height: 100%;
             padding: 0px 6px;
+
+            color: ${(props) => (props.$isHome ? "#000" : "#fff")};
+
         }
     }
 

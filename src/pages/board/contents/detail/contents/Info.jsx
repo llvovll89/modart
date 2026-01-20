@@ -1,15 +1,15 @@
-import {IoIosPerson} from "react-icons/io";
-import {CiHeart, CiChat1} from "react-icons/ci";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useMemo, useRef, useState} from "react";
+import { IoIosPerson } from "react-icons/io";
+import { CiHeart, CiChat1 } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
     getBoards,
     recommendViews,
 } from "../../../../../store/reducers/boardSlice";
-import {ListInfoContainer} from "../../../../../components/common/styles/ListInfo.css";
-import {useNavigate} from "react-router-dom";
+import { ListInfoContainer } from "../../../../../components/common/styles/ListInfo.css";
+import { useNavigate } from "react-router-dom";
 
-export const Info = ({board, commentClick, handleOpen}) => {
+export const Info = ({ board, commentClick, handleOpen }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.login.user);
@@ -37,7 +37,7 @@ export const Info = ({board, commentClick, handleOpen}) => {
         setSlideIndex(0);
         setDragX(0);
         setIsDragging(false);
-        dragRef.current = {active: false, pointerId: null, startX: 0, dx: 0};
+        dragRef.current = { active: false, pointerId: null, startX: 0, dx: 0 };
     }, [board?.id]);
 
     const formatDate = (value) => {
@@ -51,7 +51,7 @@ export const Info = ({board, commentClick, handleOpen}) => {
         }).format(d);
     };
 
-    const hasLiked = board.recommendedUsers?.includes(user.uid);
+    const hasLiked = board.recommendedUsers?.includes(user?.uid);
 
     const likeBtnClick = async () => {
         if (!user) {
@@ -142,7 +142,7 @@ export const Info = ({board, commentClick, handleOpen}) => {
     };
 
     const handleUpdateClick = () => {
-        navigate(`/board/${board.id}`, {state: {board}});
+        navigate(`/board/${board.id}`, { state: { board } });
     };
 
     return (
@@ -300,7 +300,7 @@ export const Info = ({board, commentClick, handleOpen}) => {
                     <div className="like">
                         좋아요 <strong>{likeCount}</strong>
                     </div>
-                    <span style={{opacity: 0.5}}>/</span>
+                    <span style={{ opacity: 0.5 }}>/</span>
                     <div className="comments">
                         댓글 <strong>{commentCount}</strong>
                     </div>
