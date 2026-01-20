@@ -2,13 +2,14 @@ import styled from "styled-components";
 import {fadeIn} from "../../styles/animation";
 
 const HeaderContainer = styled.header`
-    background-color: #ffffff;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
     transition: 0.3s opacity ease-in-out;
+    color: ${(props) => (props.$isHome ? "#000" : "#FFFFFF")};
+    background: ${(props) => (props.$isHome ? "#FFFFFF" : "#000000")};
 
     .contents {
         margin: 0 auto;

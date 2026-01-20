@@ -18,6 +18,7 @@ export const NavContainer = styled.nav`
         gap: 0.25rem;
         min-width: 76px;
         padding: 0 6px;
+        color: ${(props) => (props.$isHome ? "#000" : "#fff")};
 
         .profileIImg {
             width: 2rem;
@@ -64,10 +65,6 @@ export const NavContainer = styled.nav`
                 }
             }
 
-            &:hover {
-                background-color: #fefefe;
-            }
-
             &.user_nickname {
                 &.active {
                     background: #74b0d7;
@@ -83,7 +80,7 @@ export const NavContainer = styled.nav`
                 width: 100%;
                 height: 100%;
                 letter-spacing: 0.012rem;
-                color: #333;
+                color ${(props) => (props.$isHome ? "#000" : "#fff")};
                 padding: 0 6px;
             }
         }

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import Account from "../../../pages/auth/users/Account";
 import {useEffect, useRef, useState} from "react";
 
-export const User = ({setActiveItem, toggleClick}) => {
+export const User = ({setActiveItem, toggleClick, isHome}) => {
     const [isVisibleAccount, setIsVisibleAccount] = useState(false);
     const user = useSelector((state) => state.login.user);
     const nickName = user?.nickname;

@@ -4,7 +4,7 @@ import AccountEdit from "../../pages/auth/users/AccountEdit";
 import Board from "../../pages/board/Board";
 import BoardDetail from "../../pages/board/contents/detail/BoardDetail";
 import BoardEdit from "../../pages/board/BoardEdit";
-import BoardWritePost from "../../pages/board/BoardWritePost";
+import BoardPost from "../../pages/board/contents/post/BoardPost";
 import Home from "../../pages/Home/Home";
 import Photo from "../../pages/photos/Photo";
 import PhotoDetail from "../../pages/photos/contents/detail/PhotoDetail";
@@ -47,7 +47,7 @@ export const routes = [
     {path: SIGN_UP, element: SignUp},
     {path: LOGIN, element: Login},
     {path: BOARD, element: Board},
-    {path: BOARD_WRITE, element: BoardWritePost},
+    {path: BOARD_WRITE, element: BoardPost},
     {path: BOARD_EDIT, element: BoardEdit},
     {path: PHOTO, element: Photo},
     {path: PHOTO_WRITE, element: PhotoWritePost},

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {BoardContents, BoardInfoContainer, BoardWrap} from "./styles/index";
+import {BoardContents, BoardWrap} from "./styles/index";
 import {AiFillSkin, AiOutlineLike} from "react-icons/ai";
 import {getBoards, incrementViews} from "../../store/reducers/boardSlice";
 import {BoardList} from "./contents/list/BoardList";
@@ -16,15 +16,12 @@ const Board = () => {
     const dispatch = useDispatch();
 
     const {sortType, sortOrder, handleSortClick} = useFilterState();
-    const {isOpen, handleOpen, handleClose, toggleModal} = useModalState();
+    const {isOpen, handleOpen, handleClose} = useModalState();
 
     const handleWriteClick = () => {
-        if (user) {
-            return navigate("/board/write");
-        } else {
-            handleOpen();
-            return null;
-        }
+        if (user) return navigate("/board/write");
+        handleOpen();
+        return null;
     };
 
     useScrollToTop();
@@ -33,45 +30,48 @@ const Board = () => {
         dispatch(getBoards());
     }, [dispatch]);
 
-    return (
-        <BoardWrap className="ootd_section">
-            <BoardInfoContainer>
-                <div className="info">
-                    <div className="title">
-                        <h1>최신 데일리룩</h1>
-                        <span>(Latest daily look)</span>
-                    </div>
+    const likeActive = sortType === "like";
+    const recentActive = sortType === "recent";
 
-                    <div className="desc">
-                        <p>🔥 최신 데일리룩 보기</p>
-                        <p>
-                            ✨ 마음에 드는 스타일이 있다면 상세 페이지로 이동해
-                            보세요.
-                        </p>
-                        <p>
-                            🛍️ 스타일이 마음에 든다면, 유저의 다른 게시물도
-                            확인해보세요.
-                        </p>
-                    </div>
-                </div>
-            </BoardInfoContainer>
+    return (
+        <BoardWrap>
             <BoardContents>
                 <div className="form_top">
-                    <ul>
-                        <li onClick={() => handleSortClick("like")}>
-                            좋아요 순
-                            {sortType === "like" &&
-                                (sortOrder === "desc" ? " ↓" : " ↑")}
-                        </li>
+                    <div className="sort_group" role="group" aria-label="정렬">
+                        <button
+                            type="button"
+                            className={`sort_chip ${likeActive ? "active" : ""}`}
+                            aria-pressed={likeActive}
+                            onClick={() => handleSortClick("like")}
+                        >
+                            좋아요
+                            {likeActive && (
+                                <span className="sort_arrow">
+                                    {sortOrder === "desc" ? "↓" : "↑"}
+                                </span>
+                            )}
+                        </button>
 
-                        <li onClick={() => handleSortClick("recent")}>
-                            날짜 순
-                            {sortType === "recent" &&
-                                (sortOrder === "desc" ? " ↓" : " ↑")}
-                        </li>
-                    </ul>
+                        <button
+                            type="button"
+                            className={`sort_chip ${recentActive ? "active" : ""}`}
+                            aria-pressed={recentActive}
+                            onClick={() => handleSortClick("recent")}
+                        >
+                            최신
+                            {recentActive && (
+                                <span className="sort_arrow">
+                                    {sortOrder === "desc" ? "↓" : "↑"}
+                                </span>
+                            )}
+                        </button>
+                    </div>
 
-                    <button className="write_btn" onClick={handleWriteClick}>
+                    <button
+                        className="write_btn"
+                        onClick={handleWriteClick}
+                        type="button"
+                    >
                         <AiFillSkin />
                         <span>데일리룩 작성하기</span>
                     </button>

@@ -6,6 +6,7 @@ import {GrClose} from "react-icons/gr";
 import {useScroll} from "./hooks/useScroll";
 import {Navbar} from "./contents/navbar/Navbar";
 import {useNotRender} from "../../hooks/useNotRender";
+import {MAIN} from "../../routes/route/path";
 
 const Header = ({toggle, toggleMenu}) => {
     const [activeItem, setActiveItem] = useState(null);
@@ -46,8 +47,11 @@ const Header = ({toggle, toggleMenu}) => {
 
     if (useNotRender()) return null;
 
+    const isHome = location.pathname === MAIN;
+
     return (
         <HeaderContainer
+            $isHome={isHome}
             style={{
                 borderBottom: scroll ? "1px solid #f7f2f2" : "",
                 opacity: scroll ? 0.8 : 1,
@@ -63,6 +67,7 @@ const Header = ({toggle, toggleMenu}) => {
                     setActiveItem={setActiveItem}
                     toggleClick={toggleClick}
                     toggle={toggle}
+                    isHome={isHome}
                 />
 
                 <div

@@ -4,7 +4,13 @@ import {NavContainer} from "./NavContainer";
 import {NavRoutes} from "./NavRoutes";
 import {useEffect} from "react";
 
-export const Navbar = ({activeItem, setActiveItem, toggleClick, toggle}) => {
+export const Navbar = ({
+    activeItem,
+    setActiveItem,
+    toggleClick,
+    toggle,
+    isHome,
+}) => {
     const handleLinkClick = (path) => {
         setActiveItem(path);
 
@@ -16,7 +22,7 @@ export const Navbar = ({activeItem, setActiveItem, toggleClick, toggle}) => {
     };
 
     return (
-        <NavContainer className={`${toggle ? " mobile" : ""}`}>
+        <NavContainer className={`${toggle ? " mobile" : ""}`} $isHome={isHome}>
             <div className="list">
                 {NavRoutes.map((r, index) => (
                     <li
