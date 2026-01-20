@@ -9,8 +9,8 @@ const Home = () => {
         <>
             <Main />
             <BoardList />
-            <PhotoList />
-            <TodayList />
+            {/* <PhotoList />
+            <TodayList /> */}
             <QnaList />
         </>
     );

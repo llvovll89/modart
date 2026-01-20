@@ -9,8 +9,10 @@ import {useFilterState} from "../../hooks/useFilterState";
 import {useScrollToTop} from "../../hooks/useScrollToTop";
 import {useModalState} from "../../hooks/useModalState";
 import {Modal} from "../../components/common/Modal";
+import {NoListComponents} from "../../components/common/NoResultListContainer";
 
 const Board = () => {
+    const boardList = useSelector((state) => state.board.boards);
     const user = useSelector((state) => state.login.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -77,7 +79,11 @@ const Board = () => {
                     </button>
                 </div>
 
-                <BoardList sortType={sortType} sortOrder={sortOrder} />
+                {boardList.length > 0 ? (
+                    <BoardList sortType={sortType} sortOrder={sortOrder} />
+                ) : (
+                    <NoListComponents />
+                )}
             </BoardContents>
 
             {isOpen && (

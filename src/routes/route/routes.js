@@ -3,7 +3,7 @@ import SignUp from "../../pages/auth/sign/SignUp";
 import AccountEdit from "../../pages/auth/users/AccountEdit";
 import Board from "../../pages/board/Board";
 import BoardDetail from "../../pages/board/contents/detail/BoardDetail";
-import BoardEdit from "../../pages/board/BoardEdit";
+import BoardEdit from "../../pages/board/contents/edit/BoardEdit";
 import BoardPost from "../../pages/board/contents/post/BoardPost";
 import Home from "../../pages/Home/Home";
 import Photo from "../../pages/photos/Photo";
@@ -49,12 +49,12 @@ export const routes = [
     {path: BOARD, element: Board},
     {path: BOARD_WRITE, element: BoardPost},
     {path: BOARD_EDIT, element: BoardEdit},
-    {path: PHOTO, element: Photo},
-    {path: PHOTO_WRITE, element: PhotoWritePost},
-    {path: PHOTO_EDIT, element: PhotoEdit},
-    {path: TODAY, element: TodayStory},
-    {path: TODAY_WRITE, element: TodayWritePost},
-    {path: TODAY_EDIT, element: TodayEdit},
+    // {path: PHOTO, element: Photo},
+    // {path: PHOTO_WRITE, element: PhotoWritePost},
+    // {path: PHOTO_EDIT, element: PhotoEdit},
+    // {path: TODAY, element: TodayStory},
+    // {path: TODAY_WRITE, element: TodayWritePost},
+    // {path: TODAY_EDIT, element: TodayEdit},
     {path: QNA, element: Qna},
     {path: QNA_WRITE, element: QnaWritePost},
     {path: QNA_EDIT, element: QnaEdit},

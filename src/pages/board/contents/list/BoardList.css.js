@@ -158,6 +158,12 @@ const BoardListContainer = styled.ul`
         white-space: nowrap;
     }
 
+    .item_brand.more {
+        opacity: 0.75;
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.14);
+    }
+
     .item_nickname {
         font-size: 12px;
         font-weight: 700;

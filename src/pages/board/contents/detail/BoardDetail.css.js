@@ -7,16 +7,20 @@ export const BoardDetailWrap = styled.section`
     align-items: center;
     flex-direction: column;
     min-height: calc(100dvh - 52px);
-    padding-top: 52px;
+    padding: 68px 1rem;
     position: relative;
 `;
 
 export const BoardDetailContainer = styled.div`
-    max-width: 564px;
-    width: 100%;
+    width: min(768px, 100%);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.77);
+    overflow: hidden;
+    backdrop-filter: blur(12px);
 
     .contents {
-        background-color: #f5f5f5;
+        background-color: #181818;
+        color: #fff;
         width: 100%;
         display: flex;
         flex-direction: column;

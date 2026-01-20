@@ -44,8 +44,13 @@ const BoardDetail = () => {
                             commentClick={commentClick}
                             handleOpen={handleOpen}
                         />
-                        {comment && board.comments && (
-                            <Comments comments={board.comments} board={board} />
+
+                        {comment && (
+                            <Comments
+                                comments={board.comments}
+                                board={board}
+                                handleOpen={handleOpen}
+                            />
                         )}
                     </div>
                 )}

@@ -162,30 +162,72 @@ export const UploadBox = styled.div`
         padding: 12px;
     }
 
-    .preview {
+    .thumbGrid {
         width: 100%;
-        aspect-ratio: 1 / 1;
         border-radius: 14px;
         overflow: hidden;
         background: rgba(0, 0, 0, 0.25);
         border: 1px solid rgba(255, 255, 255, 0.08);
+
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        padding: 8px;
+
+        @media (max-width: 560px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
-    .preview img {
+    .thumb {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
     }
 
+    .thumbRemove {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.55);
+        color: rgba(255, 255, 255, 0.92);
+
+        cursor: pointer;
+        line-height: 1;
+        font-weight: 900;
+
+        transition:
+            transform 160ms ease,
+            background 160ms ease;
+    }
+
+    .thumbRemove:hover {
+        transform: translateY(-1px);
+        background: rgba(0, 0, 0, 0.7);
+    }
+
     .empty {
-        height: 100%;
-        display: grid;
-        place-items: center;
-        color: rgba(255, 255, 255, 0.55);
-        font-size: 13px;
+        grid-column: 1 / -1;
         padding: 14px;
         text-align: center;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 13px;
         line-height: 1.45;
     }
 
@@ -218,7 +260,6 @@ export const UploadBox = styled.div`
         color: rgba(255, 255, 255, 0.92);
         background: rgba(0, 0, 0, 0.26);
         border: 1px solid rgba(255, 255, 255, 0.12);
-        font-size: clamp(12px, 2.5vw, 14px);
 
         transition:
             transform 160ms ease,
@@ -278,7 +319,7 @@ export const PostActions = styled.div`
 
     .btn.primary {
         color: rgba(255, 255, 255, 0.95);
-        background: linear-gradient(135deg, #6366f1 0%, #10b981 100%);
+        background: #09f;
         box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
     }
 

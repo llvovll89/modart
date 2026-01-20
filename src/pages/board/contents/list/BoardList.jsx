@@ -90,6 +90,10 @@ export const BoardList = ({sortType, sortOrder}) => {
         event.target.src = FALLBACK_IMG;
     };
 
+    const isCheckedBrandLength = filteredBoards.some(
+        (board) => board.brand.length > 0,
+    );
+
     if (!currentData || currentData.length === 0) {
         return (
             <>
@@ -161,16 +165,44 @@ export const BoardList = ({sortType, sortOrder}) => {
                                     {board.title}
                                 </h3>
 
-                                <div className="meta">
-                                    <div className="meta_left">
-                                        <span
-                                            title={board.brand}
-                                            className="item_brand"
-                                        >
-                                            {board.brand}
-                                        </span>
-                                    </div>
+                                {(() => {
+                                    const brands = Array.isArray(board.brand)
+                                        ? board.brand.filter(Boolean)
+                                        : String(board.brand || "")
+                                              .split(",")
+                                              .map((s) => s.trim())
+                                              .filter(Boolean);
 
+                                    const visible = brands.slice(0, 2);
+                                    const hasMore = brands.length > 2;
+
+                                    return (
+                                        <div
+                                            className="meta_left"
+                                            title={brands.join(", ")}
+                                        >
+                                            {visible.map((item, index) => (
+                                                <div
+                                                    key={`${board.id}-brand-${index}-${item}`}
+                                                    className="item_brand"
+                                                >
+                                                    {item}
+                                                </div>
+                                            ))}
+
+                                            {hasMore && (
+                                                <div
+                                                    className="item_brand more"
+                                                    aria-label="추가 브랜드 있음"
+                                                >
+                                                    ...
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })()}
+
+                                <div className="meta">
                                     <div className="meta_right">
                                         <span className="item_nickname">
                                             {board.nickname}
