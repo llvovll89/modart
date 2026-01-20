@@ -1,10 +1,10 @@
-import {Link, useLocation} from "react-router-dom";
-import {User} from "../User";
-import {NavContainer} from "./NavContainer";
-import {NavRoutes} from "./NavRoutes";
-import {useEffect} from "react";
+import { Link } from "react-router-dom";
+import { User } from "../User";
+import { NavContainer } from "./NavContainer";
+import { NavRoutes } from "./NavRoutes";
 
 export const Navbar = ({
+    navRef,
     activeItem,
     setActiveItem,
     toggleClick,
@@ -18,26 +18,34 @@ export const Navbar = ({
             toggleClick();
         }
 
-        window.scrollTo({top: 0});
+        window.scrollTo({ top: 0 });
     };
 
     return (
-        <NavContainer className={`${toggle ? " mobile" : ""}`} $isHome={isHome}>
+        <NavContainer
+            ref={navRef}
+            className={`${toggle ? " mobile" : ""}`}
+            $isHome={isHome}
+        >
             <div className="list">
                 {NavRoutes.map((r, index) => (
                     <li
                         key={index}
                         onClick={() => handleLinkClick(r.path)}
-                        className={`item ${
-                            activeItem === r.path ? "active" : ""
-                        }`}
+                        className={`item ${activeItem === r.path ? "active" : ""}`}
                     >
-                        <Link to={r.path}>{r.label}</Link>
+                        <Link to={r.path} aria-current={activeItem === r.path ? "page" : undefined}>
+                            {r.label}
+                        </Link>
                     </li>
                 ))}
             </div>
 
-            <User setActiveItem={setActiveItem} toggleClick={toggleClick} />
+            <User
+                setActiveItem={setActiveItem}
+                toggleClick={toggleClick}
+                isHome={isHome}
+            />
         </NavContainer>
     );
 };

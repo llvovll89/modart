@@ -1,105 +1,142 @@
 import styled from "styled-components";
 
 export const NavContainer = styled.nav`
+    --ink: ${(props) => (props.$isHome ? "#0b0b0c" : "#ffffff")};
+    --surface: ${(props) => (props.$isHome ? "#ffffff" : "#0b0b0c")};
+
+    --muted: ${(props) =>
+        props.$isHome ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.12)"};
+
+    --hairline: ${(props) =>
+        props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
+
+    --focus: ${(props) => (props.$isHome ? "rgba(17,17,17,0.85)" : "rgba(255,255,255,0.92)")};
+
     display: flex;
     align-items: center;
+    gap: 10px;
 
-    a,
-    span {
-        font-size: clamp(0.75rem, 1vw, 0.85rem);
-        transition: all 0.2s ease-in-out;
-        font-weight: 600;
-    }
-
-    .user_link {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        min-width: 76px;
-        padding: 0 6px;
-        color: ${(props) => (props.$isHome ? "#000" : "#fff")};
-
-        .profileIImg {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #f5f7f8;
-            flex-shrink: 0;
-        }
-
-        @media screen and (max-width: 564px) {
-            width: 100%;
-            padding: 6px 16px;
-            height: 65px;
-        }
-    }
-
-    .item_account {
-        margin: 0 6px;
-
-        .account {
-            display: block;
-            width: 100%;
-            height: 100%;
-            padding: 0px 6px;
-
-            color: ${(props) => (props.$isHome ? "#000" : "#fff")};
-
-        }
+    a {
+        color: var(--ink);
+        text-decoration: none;
+        font-size: clamp(0.78rem, 1vw, 0.92rem);
+        font-weight: 650;
+        letter-spacing: 0.02em;
+        transition: background 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }
 
     .list {
         display: flex;
         align-items: center;
+        gap: 6px;
 
         .item {
-            min-width: 76px;
-            padding: 0 6px;
-            text-align: center;
-
-            &.active {
-                a {
-                    color: #09f;
-                    transform: scale(1.1);
-                    text-decoration: underline 0.5px;
-                    text-underline-offset: 3px;
-                }
+            a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 36px;
+                padding: 0 12px;
+                border-radius: 999px;
+                background: transparent;
+                color: var(--ink);
+                position: relative;
             }
 
-            &.user_nickname {
-                &.active {
-                    background: #74b0d7;
-                }
-                a {
-                    position: relative;
-                }
+            &:hover a {
+                background: var(--muted);
+                transform: translateY(-1px);
             }
 
-            a,
-            span {
-                display: block;
+            &.active a {
+                /* luxury: clean invert + controlled shadow */
+                background: var(--ink);
+                color: var(--surface);
+                box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+                transform: translateY(-1px);
+            }
+
+            a:focus-visible {
+                outline: 2px solid var(--focus);
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    .user_area {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .user_link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        height: 36px;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid transparent;
+        cursor: pointer;
+
+        transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+
+        &:hover {
+            background: var(--muted);
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        .profileIImg {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid var(--hairline);
+            flex-shrink: 0;
+
+            img {
                 width: 100%;
                 height: 100%;
-                letter-spacing: 0.012rem;
-                color ${(props) => (props.$isHome ? "#000" : "#fff")};
-                padding: 0 6px;
+                object-fit: cover;
+                display: block;
             }
+        }
+
+        .nickname {
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
     @media screen and (max-width: 646px) {
         position: fixed;
-        display: block;
         top: 0;
-        margin-top: 52px;
-        right: -50%;
-        height: 100dvh;
+        margin-top: 60px; /* match header height */
+        right: -74%;
+        height: calc(100dvh - 60px);
         z-index: 1500;
-        background: #fefefe;
-        width: 50%;
-        transition: all 0.1s linear;
+
+        width: 74%;
+
+        background: ${(props) => (props.$isHome ? "rgba(255,255,255,0.92)" : "rgba(11,11,12,0.82)")};
+        color: var(--ink);
+
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+
+        border-left: 1px solid var(--hairline);
+        box-shadow: -18px 0 46px rgba(0,0,0,0.16);
+        transition: right 180ms ease;
 
         &.mobile {
             right: 0;
@@ -107,81 +144,33 @@ export const NavContainer = styled.nav`
 
         .list {
             display: block;
-            .item {
-                padding: 0;
-                border-bottom: 1px solid #ebebeb;
-                &.active {
-                    background-color: rgba(40, 41, 44, 0.04);
+            padding: 10px;
 
-                    a {
-                        color: #000;
-                        text-decoration: underline 0.5px;
-                        text-underline-offset: 3px;
-                    }
+            .item {
+                border-bottom: 1px solid var(--hairline);
+
+                a {
+                    width: 100%;
+                    justify-content: flex-start;
+                    height: 50px;
+                    padding: 0 12px;
+                    border-radius: 14px;
+                    background: transparent;
                 }
 
-                a,
-                span {
-                    display: block;
-                    padding: 6px 16px;
-                    letter-spacing: -0.15px;
-                    text-align: left;
-                    text-indent: 6px;
-
-                    &:hover {
-                        color: #202124;
-                    }
+                &.active a {
+                    background: var(--muted);
+                    color: var(--ink);
+                    box-shadow: none;
                 }
             }
         }
+    }
 
-        .users {
-            width: 100%;
-            border-bottom: 1px solid #ebebeb;
-
-            &.sign {
-                .item_account {
-                    display: block;
-                    width: 100%;
-                    text-align: center;
-                    margin: 0;
-
-                    .account {
-                        display: block;
-                        padding: 6px 16px;
-                        letter-spacing: 0.78px;
-                        font-weight: 700;
-                        text-align: left;
-                        text-indent: 6px;
-                        color: #202124;
-                        background: transparent;
-                    }
-                }
-            }
-
-            .item {
-                width: 100%;
-                &.user_nickname {
-                    a {
-                        display: block;
-                        width: max-content;
-                        height: max-content;
-                        padding: 0;
-                    }
-                }
-                a,
-                span {
-                    display: block;
-                    padding: 6px 16px;
-                    letter-spacing: -0.15px;
-                    font-weight: 700;
-                    text-indent: 6px;
-                    width: 100%;
-                    height: 100%;
-                }
-                &.logOut {
-                }
-            }
+    @media (prefers-reduced-motion: reduce) {
+        a,
+        .user_link {
+            transition: none;
         }
     }
 `;

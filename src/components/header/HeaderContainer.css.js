@@ -1,32 +1,91 @@
 import styled from "styled-components";
-import {fadeIn} from "../../styles/animation";
+import { fadeIn } from "../../styles/animation";
 
 const HeaderContainer = styled.header`
+    --w: #ffffff;
+    --b: #0b0b0c;
+
+    --bg-home: rgba(255, 255, 255, 0.72);
+    --bg-dark: rgba(11, 11, 12, 0.62);
+
+    --text-home: var(--b);
+    --text-dark: var(--w);
+
+    --hairline-home: rgba(15, 15, 18, 0.10);
+    --hairline-dark: rgba(255, 255, 255, 0.14);
+
+    --shadow-soft: 0 12px 34px rgba(0, 0, 0, 0.12);
+    --shadow-crisp: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
-    transition: 0.3s opacity ease-in-out;
-    color: ${(props) => (props.$isHome ? "#000" : "#FFFFFF")};
-    background: ${(props) => (props.$isHome ? "#FFFFFF" : "#000000")};
+
+    color: ${(props) => (props.$isHome ? "var(--text-home)" : "var(--text-dark)")};
+    background: ${(props) => (props.$isHome ? "var(--bg-home)" : "var(--bg-dark)")};
+    border-bottom: 1px solid
+        ${(props) => (props.$isHome ? "var(--hairline-home)" : "var(--hairline-dark)")};
+
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+
+    box-shadow: ${(props) => (props.$scrolled ? "var(--shadow-soft), var(--shadow-crisp)" : "none")};
+    transition: background 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: ${(props) => (props.$isHome ? 0.22 : 0.18)};
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.42),
+                rgba(255,255,255,0.00) 42%
+            );
+        mix-blend-mode: overlay;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        background:
+            repeating-linear-gradient(
+                90deg,
+                rgba(255,255,255,0.08) 0px,
+                rgba(255,255,255,0.08) 1px,
+                rgba(0,0,0,0.00) 2px,
+                rgba(0,0,0,0.00) 6px
+            );
+        mix-blend-mode: soft-light;
+    }
 
     .contents {
+        position: relative;
         margin: 0 auto;
         display: flex;
         padding: 0 2rem;
-        height: 52px;
-        line-height: 52px;
+        height: 60px; /* slightly taller = premium spacing */
         justify-content: space-between;
         align-items: center;
+        gap: 12px;
 
         .logo {
             h1 {
-                font-size: clamp(24px, 3vw, 30px);
-                letter-spacing: 0.05rem;
-                font-weight: 700;
+                font-size: clamp(20px, 2.1vw, 28px);
+                letter-spacing: 0.12em; /* editorial */
+                font-weight: 820;       /* luxury */
                 cursor: pointer;
-                animation: ${fadeIn} 0.5s ease;
+                animation: ${fadeIn} 0.4s ease;
+                user-select: none;
+                text-transform: uppercase;
+                line-height: 1;
             }
         }
 
@@ -34,30 +93,34 @@ const HeaderContainer = styled.header`
             position: relative;
             display: none;
             cursor: pointer;
-            overflow: hidden;
-            width: 30px;
-            height: 30px;
-            border-radius: 3px;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+
+            transition: background 160ms ease, transform 160ms ease;
+            &:hover {
+                background: ${(props) =>
+        props.$isHome ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.10)"};
+                transform: translateY(-1px);
+            }
 
             .close_icon {
-                width: 19px;
-                height: 19px;
+                width: 18px;
+                height: 18px;
             }
 
             .hamburger_icon {
-                width: 24px;
-                height: 24px;
+                width: 22px;
+                height: 22px;
             }
 
             svg {
-                font-weight: 500;
                 width: 100%;
                 height: 100%;
             }
         }
 
         @media screen and (max-width: 646px) {
-            position: relative;
             padding: 0 1rem;
 
             .toggle {
@@ -67,6 +130,52 @@ const HeaderContainer = styled.header`
             }
         }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+        .contents .logo h1 {
+            animation: none;
+        }
+        .contents .toggle {
+            transition: none;
+        }
+    }
+
+    .progress_wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: ${(props) =>
+        props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
+        overflow: hidden;
+    }
+
+    .progress_bar {
+        height: 100%;
+        width: 100%;
+        transform-origin: left center;
+        will-change: transform;
+
+        /* minimal luxury + tech: subtle gradient + glow */
+        background: ${(props) =>
+        props.$isHome
+            ? "linear-gradient(90deg, #0b0b0c 0%, rgba(11,11,12,0.55) 100%)"
+            : "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"};
+        box-shadow: ${(props) =>
+        props.$isHome
+            ? "0 0 12px rgba(0,0,0,0.18)"
+            : "0 0 12px rgba(255,255,255,0.18)"};
+
+        transition: transform 80ms linear;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .progress_bar {
+            transition: none;
+        }
+    }
 `;
 
-export {HeaderContainer};
+export { HeaderContainer };
