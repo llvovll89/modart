@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { fadeUp } from "../../../../../styles/animation";
 
 export const BoardListWrap = styled.section`
     width: 100%;
@@ -61,4 +62,84 @@ export const BoardListContainer = styled.div`
             font-size: clamp(12px, 1.5vw, 14px);
         }
     }
+
+   .no_board_container {
+    margin: 5rem auto;
+    padding: 3rem 2rem;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    animation: fadeUp 0.6s ease-out;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .empty_icon {
+        font-size: 3.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    h2 {
+        font-size: clamp(1.2rem, 2vw, 1.5rem);
+        font-weight: 700;
+        color: #222;
+    }
+
+    p {
+        font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .no_board_container {
+        margin: 5rem auto;
+        padding: 3rem 2rem;
+        max-width: 420px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        animation: ${fadeUp} 0.6s ease-out;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .empty_icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            font-weight: 700;
+            color: #222;
+        }
+
+        p {
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: #666;
+            line-height: 1.5;
+        }
+    }
+
+    .empty_button {
+        margin-top: 1rem;
+        padding: 12px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #00aaff, #0077cc);
+        color: #fff;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        box-shadow: 0 6px 15px rgba(0, 119, 204, 0.3);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 119, 204, 0.45);
+        }
+    }
+}
 `;

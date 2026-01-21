@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {fadeIn} from "../../styles/animation";
+import { fadeIn } from "../../styles/animation";
 
 const HeaderContainer = styled.header`
     --w: #ffffff;
@@ -29,7 +29,7 @@ const HeaderContainer = styled.header`
         props.$isHome ? "var(--bg-home)" : "var(--bg-dark)"};
     border-bottom: 1px solid
         ${(props) =>
-            props.$isHome ? "var(--hairline-home)" : "var(--hairline-dark)"};
+        props.$isHome ? "var(--hairline-home)" : "var(--hairline-dark)"};
 
     backdrop-filter: saturate(160%) blur(14px);
     -webkit-backdrop-filter: saturate(160%) blur(14px);
@@ -107,9 +107,9 @@ const HeaderContainer = styled.header`
                 transform 160ms ease;
             &:hover {
                 background: ${(props) =>
-                    props.$isHome
-                        ? "rgba(0,0,0,0.06)"
-                        : "rgba(255,255,255,0.10)"};
+        props.$isHome
+            ? "rgba(0,0,0,0.06)"
+            : "rgba(255,255,255,0.10)"};
                 transform: translateY(-1px);
             }
 
@@ -158,7 +158,7 @@ const HeaderContainer = styled.header`
         bottom: 0;
         height: 2px;
         background: ${(props) =>
-            props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
+        props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
         overflow: hidden;
     }
 
@@ -169,13 +169,13 @@ const HeaderContainer = styled.header`
         will-change: transform;
 
         background: ${(props) =>
-            props.$isHome
-                ? "linear-gradient(90deg, #0b0b0c 0%, rgba(11,11,12,0.55) 100%)"
-                : "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"};
+        props.$isHome
+            ? "linear-gradient(90deg, #0b0b0c 0%, rgba(11,11,12,0.55) 100%)"
+            : "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"};
         box-shadow: ${(props) =>
-            props.$isHome
-                ? "0 0 12px rgba(0,0,0,0.18)"
-                : "0 0 12px rgba(255,255,255,0.18)"};
+        props.$isHome
+            ? "0 0 12px rgba(0,0,0,0.18)"
+            : "0 0 12px rgba(255,255,255,0.18)"};
 
         transition: transform 80ms linear;
     }
@@ -187,4 +187,4 @@ const HeaderContainer = styled.header`
     }
 `;
 
-export {HeaderContainer};
+export { HeaderContainer };

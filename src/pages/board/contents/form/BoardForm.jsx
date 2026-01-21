@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {AiFillSkin, AiOutlineFileAdd} from "react-icons/ai";
-import {createData, updateBoard} from "../../../../store/reducers/boardSlice";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { AiFillSkin, AiOutlineFileAdd } from "react-icons/ai";
+import { createData, updateBoard } from "../../../../store/reducers/boardSlice";
 import {
     PostActions,
     PostCard,
@@ -12,7 +12,7 @@ import {
     UploadBox,
 } from "./BoardForm.css";
 
-const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
+const BoardForm = ({ mode = "create", boardId = null, initialBoard = null }) => {
     const user = useSelector((state) => state.login.user);
     const nickName = user?.nickname ?? "";
     const dispatch = useDispatch();
@@ -52,9 +52,9 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
             brand: Array.isArray(initialBoard.brand)
                 ? initialBoard.brand.filter(Boolean)
                 : String(initialBoard.brand || "")
-                      .split(",")
-                      .map((s) => s.trim())
-                      .filter(Boolean),
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean),
             height: initialBoard.height || "",
             weight: initialBoard.weight || "",
             desc: initialBoard.desc || "",
@@ -64,8 +64,8 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
             Array.isArray(initialBoard.photos)
                 ? initialBoard.photos.filter(Boolean)
                 : initialBoard.photo
-                  ? [initialBoard.photo]
-                  : [],
+                    ? [initialBoard.photo]
+                    : [],
         );
     }, [mode, initialBoard]);
 
@@ -110,7 +110,7 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
     };
 
     const onChangeHandler = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
 
         if (name === "photos") {
             const list = Array.from(files || []);
@@ -140,7 +140,7 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
                             ]),
                         ).values(),
                     );
-                    return {...prev, photos: unique};
+                    return { ...prev, photos: unique };
                 });
             }
 
@@ -153,7 +153,7 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
             return;
         }
 
-        setAddData((prev) => ({...prev, [name]: value}));
+        setAddData((prev) => ({ ...prev, [name]: value }));
     };
 
     const addBrandsFromText = (text) => {
@@ -169,7 +169,7 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
             const unique = Array.from(
                 new Map(merged.map((b) => [b.toLowerCase(), b])).values(),
             );
-            return {...prev, brand: unique};
+            return { ...prev, brand: unique };
         });
     };
 
@@ -459,15 +459,15 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
                                             mode === "edit"
                                                 ? `${keepPhotos.length + newPhotos.length}장 선택됨`
                                                 : addData.photos
-                                                      .map((p) => p.name)
-                                                      .join(", ")
+                                                    .map((p) => p.name)
+                                                    .join(", ")
                                         }
                                     >
                                         {mode === "edit"
                                             ? `${keepPhotos.length + newPhotos.length}장 선택됨`
                                             : addData.photos.length > 0
-                                              ? `${addData.photos.length}장 선택됨`
-                                              : "선택된 파일 없음"}
+                                                ? `${addData.photos.length}장 선택됨`
+                                                : "선택된 파일 없음"}
                                     </div>
 
                                     <div>
@@ -477,7 +477,7 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
                                             name="photos"
                                             accept="image/*"
                                             multiple
-                                            style={{display: "none"}}
+                                            style={{ display: "none" }}
                                             onChange={onChangeHandler}
                                         />
                                         <label
@@ -493,7 +493,7 @@ const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
                         </UploadBox>
                     </div>
 
-                    <div style={{gridColumn: "1 / -1"}}>
+                    <div style={{ gridColumn: "1 / -1" }}>
                         <PostActions>
                             <button
                                 type="button"

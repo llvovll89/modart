@@ -1,8 +1,8 @@
-import {useEffect, useMemo, useRef, useState} from "react";
-import {Section} from "../../../../styles/RecycleStyles";
-import {intervalTitle} from "./mock/title";
-import {Main_container} from "./Main.css";
-import {ModArtText} from "../../../../components/common/ModArtText";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Section } from "../../../../styles/RecycleStyles";
+import { intervalTitle } from "./mock/title";
+import { Main_container } from "./Main.css";
+import { ModArtText } from "../../../../components/common/ModArtText";
 
 const Main = () => {
     const [idx, setIdx] = useState(0);
@@ -29,10 +29,10 @@ const Main = () => {
 
         el.animate(
             [
-                {opacity: 0, transform: "translateY(10px)"},
-                {opacity: 1, transform: "translateY(0px)"},
+                { opacity: 0, transform: "translateY(10px)" },
+                { opacity: 1, transform: "translateY(0px)" },
             ],
-            {duration: 450, easing: "ease-out", fill: "both"}
+            { duration: 450, easing: "ease-out", fill: "both" }
         );
     }, [idx]);
 
@@ -40,7 +40,6 @@ const Main = () => {
         if (title.startsWith("모드아트")) {
             return (
                 <>
-                    {/* <span className="indent">모드아트</span> */}
                     {title.slice("모드아트".length)}
                 </>
             );
@@ -62,9 +61,8 @@ const Main = () => {
                 <div className="blur">
                     <video
                         className="main_video"
-                        src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                        }images/main/video/main_bg_video.mp4`}
+                        src={`${import.meta.env.VITE_PUBLIC_URL
+                            }images/main/video/main_bg_video.mp4`}
                         autoPlay
                         muted
                         loop

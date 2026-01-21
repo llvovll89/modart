@@ -38,6 +38,11 @@ const BoardContents = styled.div`
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+
+        &.opacity50 {
+            opacity: 0.5;
+            pointer-events: none;    
+        }
     }
 
     .sort_chip {
@@ -123,4 +128,4 @@ const BoardContents = styled.div`
     }
 `;
 
-export {BoardWrap, BoardContents};
+export { BoardWrap, BoardContents };

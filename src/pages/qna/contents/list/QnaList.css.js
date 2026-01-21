@@ -5,6 +5,21 @@ export const QnaListContainer = styled.article`
     flex-direction: column;
     gap: 10px;
     padding: 6px 2px;
+    min-height: calc(100dvh - 52px);
+
+    .no_length_list {
+        padding: 20px;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ${(props) => props.no_length && `
+            min-height: calc(100dvh - 200px);
+        `}
+    }
 
     /* Skeleton */
     @keyframes qnaShimmer {

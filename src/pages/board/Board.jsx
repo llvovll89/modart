@@ -1,16 +1,16 @@
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {BoardContents, BoardWrap} from "./styles/index";
-import {AiFillSkin, AiOutlineLike} from "react-icons/ai";
-import {getBoards, incrementViews} from "../../store/reducers/boardSlice";
-import {BoardList} from "./contents/list/BoardList";
-import {useFilterState} from "../../hooks/useFilterState";
-import {useScrollToTop} from "../../hooks/useScrollToTop";
-import {useModalState} from "../../hooks/useModalState";
-import {Modal} from "../../components/common/Modal";
-import {NoListComponents} from "../../components/common/NoResultListContainer";
-import {BOARD_FORM} from "../../routes/route/path";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BoardContents, BoardWrap } from "./styles/index";
+import { AiFillSkin, AiOutlineLike } from "react-icons/ai";
+import { getBoards, incrementViews } from "../../store/reducers/boardSlice";
+import { BoardList } from "./contents/list/BoardList";
+import { useFilterState } from "../../hooks/useFilterState";
+import { useScrollToTop } from "../../hooks/useScrollToTop";
+import { useModalState } from "../../hooks/useModalState";
+import { Modal } from "../../components/common/Modal";
+import { NoListComponents } from "../../components/common/NoResultListContainer";
+import { BOARD_FORM } from "../../routes/route/path";
 
 const Board = () => {
     const boardList = useSelector((state) => state.board.boards);
@@ -18,8 +18,8 @@ const Board = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {sortType, sortOrder, handleSortClick} = useFilterState();
-    const {isOpen, handleOpen, handleClose} = useModalState();
+    const { sortType, sortOrder, handleSortClick } = useFilterState();
+    const { isOpen, handleOpen, handleClose } = useModalState();
 
     const handleCreateForm = () => {
         if (user) return navigate(BOARD_FORM);
@@ -40,7 +40,7 @@ const Board = () => {
         <BoardWrap>
             <BoardContents>
                 <div className="form_top">
-                    <div className="sort_group" role="group" aria-label="정렬">
+                    <div className={`${boardList.length > 1 ? "opacity100" : "opacity50"} sort_group`} role="group" aria-label="정렬">
                         <button
                             type="button"
                             className={`sort_chip ${likeActive ? "active" : ""}`}

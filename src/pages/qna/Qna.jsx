@@ -1,19 +1,20 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {QnaContents, QnaWrap} from "./styles/index";
-import {getQna} from "../../store/reducers/qnaSlice";
-import {useFilterState} from "../../hooks/useFilterState";
-import {AiFillQuestionCircle} from "react-icons/ai";
-import {QnaList} from "./contents/list/QnaList";
-import {useModalState} from "../../hooks/useModalState";
-import {Modal} from "../../components/common/Modal";
-import {QNA_FORM} from "../../routes/route/path";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { QnaContents, QnaWrap } from "./styles/index";
+import { getQna } from "../../store/reducers/qnaSlice";
+import { useFilterState } from "../../hooks/useFilterState";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import { QnaList } from "./contents/list/QnaList";
+import { useModalState } from "../../hooks/useModalState";
+import { Modal } from "../../components/common/Modal";
+import { QNA_FORM } from "../../routes/route/path";
 
 const Qna = () => {
     const user = useSelector((state) => state.login.user);
-    const {sortType, sortOrder, handleSortClick} = useFilterState();
-    const {isOpen, handleOpen, handleClose} = useModalState();
+    const { sortType, sortOrder, handleSortClick } = useFilterState();
+    const { isOpen, handleOpen, handleClose } = useModalState();
+    const qnaList = useSelector((state) => state.qna.questions);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const Qna = () => {
         <QnaWrap>
             <QnaContents>
                 <div className="form_top">
-                    <div className="sort_group" role="group" aria-label="정렬">
+                    <div className={`${qnaList.length > 1 ? "opacity100" : "opacity50"} sort_group`} role="group" aria-label="정렬">
                         <button
                             type="button"
                             className={`sort_chip ${recentActive ? "active" : ""}`}

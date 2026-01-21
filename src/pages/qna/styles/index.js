@@ -4,7 +4,7 @@ export const QnaWrap = styled.section`
     width: 100%;
     min-height: calc(100dvh - 52px);
     background-color: #f9fdfa;
-    padding: 68px 1rem;
+    padding: 52px 1rem;
     display: flex;
     flex-direction: column;
     gap: 1.75rem;
@@ -42,6 +42,11 @@ export const QnaContents = styled.div`
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+    
+        &.opacity50 {
+            opacity: 0.5;
+            pointer-events: none;    
+        }
     }
 
     .sort_chip {

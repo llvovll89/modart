@@ -1,14 +1,14 @@
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {getQna, incrementViews} from "../../../../store/reducers/qnaSlice";
-import {usePageNation} from "../../../../hooks/usePageNation";
-import {QnaListContainer} from "./QnaList.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getQna, incrementViews } from "../../../../store/reducers/qnaSlice";
+import { usePageNation } from "../../../../hooks/usePageNation";
+import { QnaListContainer } from "./QnaList.css";
 import PageNation from "../../../../components/common/PageNation";
-import {useMemo} from "react";
-import {AiOutlineEye, AiOutlineLike} from "react-icons/ai";
-import {HiOutlineChatBubbleOvalLeft} from "react-icons/hi2";
+import { useMemo } from "react";
+import { AiOutlineEye, AiOutlineLike } from "react-icons/ai";
+import { HiOutlineChatBubbleOvalLeft } from "react-icons/hi2";
 
-export const QnaList = ({sortType, sortOrder, isLoading}) => {
+export const QnaList = ({ sortType, sortOrder, isLoading }) => {
     const qnaList = useSelector((state) => state.qna.questions);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const QnaList = ({sortType, sortOrder, isLoading}) => {
     };
 
     const handleQuestionClick = (questionId) => {
-        dispatch(incrementViews({questionId}))
+        dispatch(incrementViews({ questionId }))
             .then(() => {
                 dispatch(getQna());
             })
@@ -39,9 +39,10 @@ export const QnaList = ({sortType, sortOrder, isLoading}) => {
 
                 return sortOrder === "desc" ? diff : -diff;
             });
-        } else if (sortType === "views") {
+        } else if (sortType === "view") {
+            // ✅ Qna.jsx의 sortType("view")와 맞춤
             return copied.sort((a, b) => {
-                const diff = b.views - a.views;
+                const diff = (b.views ?? 0) - (a.views ?? 0);
                 return sortOrder === "desc" ? diff : -diff;
             });
         }
@@ -49,7 +50,7 @@ export const QnaList = ({sortType, sortOrder, isLoading}) => {
         return copied;
     }, [qnaList, sortType, sortOrder]);
 
-    const {currentData, currentPage, totalPages, goToPage, getPageNumbers} =
+    const { currentData, currentPage, totalPages, goToPage, getPageNumbers } =
         usePageNation(filteredQnAs, 8);
 
     const formatDateYYYYMMDD = (value) => {
@@ -66,7 +67,7 @@ export const QnaList = ({sortType, sortOrder, isLoading}) => {
     if (isLoading) {
         return (
             <QnaListContainer aria-busy="true" aria-live="polite">
-                {Array.from({length: 7}).map((_, i) => (
+                {Array.from({ length: 7 }).map((_, i) => (
                     <li
                         key={`sk-${i}`}
                         className="card skeleton"
@@ -82,59 +83,72 @@ export const QnaList = ({sortType, sortOrder, isLoading}) => {
         );
     }
 
+    const no_length = !filteredQnAs || filteredQnAs.length === 0;
+
+    if (no_length) {
+        return (
+            <QnaListContainer no_length={no_length} aria-live="polite">
+                <article className="no_length_list" aria-label="목록이 비어있습니다">
+                    등록된 QnA가 없습니다.
+                </article>
+            </QnaListContainer>
+        );
+    }
+
     return (
         <>
             <QnaListContainer>
-                {currentData.length > 0 &&
-                    currentData.map((qna) => (
-                        <li
-                            key={qna.id}
-                            className="card"
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`질문 상세 보기: ${qna.title}`}
-                            onClick={() => {
+                {currentData.map((qna) => (
+                    <li
+                        key={qna.id}
+                        className="card"
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`질문 상세 보기: ${qna.title}`}
+                        onClick={() => {
+                            detailClick(qna);
+                            handleQuestionClick(qna.id);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
                                 detailClick(qna);
                                 handleQuestionClick(qna.id);
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    detailClick(qna);
-                                    handleQuestionClick(qna.id);
-                                }
-                            }}
-                        >
-                            <p className="views">
-                                <AiOutlineEye /> {qna.views}
+                            }
+                        }}
+                    >
+                        <p className="views">
+                            <AiOutlineEye /> {qna.views}
+                        </p>
+
+                        <p className="title">{qna.title}</p>
+
+                        <div className="sub_contents">
+                            <p className="like">
+                                <AiOutlineLike />
+                                {qna.recommend > 0 ? qna.recommend : 0}
                             </p>
+                            <p>
+                                <HiOutlineChatBubbleOvalLeft />
+                                {qna.recommend}
+                            </p>
+                        </div>
 
-                            <p className="title">{qna.title}</p>
-
-                            <div className="sub_contents">
-                                <p className="like">
-                                    <AiOutlineLike />
-                                    {qna.recommend > 0 ? qna.recommend : 0}
-                                </p>
-                                <p>
-                                    <HiOutlineChatBubbleOvalLeft />
-                                    {qna.recommend}
-                                </p>
-                            </div>
-
-                            <div className="created_at">
-                                {formatDateYYYYMMDD(qna.createdAt)}
-                            </div>
-                        </li>
-                    ))}
+                        <div className="created_at">
+                            {formatDateYYYYMMDD(qna.createdAt)}
+                        </div>
+                    </li>
+                ))}
             </QnaListContainer>
 
-            <PageNation
-                currentPage={currentPage}
-                totalPages={totalPages}
-                goToPage={goToPage}
-                getPageNumbers={getPageNumbers}
-            />
+            {totalPages >= 1 && (
+                <PageNation
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    goToPage={goToPage}
+                    getPageNumbers={getPageNumbers}
+                />
+            )}
         </>
     );
 };

@@ -5,121 +5,146 @@ import {
     CiCircleCheck,
     CiNoWaitingSign,
 } from "react-icons/ci";
-import {fadeIn} from "../../styles/animation";
+import { fadeIn } from "../../styles/animation";
+import { useNavigate } from "react-router-dom";
+import { LOGIN } from "../../routes/route/path";
+import { useEffect, useId, useMemo } from "react";
 
 const ModalContainer = styled.article`
     position: fixed;
+    inset: 0;
     width: 100vw;
     height: 100dvh;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     user-select: none;
+    padding: 16px;
 
     .modal {
-        background-color: #fff;
-        padding: 1rem;
-        min-height: 200px;
-        border-radius: 8px;
-        width: 325px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: 1rem;
-        animation: ${fadeIn} 0.3s ease-in-out;
+        width: ${({ $size }) =>
+        $size === "sm" ? "300px" : $size === "lg" ? "480px" : "360px"};
+        max-width: 100%;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+        overflow: hidden;
+        animation: ${fadeIn} 0.2s ease-in-out;
+        transform-origin: center;
 
         .top {
-            width: 100%;
+            padding: 14px 14px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-weight: 600;
+            gap: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
             h2 {
-                &.warning {
-                    color: #f39c12;
-                }
-                &.info {
-                    color: #3498db;
-                }
-                &.success {
-                    color: #2ecc71;
-                }
-                &.error {
-                    color: #e74c3c;
-                }
-
-                font-size: clamp(0.9rem, 2vw, 1.25rem);
-
+                margin: 0;
+                font-size: 1rem;
+                font-weight: 700;
                 display: flex;
                 align-items: center;
-                gap: 0.15rem;
+                gap: 8px;
 
                 span {
-                    display: flex;
+                    display: inline-flex;
                     align-items: center;
                     justify-content: center;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 10px;
+                    background: ${({ $accent }) => $accent}1A;
+                    color: ${({ $accent }) => $accent};
+                }
+            }
+
+            .close_modal {
+                border: 0;
+                background: transparent;
+                cursor: pointer;
+                padding: 6px;
+                border-radius: 10px;
+                transition: background 0.15s ease;
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0.06);
+                }
+
+                img {
+                    width: 18px;
+                    height: 18px;
+                    display: block;
                 }
             }
         }
 
         .contents {
-            width: 100%;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            padding: 0.5rem 0.25rem;
-            max-height: 150x;
+            gap: 8px;
+
+            /* ✅ 오타 수정: 150x -> 150px */
+            max-height: 220px;
             overflow-y: auto;
-            gap: 0.25rem;
 
             p {
-                font-size: clamp(0.85rem, 2vw, 1rem);
+                margin: 0;
+                color: rgba(0, 0, 0, 0.78);
+                line-height: 1.4;
+                font-size: 0.95rem;
+
+                &:first-child {
+                    font-weight: 700;
+                    color: rgba(0, 0, 0, 0.9);
+                }
             }
         }
 
         .btn_container {
-            width: 100%;
+            padding: 12px 14px 14px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.25rem;
+            justify-content: flex-end;
+            gap: 10px;
 
             button {
-                padding: 0.5rem 1rem;
-                min-width: 90px;
-                transition: all 0.2s ease-in-out;
-                border-radius: 4px;
-                font-size: clamp(0.75rem, 2vw, 0.9rem);
+                padding: 10px 14px;
+                min-width: 92px;
+                border-radius: 12px;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: transform 0.04s ease, background 0.15s ease,
+                    border-color 0.15s ease;
 
-                &.cancel_btn {
-                    border: 1px solid #ccc;
-
-                    &:hover {
-                        background-color: #f5f7f8;
-                    }
-                }
-
-                &.confirm_btn {
-                    background-color: #09f;
-                    color: #fff;
-
-                    &:hover {
-                        background-color: #0077cc;
-                    }
+                &:active {
+                    transform: translateY(1px);
                 }
             }
-        }
-    }
 
-    @media (max-width: 400px) {
-        .modal {
-            width: 90%;
-            padding: 0.75rem;
+            .cancel_btn {
+                border: 1px solid rgba(0, 0, 0, 0.14);
+                background: #fff;
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0.03);
+                }
+            }
+
+            .confirm_btn {
+                border: 1px solid ${({ $accent }) => $accent};
+                background: ${({ $accent }) => $accent};
+                color: #fff;
+
+                &:hover {
+                    filter: brightness(0.95);
+                }
+            }
         }
     }
 `;
@@ -132,44 +157,75 @@ export const Modal = ({
     onConfirm,
     isCancel,
     handleClose,
+    isLogin = true,
+    size = "md", // "sm" | "md" | "lg"
+    closeOnOverlay = true,
 }) => {
-    const convertTypeToClass = () => {
+    const navigate = useNavigate();
+    const titleId = useId();
+    const descId = useId();
+
+    const meta = useMemo(() => {
         switch (type) {
             case "경고":
-                return {
-                    type: "warning",
-                    icon: <CiWarning size={24} />,
-                };
+                return { icon: <CiWarning size={22} />, accent: "#f39c12" };
             case "정보":
-                return {
-                    type: "info",
-                    icon: <CiCircleInfo size={24} />,
-                };
+                return { icon: <CiCircleInfo size={22} />, accent: "#3498db" };
             case "성공":
-                return {
-                    type: "success",
-                    icon: <CiCircleCheck size={24} />,
-                };
+                return { icon: <CiCircleCheck size={22} />, accent: "#2ecc71" };
             case "오류":
-                return {
-                    type: "error",
-                    icon: <CiNoWaitingSign size={24} />,
-                };
+                return { icon: <CiNoWaitingSign size={22} />, accent: "#e74c3c" };
             default:
-                return "";
+                return { icon: <CiCircleInfo size={22} />, accent: "#64748b" };
         }
+    }, [type]);
+
+    useEffect(() => {
+        const onKeyDown = (e) => {
+            if (e.key === "Escape") handleClose?.();
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [handleClose]);
+
+    const handleConfirm = () => {
+        if (onConfirm) onConfirm();
+        if (isLogin) navigate(LOGIN);
     };
 
     return (
-        <ModalContainer>
-            <div className="modal">
+        <ModalContainer
+            $accent={meta.accent}
+            $size={size}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            aria-describedby={descId}
+            onMouseDown={() => {
+                if (closeOnOverlay) handleClose?.();
+            }}
+        >
+            <div
+                className="modal"
+                onMouseDown={(e) => {
+                    // 오버레이 클릭 닫기 방지
+                    e.stopPropagation();
+                }}
+            >
                 <div className="top">
-                    <h2 className={convertTypeToClass().type}>
-                        <span>{convertTypeToClass().icon}</span>
+                    <h2 id={titleId}>
+                        <span>{meta.icon}</span>
                         {type}
                     </h2>
-                    <button onClick={handleClose} className="close_modal">
+
+                    <button
+                        type="button"
+                        onClick={handleClose}
+                        className="close_modal"
+                        aria-label="모달 닫기"
+                    >
                         <img
+                            alt="닫기"
                             src={
                                 import.meta.env.VITE_PUBLIC_URL +
                                 "/images/icons/dark/d_close.svg"
@@ -180,17 +236,17 @@ export const Modal = ({
 
                 <div className="contents">
                     <p>{title}</p>
-                    <p>{description}</p>
+                    <p id={descId}>{description}</p>
                 </div>
 
                 <div className="btn_container">
                     {isCancel && (
-                        <button onClick={handleClose} className="cancel_btn">
+                        <button type="button" onClick={handleClose} className="cancel_btn">
                             취소
                         </button>
                     )}
                     {isConfirm && (
-                        <button onClick={onConfirm} className="confirm_btn">
+                        <button type="button" onClick={handleConfirm} className="confirm_btn">
                             확인
                         </button>
                     )}

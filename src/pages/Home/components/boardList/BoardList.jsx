@@ -1,19 +1,25 @@
-import {useSelector} from "react-redux";
-import {Splide, SplideSlide} from "@splidejs/react-splide";
+import { useSelector } from "react-redux";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import {Link} from "react-router-dom";
-import {getBoards} from "../../../../store/reducers/boardSlice";
-import {AutoScroll} from "@splidejs/splide-extension-auto-scroll";
-import {useResizeLayout} from "../../../../hooks/useResizeLayout";
-import {Card} from "../../../../styles/RecycleStyles";
-import {BoardListContainer, BoardListWrap} from "./styles/BoardList.css";
+import { Link } from "react-router-dom";
+import { getBoards } from "../../../../store/reducers/boardSlice";
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+import { useResizeLayout } from "../../../../hooks/useResizeLayout";
+import { Card } from "../../../../styles/RecycleStyles";
+import { BoardListContainer, BoardListWrap } from "./styles/BoardList.css";
+import { BOARD_FORM } from "../../../../routes/route/path";
+import { Modal } from "../../../../components/common/Modal";
+import { useModalState } from "../../../../hooks/useModalState";
 
 const BoardList = () => {
     const boardList = useSelector((state) => state.board.boards);
-    const {perPage, gap, focus} = useResizeLayout({
+    const { perPage, gap, focus } = useResizeLayout({
         itemList: boardList,
         getItems: getBoards,
     });
+
+    const user = useSelector((state) => state.login.user);
+    const { isOpen, handleOpen, handleClose } = useModalState();
 
     return (
         <BoardListWrap id="daily_look_list">
@@ -36,7 +42,7 @@ const BoardList = () => {
                 </div>
 
                 <div className="contents">
-                    {boardList.length > 0 && (
+                    {boardList.length > 0 ? (
                         <Splide
                             options={{
                                 type: "loop",
@@ -53,7 +59,7 @@ const BoardList = () => {
                                     speed: -1,
                                 },
                             }}
-                            extensions={{AutoScroll}}
+                            extensions={{ AutoScroll }}
                         >
                             {boardList.map((board) => {
                                 return (
@@ -75,19 +81,19 @@ const BoardList = () => {
                                                             board.brand,
                                                         )
                                                             ? board.brand.filter(
-                                                                  Boolean,
-                                                              )
+                                                                Boolean,
+                                                            )
                                                             : String(
-                                                                  board.brand ||
-                                                                      "",
-                                                              )
-                                                                  .split(",")
-                                                                  .map((s) =>
-                                                                      s.trim(),
-                                                                  )
-                                                                  .filter(
-                                                                      Boolean,
-                                                                  );
+                                                                board.brand ||
+                                                                "",
+                                                            )
+                                                                .split(",")
+                                                                .map((s) =>
+                                                                    s.trim(),
+                                                                )
+                                                                .filter(
+                                                                    Boolean,
+                                                                );
 
                                                     const visible =
                                                         brands.slice(0, 2);
@@ -152,15 +158,51 @@ const BoardList = () => {
                                 );
                             })}
                         </Splide>
+                    ) : (
+                        <div className="no_board_container">
+                            <div className="empty_icon">👕</div>
+
+                            <h2>아직 데일리룩이 없어요</h2>
+
+                            <p>
+                                첫 데일리룩을 등록하고<br />
+                                당신만의 스타일을 공유해보세요 ✨
+                            </p>
+
+                            <button className="empty_button" onClick={() => {
+                                if (user) {
+                                    navigate(BOARD_FORM);
+                                } else {
+                                    handleOpen();
+                                    return null;
+                                }
+                            }}>
+                                데일리룩 등록하기 →
+                            </button>
+                        </div>
                     )}
                 </div>
 
-                <div className="view_more">
-                    <Link to="/board">
-                        <span>데일리룩 보러가기 →</span>
-                    </Link>
-                </div>
+                {boardList.length > 0 && (
+                    <div className="view_more">
+                        <Link to="/board">
+                            <span>데일리룩 보러가기 →</span>
+                        </Link>
+                    </div>
+                )}
             </BoardListContainer>
+
+            {isOpen && (
+                <Modal
+                    type="경고"
+                    title="로그인 필요"
+                    description="데일리룩 작성은 로그인 후에 가능합니다."
+                    isCancel={true}
+                    isConfirm={true}
+                    handleClose={handleClose}
+                />
+            )}
+
         </BoardListWrap>
     );
 };

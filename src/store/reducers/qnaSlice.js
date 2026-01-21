@@ -1,6 +1,6 @@
 import moment from "moment";
 import "moment/locale/ko";
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
     addDoc,
     collection,
@@ -10,8 +10,8 @@ import {
     increment,
     updateDoc,
 } from "firebase/firestore";
-import {firebaseAuth, db, storage} from "../../firebase/firebase";
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { firebaseAuth, db, storage } from "../../firebase/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const storageRef = ref(storage, "questions_photos");
 
@@ -49,9 +49,9 @@ const uploadFile = async (file) => {
 
 export const recommendViews = createAsyncThunk(
     "todays/recommendViews",
-    async (payload, {rejectWithValue}) => {
+    async (payload, { rejectWithValue }) => {
         try {
-            const {boardId, userId} = payload;
+            const { boardId, userId } = payload;
             if (!boardId || !userId) {
                 return rejectWithValue("필수 값이 누락되었습니다.");
             }
@@ -78,7 +78,7 @@ export const recommendViews = createAsyncThunk(
                 });
             });
 
-            return {boardId, userId};
+            return { boardId, userId };
         } catch (error) {
             if (error?.message === "ALREADY_LIKED") {
                 return rejectWithValue("이미 좋아요를 누르셨습니다.");
@@ -91,9 +91,9 @@ export const recommendViews = createAsyncThunk(
 
 export const incrementViews = createAsyncThunk(
     "questions/incrementViews",
-    async (payload, {rejectWithValue}) => {
+    async (payload, { rejectWithValue }) => {
         try {
-            const {questionId} = payload;
+            const { questionId } = payload;
             const questionRef = doc(db, "questions", questionId);
 
             await updateDoc(questionRef, {
@@ -108,9 +108,9 @@ export const incrementViews = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
     "question/comment",
-    async (payload, {rejectWithValue}) => {
+    async (payload, { rejectWithValue }) => {
         try {
-            const {questionId, commentData} = payload;
+            const { questionId, commentData } = payload;
             const qnaRef = doc(db, "questions", questionId);
             const qnaDoc = await getDoc(qnaRef);
 
@@ -127,7 +127,7 @@ export const addComment = createAsyncThunk(
                 comments: updatedComments,
             });
 
-            return {questionId, commentData};
+            return { questionId, commentData };
         } catch (error) {
             console.error(error);
             return rejectWithValue("댓글을 추가 할 수 없습니다.");
@@ -137,9 +137,9 @@ export const addComment = createAsyncThunk(
 
 export const editComment = createAsyncThunk(
     "question/editComment",
-    async (payload, {rejectWithValue}) => {
+    async (payload, { rejectWithValue }) => {
         try {
-            const {questionId, commentId, commentData} = payload;
+            const { questionId, commentId, commentData } = payload;
 
             const currentUser = firebaseAuth.currentUser;
             const currentUserId = currentUser?.uid;
@@ -174,7 +174,7 @@ export const editComment = createAsyncThunk(
                 comments: updatedComments,
             });
 
-            return {questionId, commentId, commentData};
+            return { questionId, commentId, commentData };
         } catch (error) {
             console.error(error);
             throw new Error("댓글을 수정할 수 없습니다.");
@@ -184,9 +184,9 @@ export const editComment = createAsyncThunk(
 
 export const deleteComment = createAsyncThunk(
     "question/deleteComment",
-    async (payload, {rejectWithValue}) => {
+    async (payload, { rejectWithValue }) => {
         try {
-            const {questionId, commentId} = payload;
+            const { questionId, commentId } = payload;
             const currentUser = firebaseAuth.currentUser;
 
             if (!currentUser) {
@@ -229,7 +229,7 @@ export const deleteComment = createAsyncThunk(
                 comments: updatedComments,
             });
 
-            return {questionId, commentId};
+            return { questionId, commentId };
         } catch (error) {
             console.error(error);
             return rejectWithValue("댓글을 삭제할 수 없습니다.");
@@ -239,7 +239,7 @@ export const deleteComment = createAsyncThunk(
 
 export const createData = createAsyncThunk(
     "question/add",
-    async (questionsData, {rejectWithValue}) => {
+    async (questionsData, { rejectWithValue }) => {
         try {
             if (!questionsData) {
                 throw new Error("qnaData is Not Fount");
@@ -258,8 +258,8 @@ export const createData = createAsyncThunk(
             const uploadTarget = Array.isArray(photos)
                 ? photos
                 : photo
-                  ? [photo]
-                  : [];
+                    ? [photo]
+                    : [];
 
             const photoURLs = await uploadFiles(uploadTarget);
 
@@ -304,7 +304,7 @@ export const getQna = createAsyncThunk("question/get", async () => {
     const querySnapshot = await getDocs(collection(db, "questions"));
     const qnaData = querySnapshot.docs.map((doc, index) => {
         const data = doc.data();
-        const {createdAt, ...dataWithoutCreatedAt} = data;
+        const { createdAt, ...dataWithoutCreatedAt } = data;
         let formattedTime;
         const now = moment();
         const photoTime = moment(createdAt);
@@ -328,7 +328,7 @@ export const getQna = createAsyncThunk("question/get", async () => {
 
 const qnaSlice = createSlice({
     name: "qna",
-    initialState: {questions: [], postCount: 0, loading: false},
+    initialState: { questions: [], postCount: 0, loading: false },
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -412,7 +412,7 @@ const qnaSlice = createSlice({
                 };
             })
             .addCase(addComment.fulfilled, (state, action) => {
-                const {questionId, commentData} = action.payload;
+                const { questionId, commentData } = action.payload;
 
                 const updatedQuestions = state.questions.map((qna) => {
                     if (qna.id === questionId) {
@@ -439,7 +439,7 @@ const qnaSlice = createSlice({
                 };
             })
             .addCase(editComment.fulfilled, (state, action) => {
-                const {questionId, commentId, commentData} = action.payload;
+                const { questionId, commentId, commentData } = action.payload;
 
                 const updatedQuestions = state.questions.map((qna) => {
                     if (qna.id === questionId) {
@@ -468,7 +468,7 @@ const qnaSlice = createSlice({
                 };
             })
             .addCase(deleteComment.fulfilled, (state, action) => {
-                const {questionId, commentId} = action.payload;
+                const { questionId, commentId } = action.payload;
 
                 const updatedQuestions = state.questions.map((qna) => {
                     if (qna.id === questionId) {
