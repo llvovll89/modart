@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { fadeIn } from "../../styles/animation";
+import {fadeIn} from "../../styles/animation";
 
 const HeaderContainer = styled.header`
     --w: #ffffff;
@@ -11,7 +11,7 @@ const HeaderContainer = styled.header`
     --text-home: var(--b);
     --text-dark: var(--w);
 
-    --hairline-home: rgba(15, 15, 18, 0.10);
+    --hairline-home: rgba(15, 15, 18, 0.1);
     --hairline-dark: rgba(255, 255, 255, 0.14);
 
     --shadow-soft: 0 12px 34px rgba(0, 0, 0, 0.12);
@@ -23,16 +23,23 @@ const HeaderContainer = styled.header`
     left: 0;
     z-index: 1000;
 
-    color: ${(props) => (props.$isHome ? "var(--text-home)" : "var(--text-dark)")};
-    background: ${(props) => (props.$isHome ? "var(--bg-home)" : "var(--bg-dark)")};
+    color: ${(props) =>
+        props.$isHome ? "var(--text-home)" : "var(--text-dark)"};
+    background: ${(props) =>
+        props.$isHome ? "var(--bg-home)" : "var(--bg-dark)"};
     border-bottom: 1px solid
-        ${(props) => (props.$isHome ? "var(--hairline-home)" : "var(--hairline-dark)")};
+        ${(props) =>
+            props.$isHome ? "var(--hairline-home)" : "var(--hairline-dark)"};
 
     backdrop-filter: saturate(160%) blur(14px);
     -webkit-backdrop-filter: saturate(160%) blur(14px);
 
-    box-shadow: ${(props) => (props.$scrolled ? "var(--shadow-soft), var(--shadow-crisp)" : "none")};
-    transition: background 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
+    box-shadow: ${(props) =>
+        props.$scrolled ? "var(--shadow-soft), var(--shadow-crisp)" : "none"};
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        box-shadow 220ms ease;
 
     &::before {
         content: "";
@@ -40,12 +47,11 @@ const HeaderContainer = styled.header`
         inset: 0;
         pointer-events: none;
         opacity: ${(props) => (props.$isHome ? 0.22 : 0.18)};
-        background:
-            linear-gradient(
-                to bottom,
-                rgba(255,255,255,0.42),
-                rgba(255,255,255,0.00) 42%
-            );
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.42),
+            rgba(255, 255, 255, 0) 42%
+        );
         mix-blend-mode: overlay;
     }
 
@@ -55,14 +61,13 @@ const HeaderContainer = styled.header`
         inset: 0;
         pointer-events: none;
         opacity: 0.06;
-        background:
-            repeating-linear-gradient(
-                90deg,
-                rgba(255,255,255,0.08) 0px,
-                rgba(255,255,255,0.08) 1px,
-                rgba(0,0,0,0.00) 2px,
-                rgba(0,0,0,0.00) 6px
-            );
+        background: repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.08) 0px,
+            rgba(255, 255, 255, 0.08) 1px,
+            rgba(0, 0, 0, 0) 2px,
+            rgba(0, 0, 0, 0) 6px
+        );
         mix-blend-mode: soft-light;
     }
 
@@ -80,7 +85,7 @@ const HeaderContainer = styled.header`
             h1 {
                 font-size: clamp(20px, 2.1vw, 28px);
                 letter-spacing: 0.12em; /* editorial */
-                font-weight: 820;       /* luxury */
+                font-weight: 820; /* luxury */
                 cursor: pointer;
                 animation: ${fadeIn} 0.4s ease;
                 user-select: none;
@@ -97,10 +102,14 @@ const HeaderContainer = styled.header`
             height: 36px;
             border-radius: 12px;
 
-            transition: background 160ms ease, transform 160ms ease;
+            transition:
+                background 160ms ease,
+                transform 160ms ease;
             &:hover {
                 background: ${(props) =>
-        props.$isHome ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.10)"};
+                    props.$isHome
+                        ? "rgba(0,0,0,0.06)"
+                        : "rgba(255,255,255,0.10)"};
                 transform: translateY(-1px);
             }
 
@@ -149,7 +158,7 @@ const HeaderContainer = styled.header`
         bottom: 0;
         height: 2px;
         background: ${(props) =>
-        props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
+            props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
         overflow: hidden;
     }
 
@@ -160,13 +169,13 @@ const HeaderContainer = styled.header`
         will-change: transform;
 
         background: ${(props) =>
-        props.$isHome
-            ? "linear-gradient(90deg, #0b0b0c 0%, rgba(11,11,12,0.55) 100%)"
-            : "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"};
+            props.$isHome
+                ? "linear-gradient(90deg, #0b0b0c 0%, rgba(11,11,12,0.55) 100%)"
+                : "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"};
         box-shadow: ${(props) =>
-        props.$isHome
-            ? "0 0 12px rgba(0,0,0,0.18)"
-            : "0 0 12px rgba(255,255,255,0.18)"};
+            props.$isHome
+                ? "0 0 12px rgba(0,0,0,0.18)"
+                : "0 0 12px rgba(255,255,255,0.18)"};
 
         transition: transform 80ms linear;
     }
@@ -178,4 +187,4 @@ const HeaderContainer = styled.header`
     }
 `;
 
-export { HeaderContainer };
+export {HeaderContainer};

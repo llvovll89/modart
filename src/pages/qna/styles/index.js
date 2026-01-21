@@ -12,362 +12,7 @@ export const QnaWrap = styled.section`
 
     @media screen and (max-width: 768px) {
         gap: 1rem;
-    }
-`;
-
-export const QnaArticle = styled.article`
-    margin: 30px auto 0px auto;
-    max-width: 964px;
-    position: relative;
-    padding: 36px;
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 6px;
-    border: 1px solid #eee;
-
-    .qna_card {
-        width: 100%;
-        background-color: #fff;
-        background-color: rgba(255, 255, 255, var(--bg-opacity));
-        border-top-width: 1px;
-        border-bottom-width: 0;
-        word-break: break-all;
-
-        .card_header {
-            width: 100%;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #eee;
-
-            h1 {
-                word-wrap: break-word;
-                font-weight: 700;
-                margin-bottom: 16px;
-                font-size: clamp(16px, 2vw, 24px);
-
-                span {
-                    margin-right: 6px;
-                    font-size: clamp(22px, 2.5vw, 26px);
-                    color: #3772f0;
-                    font-weight: 500;
-                }
-            }
-
-            .card_info {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
-                padding: 6px;
-
-                .inner {
-                    display: flex;
-                    gap: 6px;
-                    font-size: clamp(12px, 1.3vw, 14px);
-                    align-items: center;
-
-                    .profile_img {
-                        width: 36px;
-                        height: 36px;
-                        border-radius: 50%;
-                        overflow: hidden;
-                    }
-
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        vertical-align: top;
-                    }
-                }
-
-                .date {
-                    color: #aaa;
-                    font-size: clamp(12px, 1.3vw, 13px);
-                }
-            }
-        }
-
-        .card_contents {
-            padding: 10px 0;
-            min-height: 150px;
-            .card_desc {
-                padding-top: 12px;
-                margin-bottom: 6px;
-                font-size: clamp(14px, 1vw, 16px);
-                line-height: 1.5;
-                letter-spacing: -0.025rem;
-            }
-            .update_input {
-                width: 100%;
-                margin-bottom: 6px;
-                font-size: clamp(14px, 1vw, 16px);
-                letter-spacing: -0.025rem;
-                padding: 12px;
-            }
-        }
-
-        .card_footer {
-            position: relative;
-
-            .inner {
-                margin-top: 16px;
-                display: flex;
-                justify-content: flex-end;
-                gap: 12px;
-
-                .qna_btn {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 6px;
-                    padding: 12px;
-                    border-radius: 6px;
-                    font-size: clamp(12px, 1.5vw, 14px);
-                    color: #ffffff;
-
-                    span {
-                    }
-
-                    &:nth-child(1) {
-                        background: #d472a3;
-                    }
-                    &:nth-child(2) {
-                        background: #5fcb5f;
-                    }
-                    &:nth-child(3) {
-                        background: #09f;
-                    }
-
-                    &:nth-child(4) {
-                        &:focus {
-                            color: #333;
-                        }
-
-                        background: #d7d72a;
-                    }
-
-                    svg {
-                        font-size: clamp(18px, 1.5vw, 20px);
-                    }
-                }
-            }
-
-            .comment {
-                margin-top: 30px;
-                padding: 0px 6px;
-
-                .comment_in {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 9px;
-                    background: #fafafa;
-                    margin-bottom: 12px;
-
-                    .top {
-                        display: flex;
-                        justify-content: space-between;
-                        gap: 12px;
-                        padding: 12px;
-
-                        .profile {
-                            display: flex;
-                            align-items: center;
-                            gap: 6px;
-
-                            img {
-                                border-radius: 50%;
-                                width: 30px;
-                                height: 30px;
-                            }
-
-                            span {
-                                font-size: clamp(13px, 1.5vw, 14px);
-                            }
-                        }
-
-                        .submit {
-                            font-weight: 700;
-                            letter-spacing: 0.025rem;
-                            padding: 8px 12px;
-                            background: #09f;
-                            border-radius: 6px;
-                            color: #fff;
-                            font-size: clamp(12px, 1.5vw, 14px);
-                        }
-                    }
-
-                    .bottom {
-                        padding: 12px;
-                        width: 100%;
-
-                        textarea {
-                            width: 100%;
-                            height: 100px;
-                            resize: none;
-                            padding: 12px;
-                            outline: none;
-                            border: 1px solid #eee;
-                        }
-                    }
-                }
-
-                .comment_item {
-                    width: 100%;
-                    margin: 12px 0;
-                    padding-bottom: 6px;
-                    border-bottom: 1px solid #ddd;
-
-                    .profile {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-
-                        .user {
-                            display: flex;
-                            align-items: center;
-                            gap: 6px;
-
-                            img {
-                                width: 30px;
-                                height: 30px;
-                                border-radius: 50%;
-                            }
-                            span {
-                                font-size: clamp(12px, 1.5vw, 13px);
-                            }
-                        }
-                        .date {
-                            font-size: clamp(11px, 1vw, 12px);
-                            color: #aaa;
-                        }
-                    }
-
-                    .comment_desc {
-                        .edit_value {
-                            margin: 12px 0;
-                            width: 100%;
-                            padding: 12px;
-                            border-radius: 4px;
-                            outline: none;
-                            border: 1px solid rgb(238, 238, 238);
-                        }
-
-                        p {
-                            text-indent: 6px;
-                            margin: 12px 0px 6px 0px;
-                            line-height: 30px;
-                            min-height: 60px;
-                            font-size: clamp(12px, 1.5vw, 14px);
-                        }
-                    }
-
-                    .comment_btns {
-                        padding: 6px 0px;
-                        width: 100%;
-
-                        button {
-                            padding: 6px 12px;
-                            border-radius: 4px;
-                            font-size: clamp(12px, 1vw, 13px);
-                            color: #fff;
-                            margin-right: 12px;
-                        }
-
-                        .delete_btn {
-                            background: red;
-                        }
-
-                        .edit_btn {
-                            background: #55a555;
-                        }
-
-                        .save_btn {
-                            background: #09f;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        padding: 16px;
-
-        .qna_card {
-            .card_header {
-                .card_info {
-                    display: flex;
-                    gap: 16px;
-                    padding: 6px;
-                    align-items: center;
-                    justify-content: space-between;
-
-                    .inner {
-                        gap: 9px;
-
-                        .profile_img {
-                            width: 28px;
-                            height: 28px;
-                        }
-                    }
-                }
-            }
-
-            .card_contents {
-                padding: 16px 0px 10px 0px;
-
-                .card_desc {
-                    margin-bottom: 9px;
-                }
-            }
-
-            .card_footer {
-                .inner {
-                    justify-content: center;
-
-                    .qna_btn {
-                        justify-content: center;
-                        gap: 6px;
-                        padding: 9px 12px;
-                    }
-                }
-
-                .comment {
-                    margin-top: 16px;
-                    padding: 6px;
-
-                    .comment_in {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 9px;
-                        background: #fafafa;
-
-                        .top {
-                            .profile {
-                                gap: 6px;
-
-                                img {
-                                    border-radius: 50%;
-                                    width: 28px;
-                                    height: 28px;
-                                }
-                            }
-
-                            .submit {
-                                font-weight: 700;
-                            }
-                        }
-
-                        .bottom {
-                            padding: 6px 2px 0px 2px;
-                            border-radius: 6px;
-                            width: 100%;
-                            textarea {
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        padding: 52px 1rem;
     }
 `;
 
@@ -381,43 +26,103 @@ export const QnaContents = styled.div`
     width: 100%;
 
     .form_top {
-        width: 100%;
-        height: 2.5rem;
+        margin: 18px 0 14px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 12px;
+    }
 
-        ul {
-            display: flex;
-            gap: 1rem;
-            font-size: clamp(12px, 1.2vw, 14px);
-            color: #666;
+    .sort_group {
+        display: inline-flex;
+        gap: 8px;
+        padding: 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
 
-            li {
-                cursor: pointer;
-                user-select: none;
-                &:hover {
-                    color: #09f;
-                }
-            }
-        }
+    .sort_chip {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 10px 12px;
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: -0.2px;
+        border: 1px solid #09f;
+
+        transition:
+            background 160ms ease,
+            color 160ms ease,
+            transform 160ms ease;
+    }
+
+    .sort_chip:hover {
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .sort_chip.active {
+        background: #09f;
+        color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.18);
+    }
+
+    .sort_chip:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+    }
+
+    .sort_arrow {
+        margin-left: 6px;
+        font-weight: 900;
+        opacity: 0.85;
     }
 
     .write_btn {
-        padding: 8px 16px;
-        font-size: clamp(12px, 1.2vw, 14px);
-        background-color: #09f;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.15s linear;
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
 
-        &:hover {
-            background-color: #0077cc;
+        padding: 11px 14px;
+        border-radius: 12px;
+        background: #09f;
+        color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 7px 16px rgba(0, 0, 0, 0.28);
+
+        cursor: pointer;
+        transition:
+            transform 160ms ease,
+            box-shadow 160ms ease,
+            filter 160ms ease;
+        white-space: nowrap;
+    }
+
+    .write_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+        filter: saturate(1.05);
+    }
+
+    .write_btn:active {
+        transform: translateY(0);
+    }
+
+    .write_btn svg {
+        font-size: 18px;
+    }
+
+    @media (max-width: 560px) {
+        .form_top {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .write_btn {
+            justify-content: center;
         }
     }
 `;

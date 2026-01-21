@@ -8,7 +8,9 @@ const ScrollTopStyles = styled.button`
     right: 2rem;
     width: 2.5rem;
     height: 2.5rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 1px 3px 4px;
+    box-shadow: rgba(0, 0, 0, 0.14) 1px 3px 4px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
     border-radius: 100%;
     display: flex;
     align-items: center;

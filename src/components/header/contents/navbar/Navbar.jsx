@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
-import { User } from "../User";
-import { NavContainer } from "./NavContainer";
-import { NavRoutes } from "./NavRoutes";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {User} from "../User";
+import {NavContainer} from "./NavContainer";
+import {NavRoutes} from "./NavRoutes";
 
 export const Navbar = ({
     navRef,
@@ -11,6 +12,16 @@ export const Navbar = ({
     toggle,
     isHome,
 }) => {
+    const [isHomeVisible, setIsHomeVisible] = useState(
+        typeof window !== "undefined" ? window.innerWidth <= 564 : false,
+    );
+
+    useEffect(() => {
+        const onResize = () => setIsHomeVisible(window.innerWidth <= 564);
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, []);
+
     const handleLinkClick = (path) => {
         setActiveItem(path);
 
@@ -18,7 +29,7 @@ export const Navbar = ({
             toggleClick();
         }
 
-        window.scrollTo({ top: 0 });
+        window.scrollTo({top: 0});
     };
 
     return (
@@ -28,17 +39,31 @@ export const Navbar = ({
             $isHome={isHome}
         >
             <div className="list">
-                {NavRoutes.map((r, index) => (
-                    <li
-                        key={index}
-                        onClick={() => handleLinkClick(r.path)}
-                        className={`item ${activeItem === r.path ? "active" : ""}`}
-                    >
-                        <Link to={r.path} aria-current={activeItem === r.path ? "page" : undefined}>
-                            {r.label}
-                        </Link>
-                    </li>
-                ))}
+                {NavRoutes.map((r, index) => {
+                    const Icon = r.icon;
+                    const isActive = activeItem === r.path;
+
+                    // ✅ 홈은 564px 이하일 때만 표시
+                    if (r.label === "홈" && !isHomeVisible) return null;
+
+                    return (
+                        <li
+                            key={index}
+                            onClick={() => handleLinkClick(r.path)}
+                            className={`item ${isActive ? "active" : ""}`}
+                        >
+                            <Link
+                                to={r.path}
+                                aria-current={isActive ? "page" : undefined}
+                            >
+                                <span className="navIcon" aria-hidden="true">
+                                    {Icon ? <Icon focusable="false" /> : null}
+                                </span>
+                                <span className="navLabel">{r.label}</span>
+                            </Link>
+                        </li>
+                    );
+                })}
 
                 <User
                     setActiveItem={setActiveItem}

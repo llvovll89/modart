@@ -1,27 +1,25 @@
-import { useSelector } from "react-redux";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
+import {useSelector} from "react-redux";
+import {Splide, SplideSlide} from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import { Link } from "react-router-dom";
-import { getBoards } from "../../../../store/reducers/boardSlice";
-import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
-import { useResizeLayout } from "../../../../hooks/useResizeLayout";
-import { Card } from "../../../../styles/RecycleStyles";
-import { BoardListContainer, BoardListWrap } from "./styles/BoardList.css";
+import {Link} from "react-router-dom";
+import {getBoards} from "../../../../store/reducers/boardSlice";
+import {AutoScroll} from "@splidejs/splide-extension-auto-scroll";
+import {useResizeLayout} from "../../../../hooks/useResizeLayout";
+import {Card} from "../../../../styles/RecycleStyles";
+import {BoardListContainer, BoardListWrap} from "./styles/BoardList.css";
 
 const BoardList = () => {
     const boardList = useSelector((state) => state.board.boards);
-    const { perPage, gap, focus } = useResizeLayout({
+    const {perPage, gap, focus} = useResizeLayout({
         itemList: boardList,
         getItems: getBoards,
     });
-
-    console.log(boardList);
 
     return (
         <BoardListWrap id="daily_look_list">
             <BoardListContainer>
                 <div className="title">
-                    <h1>최신 데일리룩</h1>
+                    <h1>최신 OOTD</h1>
                     <span>(Latest daily look)</span>
                 </div>
 
@@ -55,14 +53,12 @@ const BoardList = () => {
                                     speed: -1,
                                 },
                             }}
-                            extensions={{ AutoScroll }}
+                            extensions={{AutoScroll}}
                         >
                             {boardList.map((board) => {
                                 return (
                                     <SplideSlide key={board.id}>
-                                        <Card
-                                            className="board_card"
-                                        >
+                                        <Card className="board_card">
                                             <Link
                                                 to={`board/details/${board.id}`}
                                             />
@@ -74,29 +70,50 @@ const BoardList = () => {
                                                 />
 
                                                 {(() => {
-                                                    const brands = Array.isArray(board.brand)
-                                                        ? board.brand.filter(Boolean)
-                                                        : String(board.brand || "")
-                                                            .split(",")
-                                                            .map((s) => s.trim())
-                                                            .filter(Boolean);
+                                                    const brands =
+                                                        Array.isArray(
+                                                            board.brand,
+                                                        )
+                                                            ? board.brand.filter(
+                                                                  Boolean,
+                                                              )
+                                                            : String(
+                                                                  board.brand ||
+                                                                      "",
+                                                              )
+                                                                  .split(",")
+                                                                  .map((s) =>
+                                                                      s.trim(),
+                                                                  )
+                                                                  .filter(
+                                                                      Boolean,
+                                                                  );
 
-                                                    const visible = brands.slice(0, 2);
-                                                    const hasMore = brands.length > 2;
+                                                    const visible =
+                                                        brands.slice(0, 2);
+                                                    const hasMore =
+                                                        brands.length > 2;
 
                                                     return (
                                                         <div
                                                             className="meta_left"
-                                                            title={brands.join(", ")}
+                                                            title={brands.join(
+                                                                ", ",
+                                                            )}
                                                         >
-                                                            {visible.map((item, index) => (
-                                                                <div
-                                                                    key={`${board.id}-brand-${index}-${item}`}
-                                                                    className="item_brand"
-                                                                >
-                                                                    {item}
-                                                                </div>
-                                                            ))}
+                                                            {visible.map(
+                                                                (
+                                                                    item,
+                                                                    index,
+                                                                ) => (
+                                                                    <div
+                                                                        key={`${board.id}-brand-${index}-${item}`}
+                                                                        className="item_brand"
+                                                                    >
+                                                                        {item}
+                                                                    </div>
+                                                                ),
+                                                            )}
 
                                                             {hasMore && (
                                                                 <div

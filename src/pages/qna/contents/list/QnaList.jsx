@@ -1,14 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getQna } from "../../../../store/reducers/qnaSlice";
-import { usePageNation } from "../../../../hooks/usePageNation";
-import { QnaListContainer } from "./QnaList.css";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {getQna, incrementViews} from "../../../../store/reducers/qnaSlice";
+import {usePageNation} from "../../../../hooks/usePageNation";
+import {QnaListContainer} from "./QnaList.css";
 import PageNation from "../../../../components/common/PageNation";
-import { useMemo } from "react";
-import { AiOutlineEye, AiOutlineLike } from "react-icons/ai";
-import { HiOutlineChatBubbleOvalLeft } from "react-icons/hi2";
+import {useMemo} from "react";
+import {AiOutlineEye, AiOutlineLike} from "react-icons/ai";
+import {HiOutlineChatBubbleOvalLeft} from "react-icons/hi2";
 
-export const QnaList = ({ sortType, sortOrder }) => {
+export const QnaList = ({sortType, sortOrder, isLoading}) => {
     const qnaList = useSelector((state) => state.qna.questions);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export const QnaList = ({ sortType, sortOrder }) => {
     };
 
     const handleQuestionClick = (questionId) => {
-        dispatch(incrementViews({ questionId }))
+        dispatch(incrementViews({questionId}))
             .then(() => {
                 dispatch(getQna());
             })
@@ -49,10 +49,38 @@ export const QnaList = ({ sortType, sortOrder }) => {
         return copied;
     }, [qnaList, sortType, sortOrder]);
 
-    const { currentData, currentPage, totalPages, goToPage, getPageNumbers } =
+    const {currentData, currentPage, totalPages, goToPage, getPageNumbers} =
         usePageNation(filteredQnAs, 8);
 
-    console.log(currentData);
+    const formatDateYYYYMMDD = (value) => {
+        if (!value) return "";
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return "";
+
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}.${m}.${day}`;
+    };
+
+    if (isLoading) {
+        return (
+            <QnaListContainer aria-busy="true" aria-live="polite">
+                {Array.from({length: 7}).map((_, i) => (
+                    <li
+                        key={`sk-${i}`}
+                        className="card skeleton"
+                        aria-hidden="true"
+                    >
+                        <div className="sk sk-chip" />
+                        <div className="sk sk-title" />
+                        <div className="sk sk-sub" />
+                        <div className="sk sk-date" />
+                    </li>
+                ))}
+            </QnaListContainer>
+        );
+    }
 
     return (
         <>
@@ -60,16 +88,27 @@ export const QnaList = ({ sortType, sortOrder }) => {
                 {currentData.length > 0 &&
                     currentData.map((qna) => (
                         <li
+                            key={qna.id}
+                            className="card"
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`질문 상세 보기: ${qna.title}`}
                             onClick={() => {
                                 detailClick(qna);
                                 handleQuestionClick(qna.id);
                             }}
-                            className="card"
-                            key={qna.id}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    detailClick(qna);
+                                    handleQuestionClick(qna.id);
+                                }
+                            }}
                         >
                             <p className="views">
                                 <AiOutlineEye /> {qna.views}
                             </p>
+
                             <p className="title">{qna.title}</p>
 
                             <div className="sub_contents">
@@ -84,7 +123,7 @@ export const QnaList = ({ sortType, sortOrder }) => {
                             </div>
 
                             <div className="created_at">
-                                {new Date(qna.createdAt).toLocaleDateString()}
+                                {formatDateYYYYMMDD(qna.createdAt)}
                             </div>
                         </li>
                     ))}

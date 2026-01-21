@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 import Account from "../../../pages/auth/users/Account";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
-export const User = ({ setActiveItem, toggleClick, isHome }) => {
+export const User = ({setActiveItem, toggleClick, isHome}) => {
     const [isVisibleAccount, setIsVisibleAccount] = useState(false);
     const user = useSelector((state) => state.login.user);
     const nickName = user?.nickname;
@@ -16,7 +16,7 @@ export const User = ({ setActiveItem, toggleClick, isHome }) => {
         if (window.innerWidth <= 768) {
             toggleClick();
         }
-        window.scrollTo({ top: 0 });
+        window.scrollTo({top: 0});
     };
 
     const handleUserToggle = (e) => {
@@ -38,20 +38,32 @@ export const User = ({ setActiveItem, toggleClick, isHome }) => {
         };
 
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     if (user) {
         return (
             <div className="user_area" ref={userRef}>
-                <button type="button" onClick={handleUserToggle} className="user_link">
+                <button
+                    type="button"
+                    onClick={handleUserToggle}
+                    className="user_link"
+                >
                     <div className="profileIImg">
-                        {profileImg ? <img src={profileImg} alt={nickName} /> : null}
+                        {profileImg ? (
+                            <img src={profileImg} alt={nickName} />
+                        ) : null}
                     </div>
                     <span className="nickname">{nickName}</span>
                 </button>
 
-                {isVisibleAccount && <Account accountRef={accountRef} />}
+                {isVisibleAccount && (
+                    <Account
+                        accountRef={accountRef}
+                        handleUserToggle={handleUserToggle}
+                    />
+                )}
             </div>
         );
     }

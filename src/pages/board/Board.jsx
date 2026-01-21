@@ -10,6 +10,7 @@ import {useScrollToTop} from "../../hooks/useScrollToTop";
 import {useModalState} from "../../hooks/useModalState";
 import {Modal} from "../../components/common/Modal";
 import {NoListComponents} from "../../components/common/NoResultListContainer";
+import {BOARD_FORM} from "../../routes/route/path";
 
 const Board = () => {
     const boardList = useSelector((state) => state.board.boards);
@@ -20,8 +21,8 @@ const Board = () => {
     const {sortType, sortOrder, handleSortClick} = useFilterState();
     const {isOpen, handleOpen, handleClose} = useModalState();
 
-    const handleWriteClick = () => {
-        if (user) return navigate("/board/write");
+    const handleCreateForm = () => {
+        if (user) return navigate(BOARD_FORM);
         handleOpen();
         return null;
     };
@@ -71,11 +72,11 @@ const Board = () => {
 
                     <button
                         className="write_btn"
-                        onClick={handleWriteClick}
+                        onClick={handleCreateForm}
                         type="button"
                     >
                         <AiFillSkin />
-                        <span>데일리룩 작성하기</span>
+                        <span>OOTD 작성하기</span>
                     </button>
                 </div>
 

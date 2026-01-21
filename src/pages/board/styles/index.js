@@ -59,7 +59,6 @@ const BoardContents = styled.div`
 
     .sort_chip:hover {
         background: rgba(255, 255, 255, 0.06);
-        color: rgba(255, 255, 255, 0.9);
     }
 
     .sort_chip.active {
@@ -119,10 +118,6 @@ const BoardContents = styled.div`
         }
 
         .write_btn {
-            justify-content: center;
-        }
-
-        .sort_group {
             justify-content: center;
         }
     }

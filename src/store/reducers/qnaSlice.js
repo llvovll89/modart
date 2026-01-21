@@ -1,414 +1,494 @@
-import moment from 'moment';
-import 'moment/locale/ko';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import moment from "moment";
+import "moment/locale/ko";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  increment,
-  updateDoc,
-} from 'firebase/firestore';
-import { firebaseAuth, db, storage } from '../../firebase/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    increment,
+    updateDoc,
+} from "firebase/firestore";
+import {firebaseAuth, db, storage} from "../../firebase/firebase";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
-const storageRef = ref(storage, 'questions_photos');
+const storageRef = ref(storage, "questions_photos");
+
+const makeUniqueFilePath = (file) => {
+    const ext = file?.name?.split(".").pop() || "bin";
+    const rand = Math.random().toString(36).slice(2, 10);
+    return `${Date.now()}_${rand}.${ext}`;
+};
+
+const uploadFiles = async (files) => {
+    const list = Array.isArray(files) ? files.filter(Boolean) : [];
+    if (list.length === 0) return [];
+
+    const urls = await Promise.all(
+        list.map(async (file) => {
+            const fileRef = ref(storageRef, makeUniqueFilePath(file));
+            await uploadBytes(fileRef, file);
+            return await getDownloadURL(fileRef);
+        }),
+    );
+
+    return urls;
+};
 
 const uploadFile = async (file) => {
-  if (file) {
-    const fileRef = ref(storageRef, file.name);
-    await uploadBytes(fileRef, file);
-    const fileURL = await getDownloadURL(fileRef);
-    return fileURL;
-  }
+    if (file) {
+        const fileRef = ref(storageRef, file.name);
+        await uploadBytes(fileRef, file);
+        const fileURL = await getDownloadURL(fileRef);
+        return fileURL;
+    }
 
-  return null;
+    return null;
 };
 
 export const recommendViews = createAsyncThunk(
-  'todays/recommendViews',
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { qnaId } = payload;
-      const qnaRef = doc(db, 'questions', qnaId);
+    "todays/recommendViews",
+    async (payload, {rejectWithValue}) => {
+        try {
+            const {boardId, userId} = payload;
+            if (!boardId || !userId) {
+                return rejectWithValue("필수 값이 누락되었습니다.");
+            }
 
-      await updateDoc(qnaRef, {
-        recommend: increment(1),
-      });
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue('추천을 할 수 없습니다.');
-    }
-  }
+            const boardRef = doc(db, "questions", boardId);
+
+            await runTransaction(db, async (tx) => {
+                const snap = await tx.get(boardRef);
+                if (!snap.exists())
+                    throw new Error("게시물이 존재하지 않습니다.");
+
+                const data = snap.data();
+                const recommendedUsers = Array.isArray(data.recommendedUsers)
+                    ? data.recommendedUsers
+                    : [];
+
+                if (recommendedUsers.includes(userId)) {
+                    throw new Error("ALREADY_LIKED");
+                }
+
+                tx.update(boardRef, {
+                    recommend: increment(1),
+                    recommendedUsers: [...recommendedUsers, userId],
+                });
+            });
+
+            return {boardId, userId};
+        } catch (error) {
+            if (error?.message === "ALREADY_LIKED") {
+                return rejectWithValue("이미 좋아요를 누르셨습니다.");
+            }
+            console.error(error);
+            return rejectWithValue("추천을 할 수 없습니닷.");
+        }
+    },
 );
 
 export const incrementViews = createAsyncThunk(
-  'questions/incrementViews',
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { questionId } = payload;
-      const questionRef = doc(db, 'questions', questionId);
+    "questions/incrementViews",
+    async (payload, {rejectWithValue}) => {
+        try {
+            const {questionId} = payload;
+            const questionRef = doc(db, "questions", questionId);
 
-      await updateDoc(questionRef, {
-        views: increment(1),
-      });
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue('조회수를 업데이트 할 수 없습니다.');
-    }
-  }
+            await updateDoc(questionRef, {
+                views: increment(1),
+            });
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue("조회수를 업데이트 할 수 없습니다.");
+        }
+    },
 );
 
 export const addComment = createAsyncThunk(
-  'question/comment',
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { questionId, commentData } = payload;
-      const qnaRef = doc(db, 'questions', questionId);
-      const qnaDoc = await getDoc(qnaRef);
+    "question/comment",
+    async (payload, {rejectWithValue}) => {
+        try {
+            const {questionId, commentData} = payload;
+            const qnaRef = doc(db, "questions", questionId);
+            const qnaDoc = await getDoc(qnaRef);
 
-      if (!qnaDoc.exists()) {
-        return rejectWithValue({
-          errorMessage: '해당 질문이 존재하지 않습니다.',
-        });
-      }
+            if (!qnaDoc.exists()) {
+                return rejectWithValue({
+                    errorMessage: "해당 질문이 존재하지 않습니다.",
+                });
+            }
 
-      const comments = qnaDoc.data().comments || [];
-      const updatedComments = [...comments, commentData];
+            const comments = qnaDoc.data().comments || [];
+            const updatedComments = [...comments, commentData];
 
-      await updateDoc(qnaRef, {
-        comments: updatedComments,
-      });
+            await updateDoc(qnaRef, {
+                comments: updatedComments,
+            });
 
-      return { questionId, commentData };
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue('댓글을 추가 할 수 없습니다.');
-    }
-  }
+            return {questionId, commentData};
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue("댓글을 추가 할 수 없습니다.");
+        }
+    },
 );
 
 export const editComment = createAsyncThunk(
-  'question/editComment',
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { questionId, commentId, commentData } = payload;
+    "question/editComment",
+    async (payload, {rejectWithValue}) => {
+        try {
+            const {questionId, commentId, commentData} = payload;
 
-      const currentUser = firebaseAuth.currentUser;
-      const currentUserId = currentUser?.uid;
+            const currentUser = firebaseAuth.currentUser;
+            const currentUserId = currentUser?.uid;
 
-      if (!currentUser) {
-        return rejectWithValue('로그인 후 댓글을 수정할 수 있습니다.');
-      }
+            if (!currentUser) {
+                return rejectWithValue("로그인 후 댓글을 수정할 수 있습니다.");
+            }
 
-      const qnaRef = doc(db, 'questions', questionId);
-      const qnaDoc = await getDoc(qnaRef);
+            const qnaRef = doc(db, "questions", questionId);
+            const qnaDoc = await getDoc(qnaRef);
 
-      if (!qnaDoc.exists()) {
-        return rejectWithValue('해당 댓글이 존재하지 않습니다.');
-      }
+            if (!qnaDoc.exists()) {
+                return rejectWithValue("해당 댓글이 존재하지 않습니다.");
+            }
 
-      const comments = qnaDoc.data().comments || [];
-      const updatedComments = comments.map((comment) => {
-        if (comment.id === commentId && comment.userId === currentUserId) {
-          return {
-            ...comment,
-            ...commentData,
-          };
+            const comments = qnaDoc.data().comments || [];
+            const updatedComments = comments.map((comment) => {
+                if (
+                    comment.id === commentId &&
+                    comment.userId === currentUserId
+                ) {
+                    return {
+                        ...comment,
+                        ...commentData,
+                    };
+                }
+
+                return comment;
+            });
+
+            await updateDoc(qnaRef, {
+                comments: updatedComments,
+            });
+
+            return {questionId, commentId, commentData};
+        } catch (error) {
+            console.error(error);
+            throw new Error("댓글을 수정할 수 없습니다.");
         }
-
-        return comment;
-      });
-
-      await updateDoc(qnaRef, {
-        comments: updatedComments,
-      });
-
-      return { questionId, commentId, commentData };
-    } catch (error) {
-      console.error(error);
-      throw new Error('댓글을 수정할 수 없습니다.');
-    }
-  }
+    },
 );
 
 export const deleteComment = createAsyncThunk(
-  'question/deleteComment',
-  async (payload, { rejectWithValue }) => {
-    try {
-      const { questionId, commentId } = payload;
-      const currentUser = firebaseAuth.currentUser;
-      
-      if (!currentUser) {
-        return rejectWithValue('로그인 후에 댓글을 삭제할 수 있습니다.');
-      }
+    "question/deleteComment",
+    async (payload, {rejectWithValue}) => {
+        try {
+            const {questionId, commentId} = payload;
+            const currentUser = firebaseAuth.currentUser;
 
-      const qnaRef = doc(db, 'questions', questionId);
-      const qnaDoc = await getDoc(qnaRef);
+            if (!currentUser) {
+                return rejectWithValue(
+                    "로그인 후에 댓글을 삭제할 수 있습니다.",
+                );
+            }
 
-      if (!qnaDoc.exists()) {
-        return rejectWithValue({
-          errorMessage: '해당 질문이 존재하지 않습니다.'});
-      }
+            const qnaRef = doc(db, "questions", questionId);
+            const qnaDoc = await getDoc(qnaRef);
 
-      const comments = qnaDoc.data().comments || [];
-      const userData = localStorage.getItem('user');
-      const parseData = JSON.parse(userData);
+            if (!qnaDoc.exists()) {
+                return rejectWithValue({
+                    errorMessage: "해당 질문이 존재하지 않습니다.",
+                });
+            }
 
-      const updatedComments = comments.filter((comment, index) => {
-        if (
-          index === parseInt(commentId) &&
-          comment.author === parseData.nickname
-        ) {
-          return false;
+            const comments = qnaDoc.data().comments || [];
+            const userData = localStorage.getItem("user");
+            const parseData = JSON.parse(userData);
+
+            const updatedComments = comments.filter((comment, index) => {
+                if (
+                    index === parseInt(commentId) &&
+                    comment.author === parseData.nickname
+                ) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            if (updatedComments.length === comments.length) {
+                return rejectWithValue(
+                    "다른 사용자의 댓글은 삭제할 수 없습니다.",
+                );
+            }
+
+            await updateDoc(qnaRef, {
+                comments: updatedComments,
+            });
+
+            return {questionId, commentId};
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue("댓글을 삭제할 수 없습니다.");
         }
-
-        return true;
-      });
-
-      if (updatedComments.length === comments.length) {
-        return rejectWithValue('다른 사용자의 댓글은 삭제할 수 없습니다.');
-      }
-
-      await updateDoc(qnaRef, {
-        comments: updatedComments,
-      });
-
-      return { questionId, commentId };
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue('댓글을 삭제할 수 없습니다.');
-    }
-  }
+    },
 );
 
 export const createData = createAsyncThunk(
-  'question/add',
-  async (questionsData, { rejectWithValue }) => {
-    try {
-      if (!questionsData) {
-        throw new Error('qnaData is Not Fount');
-      }
-      const { title, desc, photo, nickname } = questionsData;
+    "question/add",
+    async (questionsData, {rejectWithValue}) => {
+        try {
+            if (!questionsData) {
+                throw new Error("qnaData is Not Fount");
+            }
 
-      const photoURL = await uploadFile(photo);
+            const {
+                title,
+                desc,
+                nickname,
+                photos, // ✅ 여러 장
+                photo, // (구버전 호환)
+                recommendedUsers,
+            } = questionsData;
 
-      const questionData = {
-        title,
-        desc,
-        nickname,
-        createdAt: Date.now(),
-      };
+            // ✅ photos(배열) 우선, 없으면 photo(단일)도 허용
+            const uploadTarget = Array.isArray(photos)
+                ? photos
+                : photo
+                  ? [photo]
+                  : [];
 
-      if (photoURL) {
-        questionData.photo = photoURL;
-      }
+            const photoURLs = await uploadFiles(uploadTarget);
 
-      const photoRef = await addDoc(collection(db, 'questions'), questionData);
+            const questionData = {
+                title,
+                desc,
+                nickname,
+                createdAt: Date.now(),
+                recommend: 0,
+                views: 0,
+                comments: [],
+                recommendedUsers: Array.isArray(recommendedUsers)
+                    ? recommendedUsers
+                    : [],
+            };
 
-      return {
-        id: photoRef.id,
-        ...questionData,
-      };
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue('새 게시글을 작성할 수 없습니다.');
-    }
-  }
+            // ✅ 여러 장 저장
+            if (photoURLs.length > 0) {
+                questionData.photos = photoURLs; // 새 필드(배열)
+                questionData.photo = photoURLs[0]; // 기존 단일 사용처 호환용
+            }
+
+            const photoRef = await addDoc(
+                collection(db, "questions"),
+                questionData,
+            );
+
+            return {
+                id: photoRef.id,
+                ...questionData,
+            };
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue("새 게시글을 작성할 수 없습니다.");
+        }
+    },
 );
 
-export const getQna = createAsyncThunk('question/get', async () => {
-  moment.locale('ko');
+export const getQna = createAsyncThunk("question/get", async () => {
+    moment.locale("ko");
 
-  const querySnapshot = await getDocs(collection(db, 'questions'));
-  const qnaData = querySnapshot.docs.map((doc, index) => {
-    const data = doc.data();
-    const { createdAt, ...dataWithoutCreatedAt } = data;
-    let formattedTime;
-    const now = moment();
-    const photoTime = moment(createdAt);
+    const querySnapshot = await getDocs(collection(db, "questions"));
+    const qnaData = querySnapshot.docs.map((doc, index) => {
+        const data = doc.data();
+        const {createdAt, ...dataWithoutCreatedAt} = data;
+        let formattedTime;
+        const now = moment();
+        const photoTime = moment(createdAt);
 
-    if (now.diff(photoTime, 'days') <= 1) {
-      formattedTime = photoTime.fromNow();
-    } else {
-      formattedTime = photoTime.format('YYYY.MM.DD');
-    }
+        if (now.diff(photoTime, "days") <= 1) {
+            formattedTime = photoTime.fromNow();
+        } else {
+            formattedTime = photoTime.format("YYYY.MM.DD");
+        }
 
-    return {
-      id: doc.id,
-      number: index + 1,
-      createdAt: formattedTime,
-      ...dataWithoutCreatedAt,
-    };
-  });
+        return {
+            id: doc.id,
+            number: index + 1,
+            createdAt: formattedTime,
+            ...dataWithoutCreatedAt,
+        };
+    });
 
-  return qnaData;
+    return qnaData;
 });
 
 const qnaSlice = createSlice({
-  name: 'qna',
-  initialState: { questions: [], postCount: 0, loading: false },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(createData.fulfilled, (state, action) => {
-        const newQna = action.payload;
-        return {
-          ...state,
-          questions: [...state.questions, newQna],
-          postCount: state.postCount + 1,
-        };
-      })
-      .addCase(getQna.fulfilled, (state, action) => {
-        return {
-          ...state,
-          questions: action.payload,  
-          postCount: action.payload.length,
-        };
-      })
-      .addCase(incrementViews.pending, (state, action) => {
-        return {
-          ...state,
-          loading: true,
-        };
-      })
-      .addCase(incrementViews.fulfilled, (state, action) => {
-        if (action.payload && action.payload.questionId) {
-          const updatedQuestions = state.questions.map((qna) => {
-            if (qna.id === action.payload.questionId) {
-              return {
-                ...qna,
-                views: qna.views + 1,
-              };
-            }
-            return qna;
-          });
-
-          return {
-            ...state,
-            questions: updatedQuestions,
-            loading: false,
-          };
-        }
-        return {
-          ...state,
-          loading: false,
-        };
-      })
-      .addCase(recommendViews.pending, (state, action) => {
-        return {
-          ...state,
-          loading: true,
-        };
-      })
-      .addCase(recommendViews.fulfilled, (state, action) => {
-        if (action.payload && action.payload.qnaId) {
-          const updatedQuestions = state.questions.map((qna) => {
-            if (qna.id === action.payload.qnaId) {
-              return {
-                ...qna,
-                recommend: qna.recommend + 1,
-              };
-            }
-            return qna;
-          });
-
-          return {
-            ...state,
-            questions: updatedQuestions,
-            loading: false,
-          };
-        }
-        return {
-          ...state,
-          loading: false,
-        };
-      })
-      .addCase(addComment.pending, (state, action) => {
-        return {
-          ...state,
-          loading: true,
-        };
-      })
-      .addCase(addComment.fulfilled, (state, action) => {
-        const { questionId, commentData } = action.payload;
-
-        const updatedQuestions = state.questions.map((qna) => {
-          if (qna.id === questionId) {
-            const updatedComments = [...qna.comments, commentData];
-
-            return {
-              ...qna,
-              comments: updatedComments,
-            };
-          }
-          return qna;
-        });
-
-        return {
-          ...state,
-          questions: updatedQuestions,
-          loading: false,
-        };
-      })
-      .addCase(editComment.pending, (state, action) => {
-        return {
-          ...state,
-          loading: true,
-        };
-      })
-      .addCase(editComment.fulfilled, (state, action) => {
-        const { questionId, commentId, commentData } = action.payload;
-
-        const updatedQuestions = state.questions.map((qna) => {
-          if (qna.id === questionId) {
-            const updatedComments = qna.comments.map((comment) => {
-              if (comment.id === commentId) {
+    name: "qna",
+    initialState: {questions: [], postCount: 0, loading: false},
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(createData.fulfilled, (state, action) => {
+                const newQna = action.payload;
                 return {
-                  ...comment,
-                  ...commentData,
+                    ...state,
+                    questions: [...state.questions, newQna],
+                    postCount: state.postCount + 1,
                 };
-              }
-              return comment;
+            })
+            .addCase(getQna.fulfilled, (state, action) => {
+                return {
+                    ...state,
+                    questions: action.payload,
+                    postCount: action.payload.length,
+                };
+            })
+            .addCase(incrementViews.pending, (state, action) => {
+                return {
+                    ...state,
+                    loading: true,
+                };
+            })
+            .addCase(incrementViews.fulfilled, (state, action) => {
+                if (action.payload && action.payload.questionId) {
+                    const updatedQuestions = state.questions.map((qna) => {
+                        if (qna.id === action.payload.questionId) {
+                            return {
+                                ...qna,
+                                views: qna.views + 1,
+                            };
+                        }
+                        return qna;
+                    });
+
+                    return {
+                        ...state,
+                        questions: updatedQuestions,
+                        loading: false,
+                    };
+                }
+                return {
+                    ...state,
+                    loading: false,
+                };
+            })
+            .addCase(recommendViews.pending, (state, action) => {
+                return {
+                    ...state,
+                    loading: true,
+                };
+            })
+            .addCase(recommendViews.fulfilled, (state, action) => {
+                if (action.payload && action.payload.qnaId) {
+                    const updatedQuestions = state.questions.map((qna) => {
+                        if (qna.id === action.payload.qnaId) {
+                            return {
+                                ...qna,
+                                recommend: qna.recommend + 1,
+                            };
+                        }
+                        return qna;
+                    });
+
+                    return {
+                        ...state,
+                        questions: updatedQuestions,
+                        loading: false,
+                    };
+                }
+                return {
+                    ...state,
+                    loading: false,
+                };
+            })
+            .addCase(addComment.pending, (state, action) => {
+                return {
+                    ...state,
+                    loading: true,
+                };
+            })
+            .addCase(addComment.fulfilled, (state, action) => {
+                const {questionId, commentData} = action.payload;
+
+                const updatedQuestions = state.questions.map((qna) => {
+                    if (qna.id === questionId) {
+                        const updatedComments = [...qna.comments, commentData];
+
+                        return {
+                            ...qna,
+                            comments: updatedComments,
+                        };
+                    }
+                    return qna;
+                });
+
+                return {
+                    ...state,
+                    questions: updatedQuestions,
+                    loading: false,
+                };
+            })
+            .addCase(editComment.pending, (state, action) => {
+                return {
+                    ...state,
+                    loading: true,
+                };
+            })
+            .addCase(editComment.fulfilled, (state, action) => {
+                const {questionId, commentId, commentData} = action.payload;
+
+                const updatedQuestions = state.questions.map((qna) => {
+                    if (qna.id === questionId) {
+                        const updatedComments = qna.comments.map((comment) => {
+                            if (comment.id === commentId) {
+                                return {
+                                    ...comment,
+                                    ...commentData,
+                                };
+                            }
+                            return comment;
+                        });
+
+                        return {
+                            ...qna,
+                            comments: updatedComments,
+                        };
+                    }
+                    return qna;
+                });
+
+                return {
+                    ...state,
+                    questions: updatedQuestions,
+                    loading: false,
+                };
+            })
+            .addCase(deleteComment.fulfilled, (state, action) => {
+                const {questionId, commentId} = action.payload;
+
+                const updatedQuestions = state.questions.map((qna) => {
+                    if (qna.id === questionId) {
+                        const updatedComments = qna.comments.filter(
+                            (comment) => comment.id !== commentId,
+                        );
+                        return {
+                            ...qna,
+                            comments: updatedComments,
+                        };
+                    }
+                    return qna;
+                });
+
+                return {
+                    ...state,
+                    questions: updatedQuestions,
+                };
             });
-
-            return {
-              ...qna,
-              comments: updatedComments,
-            };
-          }
-          return qna;
-        });
-
-        return {
-          ...state,
-          questions: updatedQuestions,
-          loading: false,
-        };
-      })
-      .addCase(deleteComment.fulfilled, (state, action) => {
-        const { questionId, commentId } = action.payload;
-
-        const updatedQuestions = state.questions.map((qna) => {
-          if (qna.id === questionId) {
-            const updatedComments = qna.comments.filter(
-              (comment) => comment.id !== commentId
-            );
-            return {
-              ...qna,
-              comments: updatedComments,
-            };
-          }
-          return qna;
-        });
-
-        return {
-          ...state,
-          questions: updatedQuestions,
-        };
-      });
-  },
+    },
 });
 
 export default qnaSlice.reducer;

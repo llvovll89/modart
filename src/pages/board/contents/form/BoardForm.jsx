@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {AiOutlineFileAdd} from "react-icons/ai";
+import {AiFillSkin, AiOutlineFileAdd} from "react-icons/ai";
 import {createData, updateBoard} from "../../../../store/reducers/boardSlice";
 import {
     PostActions,
@@ -10,9 +10,9 @@ import {
     PostHeader,
     PostWrap,
     UploadBox,
-} from "./BoardPost.css";
+} from "./BoardForm.css";
 
-const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
+const BoardForm = ({mode = "create", boardId = null, initialBoard = null}) => {
     const user = useSelector((state) => state.login.user);
     const nickName = user?.nickname ?? "";
     const dispatch = useDispatch();
@@ -75,21 +75,32 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
 
     // ✅ 프리뷰: edit이면 keepPhotos(URL) + newPhotos(File) 합쳐서 보여주기
     useEffect(() => {
+        const filesForPreview = mode === "edit" ? newPhotos : addData.photos;
+
         const fileUrls =
-            newPhotos.length > 0
-                ? newPhotos.map((f) => URL.createObjectURL(f))
+            filesForPreview.length > 0
+                ? filesForPreview.map((f) => URL.createObjectURL(f))
                 : [];
 
-        const urls = [...keepPhotos, ...fileUrls];
+        const urls = mode === "edit" ? [...keepPhotos, ...fileUrls] : fileUrls;
         setPreviewUrls(urls);
 
         return () => {
             fileUrls.forEach((u) => URL.revokeObjectURL(u));
         };
-    }, [keepPhotos, newPhotos]);
+    }, [mode, keepPhotos, newPhotos, addData.photos]);
 
     const removePhotoAt = (index) => {
-        // previewUrls 기준: 앞쪽이 keepPhotos, 뒤쪽이 newPhotos
+        // ✅ create 모드: addData.photos에서 제거
+        if (mode !== "edit") {
+            setAddData((prev) => ({
+                ...prev,
+                photos: prev.photos.filter((_, i) => i !== index),
+            }));
+            return;
+        }
+
+        // ✅ edit 모드: previewUrls 기준(앞=keepPhotos, 뒤=newPhotos)
         if (index < keepPhotos.length) {
             setKeepPhotos((prev) => prev.filter((_, i) => i !== index));
             return;
@@ -245,39 +256,45 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
 
     return (
         <PostWrap>
-            <PostCard>
-                <PostHeader>
-                    <div className="top">
-                        <div>
+            <PostHeader>
+                <div className="top">
+                    <div className="title_info">
+                        <div className="badge">
+                            <AiFillSkin />
+                        </div>
+
+                        <div className="title">
                             <h1>데일리룩 (OOTD)</h1>
                             <div className="sub">
                                 오늘의 스타일을 기록해보세요. (사진 + 간단한
                                 정보)
                             </div>
                         </div>
-
-                        <div className="user" title={nickName || "Guest"}>
-                            <span className="avatar" aria-hidden="true">
-                                {user?.profileImg ? (
-                                    <img
-                                        src={user.profileImg}
-                                        alt="유저 아바타"
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "cover",
-                                            borderRadius: "999px",
-                                        }}
-                                    />
-                                ) : (
-                                    avatarLetter
-                                )}
-                            </span>
-                            <span>{nickName || "로그인 필요"}</span>
-                        </div>
                     </div>
-                </PostHeader>
 
+                    <div className="user" title={nickName || "Guest"}>
+                        <span className="avatar" aria-hidden="true">
+                            {user?.profileImg ? (
+                                <img
+                                    src={user.profileImg}
+                                    alt="유저 아바타"
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                        borderRadius: "999px",
+                                    }}
+                                />
+                            ) : (
+                                avatarLetter
+                            )}
+                        </span>
+                        <span>{nickName || "로그인 필요"}</span>
+                    </div>
+                </div>
+            </PostHeader>
+
+            <PostCard>
                 <PostForm
                     onSubmit={onSubmitHandler}
                     encType="multipart/form-data"
@@ -334,9 +351,8 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
                                                     style={{
                                                         padding: "6px 10px",
                                                         borderRadius: 999,
-                                                        border: "1px solid rgba(255,255,255,0.12)",
-                                                        background:
-                                                            "rgba(255,255,255,0.06)",
+                                                        border: "1px solid rgba(0,0,0,0.12)",
+                                                        background: "#181818",
                                                         color: "rgba(255,255,255,0.9)",
                                                         cursor: "pointer",
                                                         fontSize: 12,
@@ -405,7 +421,10 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
                                 >
                                     {previewUrls.length > 0 ? (
                                         previewUrls.map((url, idx) => (
-                                            <div className="thumb" key={url}>
+                                            <div
+                                                className="thumb"
+                                                key={`${url}-${idx}`}
+                                            >
                                                 <img
                                                     src={url}
                                                     alt={`미리보기 ${idx + 1}`}
@@ -436,13 +455,19 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
                                 <div className="uploadRow">
                                     <div
                                         className="fileName"
-                                        title={addData.photos
-                                            .map((p) => p.name)
-                                            .join(", ")}
+                                        title={
+                                            mode === "edit"
+                                                ? `${keepPhotos.length + newPhotos.length}장 선택됨`
+                                                : addData.photos
+                                                      .map((p) => p.name)
+                                                      .join(", ")
+                                        }
                                     >
-                                        {addData.photos.length > 0
-                                            ? `${addData.photos.length}장 선택됨`
-                                            : "선택된 파일 없음"}
+                                        {mode === "edit"
+                                            ? `${keepPhotos.length + newPhotos.length}장 선택됨`
+                                            : addData.photos.length > 0
+                                              ? `${addData.photos.length}장 선택됨`
+                                              : "선택된 파일 없음"}
                                     </div>
 
                                     <div>
@@ -451,7 +476,7 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
                                             id="photos"
                                             name="photos"
                                             accept="image/*"
-                                            multiple // ✅ 멀티 선택
+                                            multiple
                                             style={{display: "none"}}
                                             onChange={onChangeHandler}
                                         />
@@ -494,4 +519,4 @@ const BoardPost = ({mode = "create", boardId = null, initialBoard = null}) => {
     );
 };
 
-export default BoardPost;
+export default BoardForm;

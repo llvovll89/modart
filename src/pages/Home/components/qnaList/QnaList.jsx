@@ -35,7 +35,7 @@ const QnaList = () => {
         <QnaListWarp id="qna_list">
             <QnaListContainer>
                 <div className="title">
-                    <h1>질문 게시판</h1>
+                    <h1>최신 QNA</h1>
                     <span>(Questions and Answers)</span>
                 </div>
 
@@ -54,7 +54,7 @@ const QnaList = () => {
                                         key={qna.id}
                                         className={`qna_items ${
                                             activeItems.findIndex(
-                                                (id) => id === qna.id
+                                                (id) => id === qna.id,
                                             ) !== -1
                                                 ? "active"
                                                 : ""

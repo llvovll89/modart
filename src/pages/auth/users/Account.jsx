@@ -4,7 +4,7 @@ import {AccountWrap, AccountContainer} from "./styles/Account.css";
 import {signOutUser} from "../../../store/reducers/loginSlice";
 import {CiEdit, CiLogout} from "react-icons/ci";
 
-const Account = ({accountRef}) => {
+const Account = ({accountRef, handleUserToggle}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -20,6 +20,7 @@ const Account = ({accountRef}) => {
 
     const handleEditProfile = () => {
         navigate("/account/edit");
+        handleUserToggle();
     };
 
     return (

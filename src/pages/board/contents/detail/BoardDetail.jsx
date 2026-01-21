@@ -1,23 +1,23 @@
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { getBoards } from "../../../../store/reducers/boardSlice";
-import { BoardDetailContainer, BoardDetailWrap } from "./BoardDetail.css";
-import { Info } from "./contents/Info";
-import { Comments } from "./contents/Comments";
-import { useScrollToTop } from "../../../../hooks/useScrollToTop";
-import { useModalState } from "../../../../hooks/useModalState";
-import { Modal } from "../../../../components/common/Modal";
+import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {getBoards} from "../../../../store/reducers/boardSlice";
+import {BoardDetailContainer, BoardDetailWrap} from "./BoardDetail.css";
+import {Info} from "./contents/Info";
+import {Comments} from "./contents/Comments";
+import {useScrollToTop} from "../../../../hooks/useScrollToTop";
+import {useModalState} from "../../../../hooks/useModalState";
+import {Modal} from "../../../../components/common/Modal";
 
 const BoardDetail = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const boardList = useSelector((state) => state.board.boards);
     const user = useSelector((state) => state.login.user);
     const [comment, setComment] = useState(false);
     const dispatch = useDispatch();
 
     const board = boardList.find((board) => board.id === id);
-    const { isOpen, handleOpen, handleClose, toggleModal } = useModalState();
+    const {isOpen, handleOpen, handleClose, toggleModal} = useModalState();
 
     const commentClick = () => {
         if (!board.comments) return;

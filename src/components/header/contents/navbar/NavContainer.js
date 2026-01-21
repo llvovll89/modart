@@ -10,11 +10,53 @@ export const NavContainer = styled.nav`
     --hairline: ${(props) =>
         props.$isHome ? "rgba(0,0,0,0.10)" : "rgba(255,255,255,0.14)"};
 
-    --focus: ${(props) => (props.$isHome ? "rgba(17,17,17,0.85)" : "rgba(255,255,255,0.92)")};
+    --focus: ${(props) =>
+        props.$isHome ? "rgba(17,17,17,0.85)" : "rgba(255,255,255,0.92)"};
 
     display: flex;
     align-items: center;
     gap: 10px;
+
+    /* 아이콘 칩 */
+    .list .item .navIcon {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        background: rgba(248, 250, 252, 0.9);
+        color: rgba(15, 23, 42, 0.78);
+
+        transition:
+            transform 160ms ease,
+            box-shadow 160ms ease,
+            background 160ms ease,
+            border-color 160ms ease,
+            color 160ms ease;
+    }
+
+    .list .item .navIcon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* 호버 */
+    .list .item:hover .navIcon {
+        transform: translateY(-1px);
+        border-color: rgba(59, 130, 246, 0.22);
+        box-shadow: 0 12px 24px rgba(2, 6, 23, 0.1);
+    }
+
+    /* 활성(선택됨) */
+    .list .item.active .navIcon {
+        border: none;
+    }
+
+    .list .item .navLabel {
+        font-weight: 800;
+    }
 
     a {
         color: var(--ink);
@@ -22,7 +64,17 @@ export const NavContainer = styled.nav`
         font-size: clamp(0.78rem, 1vw, 0.92rem);
         font-weight: 650;
         letter-spacing: 0.02em;
-        transition: background 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+        gap: 0.25rem;
+        transition:
+            background 160ms ease,
+            color 160ms ease,
+            transform 160ms ease,
+            box-shadow 160ms ease;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
     }
 
     .list {
@@ -51,7 +103,7 @@ export const NavContainer = styled.nav`
             &.active a {
                 background: var(--ink);
                 color: var(--surface);
-                box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+                box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
                 transform: translateY(-1px);
             }
 
@@ -66,6 +118,10 @@ export const NavContainer = styled.nav`
         position: relative;
         display: flex;
         align-items: center;
+
+        @media screen and (max-width: 546px) {
+            width: 100%;
+        }
     }
 
     .user_link {
@@ -80,7 +136,10 @@ export const NavContainer = styled.nav`
         border: 1px solid transparent;
         cursor: pointer;
 
-        transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+        transition:
+            background 160ms ease,
+            border-color 160ms ease,
+            transform 160ms ease;
 
         &:hover {
             background: var(--muted);
@@ -97,7 +156,7 @@ export const NavContainer = styled.nav`
             height: 28px;
             border-radius: 999px;
             overflow: hidden;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--hairline);
             flex-shrink: 0;
 
@@ -127,14 +186,15 @@ export const NavContainer = styled.nav`
 
         width: 50%;
 
-        background: ${(props) => (props.$isHome ? "rgba(255,255,255,0.92)" : "rgba(11,11,12,0.82)")};
+        background: ${(props) =>
+            props.$isHome ? "rgba(255,255,255,0.92)" : "rgba(11,11,12,0.82)"};
         color: var(--ink);
 
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
 
         border-left: 1px solid var(--hairline);
-        box-shadow: -18px 0 46px rgba(0,0,0,0.16);
+        box-shadow: -18px 0 46px rgba(0, 0, 0, 0.16);
         transition: right 180ms ease;
 
         &.mobile {
@@ -158,6 +218,7 @@ export const NavContainer = styled.nav`
                     padding: 0 12px;
                     border-radius: 14px;
                     background: transparent;
+                    gap: 1rem;
                 }
 
                 &.active a {

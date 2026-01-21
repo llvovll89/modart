@@ -2,7 +2,7 @@ import React, {useEffect, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useParams} from "react-router-dom";
 import {getBoards} from "../../../../store/reducers/boardSlice";
-import BoardPost from "../post/BoardPost";
+import BoardForm from "../form/BoardForm";
 
 const BoardEdit = () => {
     const {id} = useParams();
@@ -24,7 +24,7 @@ const BoardEdit = () => {
 
     if (!board) return null; // 필요하면 로딩 UI로 교체
 
-    return <BoardPost mode="edit" boardId={id} initialBoard={board} />;
+    return <BoardForm mode="edit" boardId={id} initialBoard={board} />;
 };
 
 export default BoardEdit;

@@ -1,25 +1,28 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { QnaContents, QnaWrap } from "./styles/index";
-import { getQna } from "../../store/reducers/qnaSlice";
-import { useFilterState } from "../../hooks/useFilterState";
-import { AiFillQuestionCircle } from "react-icons/ai";
-import { QnaList } from "./contents/list/QnaList";
-import { useModalState } from "../../hooks/useModalState";
-import { Modal } from "../../components/common/Modal";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {QnaContents, QnaWrap} from "./styles/index";
+import {getQna} from "../../store/reducers/qnaSlice";
+import {useFilterState} from "../../hooks/useFilterState";
+import {AiFillQuestionCircle} from "react-icons/ai";
+import {QnaList} from "./contents/list/QnaList";
+import {useModalState} from "../../hooks/useModalState";
+import {Modal} from "../../components/common/Modal";
+import {QNA_FORM} from "../../routes/route/path";
 
 const Qna = () => {
     const user = useSelector((state) => state.login.user);
-    const { sortType, sortOrder, handleSortClick } = useFilterState();
-    const { isOpen, handleOpen, handleClose, toggleModal } = useModalState();
+    const {sortType, sortOrder, handleSortClick} = useFilterState();
+    const {isOpen, handleOpen, handleClose} = useModalState();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleWriteClick = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleCreateQna = () => {
         if (user) {
-            return navigate("/qna/write");
+            return navigate(QNA_FORM);
         } else {
             handleOpen();
             return null;
@@ -39,33 +42,70 @@ const Qna = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(getQna());
+        let mounted = true;
+        setIsLoading(true);
+
+        Promise.resolve(dispatch(getQna())).finally(() => {
+            if (mounted) setIsLoading(false);
+        });
+
+        return () => {
+            mounted = false;
+        };
     }, [dispatch]);
+
+    const viewActive = sortType === "view";
+    const recentActive = sortType === "recent";
 
     return (
         <QnaWrap>
             <QnaContents>
                 <div className="form_top">
-                    <ul>
-                        <li onClick={() => handleSortClick("recent")}>
-                            날짜 순
-                            {sortType === "recent" &&
-                                (sortOrder === "desc" ? " ↓" : " ↑")}
-                        </li>
-                        <li onClick={() => handleSortClick("views")}>
-                            조회 순
-                            {sortType === "views" &&
-                                (sortOrder === "desc" ? " ↓" : " ↑")}
-                        </li>
-                    </ul>
+                    <div className="sort_group" role="group" aria-label="정렬">
+                        <button
+                            type="button"
+                            className={`sort_chip ${recentActive ? "active" : ""}`}
+                            aria-pressed={recentActive}
+                            onClick={() => handleSortClick("recent")}
+                        >
+                            최신
+                            {recentActive && (
+                                <span className="sort_arrow">
+                                    {sortOrder === "desc" ? "↓" : "↑"}
+                                </span>
+                            )}
+                        </button>
 
-                    <button className="write_btn" onClick={handleWriteClick}>
+                        <button
+                            type="button"
+                            className={`sort_chip ${viewActive ? "active" : ""}`}
+                            aria-pressed={viewActive}
+                            onClick={() => handleSortClick("view")}
+                        >
+                            조회순
+                            {viewActive && (
+                                <span className="sort_arrow">
+                                    {sortOrder === "desc" ? "↓" : "↑"}
+                                </span>
+                            )}
+                        </button>
+                    </div>
+
+                    <button
+                        className="write_btn"
+                        type="button"
+                        onClick={handleCreateQna}
+                    >
                         <AiFillQuestionCircle />
                         <span>QnA 작성하기</span>
                     </button>
                 </div>
 
-                <QnaList sortType={sortType} sortOrder={sortOrder} />
+                <QnaList
+                    sortType={sortType}
+                    sortOrder={sortOrder}
+                    isLoading={isLoading}
+                />
             </QnaContents>
 
             {isOpen && (
